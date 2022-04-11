@@ -30,3 +30,7 @@ yarn-error.log*
 
 # vercel
 .vercel
+
+#paquetes
+package-lock.json
+next.config.json
