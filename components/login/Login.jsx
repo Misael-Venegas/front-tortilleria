@@ -46,11 +46,11 @@ const Login = () => {
     }
     return (
         <>
-            <div className="row d-flex justify-content-center align-items-center">
+            <div className="row d-flex justify-content-center align-items-center ">
                 <div className="col-xl-10">
                     <div className=" text-black">
                         <div className="row g-0">
-                            <div className="col-lg-5 mx-auto shadow mt-4">
+                            <div className="col-lg-5 mx-auto shadow">
                                 <div className=" p-md-4 mx-md-4 ">
                                     <div className="text-center">
                                         <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/lotus.webp"
