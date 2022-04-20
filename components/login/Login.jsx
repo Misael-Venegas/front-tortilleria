@@ -39,7 +39,7 @@ const Login = () => {
   };
   if (data) {
     if (data.login) {
-      router.push("/menu");
+      router.push("/almacen");
     }
   }
   return (

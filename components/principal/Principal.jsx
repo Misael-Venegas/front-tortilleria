@@ -1,11 +1,11 @@
-import React from 'react'
+import React from "react";
+import Container from "./Container";
 
 const Principal = () => {
-    return (
-        <div>
-            <h1>Hola pagina principal</h1>
-        </div>
-    )
-}
+  return (
+    <Container>  
+    </Container>
+  );
+};
 
-export default Principal
+export default Principal;
