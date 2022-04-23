@@ -1,6 +1,16 @@
 import Link from "next/link";
+import { useRouter } from 'next/router'
 
 const Navigation = () => {
+
+  const router = useRouter();
+
+  const cerrarSesion = () => {
+    localStorage.removeItem("token");
+    router.push("/")
+
+  }
+
   return (
     <nav className="navbar navbar-dark bg-dark navbar-expand-lg">
       <div className="container-fluid">
@@ -55,7 +65,7 @@ const Navigation = () => {
           </ul>
           <ul className="navbar-nav">
             <li className="nav-item">
-              <button className="btn btn-secondary btn-sm my-2 my-sm-0">
+              <button className="btn btn-secondary btn-sm my-2 my-sm-0" onClick={cerrarSesion} >
                 Cerrar Sesión
               </button>
             </li>

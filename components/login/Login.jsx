@@ -1,18 +1,12 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { gql, useLazyQuery } from "@apollo/client";
 import { useRouter } from "next/router";
+import ModalEnvarContrasenhia from "./ModalEnvarContrasenhia";
 const LOGIN = gql`
   query login($correo: String!, $contrasenia: String!, $key: Float!) {
     login(correo: $correo, contrasenia: $contrasenia, key: $key) {
-      apellidoM
-      apellidoP
-      email
-      id
-      nombre
-      password
-      telefono
-      tipo
+          token
     }
   }
 `;
@@ -22,6 +16,14 @@ const Login = () => {
   const [contrasenhia, setContrasenhia] = useState("");
   const [login, { data, loading, error }] = useLazyQuery(LOGIN);
   const router = useRouter();
+  const [openModal, setOpenModal] = useState(false)
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      router.push("/almacen");
+    }
+  }, [])
 
   //Método para realizar consulta de loging a la BD
   const inciarSesion = async () => {
@@ -39,6 +41,8 @@ const Login = () => {
   };
   if (data) {
     if (data.login) {
+      console.log(data)
+      localStorage.setItem("token", data.token)
       router.push("/almacen");
     }
   }
@@ -101,9 +105,9 @@ const Login = () => {
                         )}
                         Iniciar sesión
                       </button>
-                      <a className="text-muted" href="#!">
+                      <p className="text-muted" onClick={() => setOpenModal(true)} >
                         ¿Olvidaste tu contraseña?
-                      </a>
+                      </p>
                     </div>
                   </form>
                 </div>
@@ -112,6 +116,7 @@ const Login = () => {
           </div>
         </div>
       </div>
+      <ModalEnvarContrasenhia openModal={openModal} setOpenModal={setOpenModal} />
     </>
   );
 };
