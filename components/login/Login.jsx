@@ -105,7 +105,7 @@ const Login = () => {
                         )}
                         Iniciar sesión
                       </button>
-                      <p className="text-muted" onClick={() => setOpenModal(true)} >
+                      <p className="text-muted seleccionarComponente" onClick={() => setOpenModal(true)} >
                         ¿Olvidaste tu contraseña?
                       </p>
                     </div>
