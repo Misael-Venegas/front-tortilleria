@@ -2,7 +2,7 @@ import Link from "next/link";
 
 const Navigation = () => {
   return (
-    <nav className="navbar navbar-dark bg-dark navbar-expand-lg">
+    <nav className="navbar navbar-light bg-light navbar-expand-lg">
       <div className="container-fluid">
         <button
           className="navbar-toggler"
@@ -33,7 +33,7 @@ const Navigation = () => {
               </Link>
             </li>
             <li className="nav-item">
-              <Link href="/services">
+              <Link href="/ventas">
                 <a className="nav-link">Ventas</a>
               </Link>
             </li>
@@ -48,7 +48,7 @@ const Navigation = () => {
               </Link>
             </li>
             <li className="nav-item">
-              <Link href="/services">
+              <Link href="/usuarios">
                 <a className="nav-link">Usuarios</a>
               </Link>
             </li>

@@ -30,4 +30,8 @@
     border-bottom-right-radius: .3rem;
     }
     }
+    /*cambiar el color del texto del navbar*/
+    .navbar-light .navbar-nav .nav-link {
+    color: royalblue;
+    }
 
