@@ -1,10 +1,14 @@
 import React from "react";
 import Container from "../principal/Container";
+import AgreagarProductoAlmacen from "./AgregarProductoAlmacen";
+import { AlmacenProvider } from "./ContextAlmacen";
 
 const Almacen = () => {
   return (
     <Container>
-      <h2>Pagina Almacen</h2>
+      <AlmacenProvider>
+        <AgreagarProductoAlmacen />
+      </AlmacenProvider>
     </Container>
   );
 };
