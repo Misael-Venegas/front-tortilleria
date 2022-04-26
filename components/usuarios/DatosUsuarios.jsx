@@ -22,6 +22,12 @@ mutation eliminarUsuario($id: Int!) {
   }
 `;
 
+const UPDATE_USER = gql`
+   mutation editarUsuario($input: editarUsuarioInput!){
+    editarUsuario(input: $input)
+
+   }
+`;
 const DatosUsuarios = ({ setActualizar,
     selectTipo, setSelectTipo,
     nombre, setNombre,
@@ -34,13 +40,18 @@ const DatosUsuarios = ({ setActualizar,
 
 
     const [seGuardo, setSeGuardo] = useState(false)
-
-    console.log(idUsuario)
     const [nuevoUsuario, { loading, error }] = useMutation(CREAR_USUARIOS)
+    const [mesaje, setMensaje] = useState("");
+    const [verError, setVerError] = useState(false)
+    const [mensajeError, setMensajeError] = useState("")
     const [eliminarUsr, { data }] = useMutation(ELIMINAR_USUARIO)
-    
+    const [editarUsr] = useMutation(UPDATE_USER);
     const crearUsuario = async () => {
-      //  console.log(nombre, paterno, materno, telefono, email, contrasenhia, selectTipo)
+        //  console.log(nombre, paterno, materno, telefono, email, contrasenhia, selectTipo)
+        if (idUsuario !== "") {
+            editarUsuario()
+            return
+        }
         try {
             await nuevoUsuario({
                 variables: {
@@ -57,18 +68,61 @@ const DatosUsuarios = ({ setActualizar,
             })
             setActualizar(Math.random())
             setSeGuardo(true)
+            setMensaje("El usuario se guardo de manera correcta")
             setTimeout(() => {
                 setSeGuardo(false)
-            }, 1000);
+            }, 2000);
         } catch (error) {
-            console.log(error)
+            setMensajeError(error.message)
+            setVerError(true)
+
+            setTimeout(() => {
+                setVerError(false)
+            }, 2000);
+        }
+    }
+
+    const editarUsuario = async () => {
+        try {
+            await editarUsr({
+                variables: {
+                    input: {
+                        id: idUsuario,
+                        nombre,
+                        apellidoP: paterno,
+                        apellidoM: materno,
+                        telefono,
+                        email,
+                        password: contrasenhia,
+                        tipo: parseInt(selectTipo)
+                    }
+                }
+            })
+            setActualizar(Math.random())
+            setMensaje("los datos se actualizaron de manera correcta")
+            setSeGuardo(true)
+            setTimeout(() => {
+                setSeGuardo(false)
+            }, 2000);
+        } catch (error) {
+            setMensajeError(error.message)
+            setVerError(true)
+
+            setTimeout(() => {
+                setVerError(false)
+            }, 2000);
         }
     }
 
     const eliminarUsuario = async () => {
 
         if (idUsuario === "") {
-            console.log("id vacio")
+            setMensajeError("Error: Selecciona un elemento de la tabla para poder completar esta acción")
+            setVerError(true)
+
+            setTimeout(() => {
+                setVerError(false)
+            }, 2000);
             return
         }
 
@@ -81,8 +135,18 @@ const DatosUsuarios = ({ setActualizar,
 
             setActualizar(Math.random())
             setIdUsuario("")
+            setMensaje("El usuario se eliminó de manera correcta")
+            setSeGuardo(true)
+            setTimeout(() => {
+                setSeGuardo(false)
+            }, 2000);
+
         } catch (error) {
-            console.log(error)
+            setMensajeError(error.message)
+            setVerError(true)
+            setTimeout(() => {
+                setVerError(false)
+            }, 2000);
         }
     }
 
@@ -90,37 +154,36 @@ const DatosUsuarios = ({ setActualizar,
         <>
             {
                 seGuardo && <UncontrolledAlert color="success">
-                    El usuario se registró de manera correcta
+                    {mesaje}
                 </UncontrolledAlert>
             }
             {
-                error && <UncontrolledAlert color="danger">
-                    {error.message}
+                verError && <UncontrolledAlert color="danger">
+                    {mensajeError}
                 </UncontrolledAlert>
             }
             <div className="p-3 border bg-light">
                 <p>Nuevo Usuario</p>
 
+                <label className='pt-1' >Nombre</label>
                 <input type="text" value={nombre} className="form-control" onChange={(e) => setNombre(e.target.value)} />
-                <label >Nombre</label>
 
+                <label className='pt-1' >Apellido Paterno</label>
                 <input type="text" value={paterno} className="form-control" onChange={(e) => setPaterno(e.target.value)} />
-                <label>Apellido Paterno</label>
 
-                <input type="text" value={materno} className="form-control" onChange={(e) => setMaterno(e.target.value)} />
                 <label >Apelido Materno</label>
+                <input type="text" value={materno} className="form-control" onChange={(e) => setMaterno(e.target.value)} />
 
-                <input type="number" value={telefono} className="form-control" onChange={(e) => setTelefono(e.target.value)} />
                 <label>Telefono</label>
+                <input type="number" value={telefono} className="form-control" onChange={(e) => setTelefono(e.target.value)} />
 
-                <input type="email" value={email} className="form-control" onChange={(e) => setEmail(e.target.value)} />
                 <label >Email</label>
+                <input type="email" value={email} className="form-control" onChange={(e) => setEmail(e.target.value)} />
 
-                <input type="password" value={contrasenhia} className="form-control" onChange={(e) => setContrasenhia(e.target.value)} />
                 <label >Contrasena</label>
+                <input type="password" value={contrasenhia} className="form-control" onChange={(e) => setContrasenhia(e.target.value)} />
 
-
-                <div className="form-row">
+                <div className="form-row pt-2">
                     <div className="col-2">
                         <input type="text" className="form-control" readOnly value={selectTipo} /></div>
                     <div className="col">
