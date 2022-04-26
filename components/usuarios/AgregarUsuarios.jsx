@@ -31,8 +31,8 @@ const AgregarUsuarios = () => {
   return (
     <Container>
 
-      <div className="form-row">
-        <div className="col-4">
+      <div className="row">
+        <div className="col-md-4 col-sm-12">
           <DatosUsuarios setActualizar={setActualizar}
             selectTipo={selectTipo} setSelectTipo={setSelectTipo}
             nombre={nombre} setNombre={setNombre}
@@ -45,7 +45,7 @@ const AgregarUsuarios = () => {
           />
         </div>
 
-        <div className="col">
+        <div className="col-md-8 col-sm-12">
           <div className="border bg-light">
             <TablaUsuarios actualizar={actualizar} llenarDatosUsuario={llenarDatosUsuario} />
           </div>

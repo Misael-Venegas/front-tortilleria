@@ -38,8 +38,9 @@ const DatosUsuarios = ({ setActualizar,
     console.log(idUsuario)
     const [nuevoUsuario, { loading, error }] = useMutation(CREAR_USUARIOS)
     const [eliminarUsr, { data }] = useMutation(ELIMINAR_USUARIO)
+    
     const crearUsuario = async () => {
-        console.log(nombre, paterno, materno, telefono, email, contrasenhia, selectTipo)
+      //  console.log(nombre, paterno, materno, telefono, email, contrasenhia, selectTipo)
         try {
             await nuevoUsuario({
                 variables: {
@@ -56,7 +57,6 @@ const DatosUsuarios = ({ setActualizar,
             })
             setActualizar(Math.random())
             setSeGuardo(true)
-
             setTimeout(() => {
                 setSeGuardo(false)
             }, 1000);

@@ -99,7 +99,6 @@ const AlmacenProvider = ({ children }) => {
   };
   const updateData = async (dataForm) => {
     console.log("Actualizar: ", dataForm);
-    /*
     try {
       await updateAlmacenProducto({
         variables: {
@@ -115,7 +114,7 @@ const AlmacenProvider = ({ children }) => {
       });
     } catch (error) {
       console.log(error);
-    }*/
+    }
   };
   const deleteData = async (id) => {
     let isDelete = window.confirm(`¿Deseas eliminar el registro: ${id}  ?`);
