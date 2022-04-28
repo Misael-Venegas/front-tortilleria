@@ -1,22 +1,44 @@
 import { useContext } from "react";
+import Message from "../errorMensaje/Message";
 import AlmacenBusqueda from "./AlmacenBusqueda";
 import AlmacenContext from "./ContextAlmacen";
 import CrudForm from "./CrudForm";
+import ModalEliminacion from "./ModalEliminacion";
 import TableAlmacen from "./TableAlmacen";
 
 const AgreagarProductoAlmacen = () => {
-  const { db } = useContext(AlmacenContext);
+  const { db, loadingProductos, errorMensaje, openModal, setOpenModal } =
+    useContext(AlmacenContext);
   return (
     <div>
       <div className="row">
-        <div className="col-3 card bg-light ml-3">
+        <div className="col-md-4 col-sm-12">
           <CrudForm></CrudForm>
         </div>
-        <div className="col-8 card ml-3 pt-2">
-          <div className="row"><div className="col-11 card ml-3 pt-2"><AlmacenBusqueda/></div></div>
-          <div className="row"><div className="col-11 card mt-2 ml-3">{db && <TableAlmacen />}</div></div>
+        <div className="col-md-8 col-sm-12">
+          <div className="border bg-light">
+            <AlmacenBusqueda />
+          </div>
+          <div className="border bg-light">
+            {loadingProductos && (
+              <div className="row justify-content-center">
+                <div className="col-4">
+                  <div className="loader" />
+                </div>
+              </div>
+            )}
+            {errorMensaje && (
+              <Message
+                msg={`Error: No se pudieron obtener los registros de la base datos`}
+                bgColor="#dc3545"
+              />
+            )}
+            {db && <TableAlmacen />}
+          </div>
         </div>
-        
+        <div>
+          <ModalEliminacion openModal={openModal} setOpenModal={setOpenModal} />
+        </div>
       </div>
     </div>
   );

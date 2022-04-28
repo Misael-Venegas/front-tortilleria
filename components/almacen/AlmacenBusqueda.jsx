@@ -1,10 +1,13 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
+import AlmacenContext from "./ContextAlmacen";
 
-const initialForm = {
-  busquedaNombre: "",
+const searchForm = {
+  nombreBusqueda: "",
+  categoriaBusqueda: "",
 };
 const AlmacenBusqueda = () => {
-  const [form, setForm] = useState(initialForm);
+  const {filtrarDatos} = useContext(AlmacenContext);
+  const [form, setForm] = useState(searchForm);
 
   const handleChange = (e) => {
     setForm({
@@ -15,11 +18,11 @@ const AlmacenBusqueda = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    alert("hi");
+    filtrarDatos(form);
   };
 
   return (
-    <div>
+    <div className="ml-2">
       <h5>Busqueda</h5>
       <form className="form-inline" onSubmit={handleSubmit}>
         <div className="form-group mb-2">
@@ -27,10 +30,10 @@ const AlmacenBusqueda = () => {
             className="form-control col-12"
             type="text"
             placeholder="Nombre Producto"
-            id="busquedaNombre"
-            name="busquedaNombre"
+            id="nombreBusqueda"
+            name="nombreBusqueda"
             onChange={handleChange}
-            value={form.busquedaNombre}
+            value={form.nombreBusqueda}
           />
         </div>
         <div className="form-group mb-2 ml-2">
@@ -40,6 +43,7 @@ const AlmacenBusqueda = () => {
             onChange={handleChange}
             value={form.categoriaBusqueda}
           >
+            <option value="">Sin Categoria</option>
             <option value="Insumo">Insumo</option>
             <option value="Utilitarios">Utilitarios</option>
             <option value="Refaccion">Refaccion</option>
