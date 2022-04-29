@@ -6,7 +6,7 @@ import TablaUsuarios from "./TablaUsuarios";
 
 const AgregarUsuarios = () => {
 
-  const [selectTipo, setSelectTipo] = useState("0")
+  const [selectTipo, setSelectTipo] = useState("")
   const [nombre, setNombre] = useState("")
   const [paterno, setPaterno] = useState("")
   const [materno, setMaterno] = useState("")

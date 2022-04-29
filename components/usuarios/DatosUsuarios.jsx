@@ -46,12 +46,24 @@ const DatosUsuarios = ({ setActualizar,
     const [mensajeError, setMensajeError] = useState("")
     const [eliminarUsr, { data }] = useMutation(ELIMINAR_USUARIO)
     const [editarUsr] = useMutation(UPDATE_USER);
+
+
     const crearUsuario = async () => {
         //  console.log(nombre, paterno, materno, telefono, email, contrasenhia, selectTipo)
         if (idUsuario !== "") {
             editarUsuario()
             return
         }
+        if (nombre === "" || paterno === "" || materno === "" || telefono === "" || email === "" || contrasenhia === "" || selectTipo === "") {
+            setMensajeError("Error: Campos vacíos")
+            setVerError(true)
+
+            setTimeout(() => {
+                setVerError(false)
+            }, 2000);
+            return
+        }
+
         try {
             await nuevoUsuario({
                 variables: {
@@ -69,6 +81,7 @@ const DatosUsuarios = ({ setActualizar,
             setActualizar(Math.random())
             setSeGuardo(true)
             setMensaje("El usuario se guardo de manera correcta")
+            limpiarCampos()
             setTimeout(() => {
                 setSeGuardo(false)
             }, 2000);
@@ -101,6 +114,7 @@ const DatosUsuarios = ({ setActualizar,
             setActualizar(Math.random())
             setMensaje("los datos se actualizaron de manera correcta")
             setSeGuardo(true)
+            limpiarCampos()
             setTimeout(() => {
                 setSeGuardo(false)
             }, 2000);
@@ -112,6 +126,17 @@ const DatosUsuarios = ({ setActualizar,
                 setVerError(false)
             }, 2000);
         }
+    }
+
+    const limpiarCampos = () => {
+        setIdUsuario("")
+        setNombre("")
+        setPaterno("")
+        setMaterno("")
+        setTelefono("")
+        setEmail("")
+        setContrasenhia("")
+        setSelectTipo("")
     }
 
     const eliminarUsuario = async () => {
@@ -137,6 +162,7 @@ const DatosUsuarios = ({ setActualizar,
             setIdUsuario("")
             setMensaje("El usuario se eliminó de manera correcta")
             setSeGuardo(true)
+            limpiarCampos()
             setTimeout(() => {
                 setSeGuardo(false)
             }, 2000);

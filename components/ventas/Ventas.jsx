@@ -1,48 +1,29 @@
-import react from "react";
-import Container from "../principal/Container";
 
+import Container from "../principal/Container";
+import PanelVenta from "./PanelVenta";
+import TblVentas from "./TblVentas";
+import { useState } from "react";
 const Ventas = () => {
 
+    const [arrayVentas, setArrayVentas] = useState([])
+    const [ventas, setVentas] = useState(0)
     return (
-        <Container>
-            <div class="form-row">
-                <div class="col">
-                    <label for="inputEtiqueta">Le atiende</label>
-                </div>
-                <div class="col">
-                    <input type="text" id="txtTipo" className="form-control" readOnly />
-                </div>
-                <div class="col-4">
-                    <input type="text" id="txtNombre" className="form-control" readOnly />
-                </div>
-                <div class="col-md-2 offset-md-4" >
-                    <label for="inputFecha">aqui va la fecha</label>
-                </div>
-            </div>
-
-            <div className="form-row">
-                <div className="col-8">
-                    <div className="p-5 border bg-light">
-                    <div class="form-inline form-inline">
-                         <label>Producto</label>
-                            <select id="inputState" class="form-control">
-                                <option selected>Selecciona...</option>
-                                <option id="1">Masa</option>
-                                <option id="2">Tortillas</option>
-                            </select>
-                        <div class="form-check form-check-inline" >
-                            <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1"></input>
-                            <label class="form-check-label" for="inlineCheckbox1">A Granel</label>
-
-                            <label>Cantidad</label>
-                        </div>
-                        </div>
-
+        <>
+            <Container>
+                <div className="row  pb-5"  >
+                    <div className="col-md-8 col-sm-12" >
+                        <span className="ml-3" >Le atiende: 1 Misael Nava Venegas </span>
+                    </div>
+                    <div className="col-md-4 col-sm-12" >
+                        <span className="float-right mr-3">{new Date().toLocaleDateString() + " " + new Date().toLocaleTimeString()}</span>
                     </div>
                 </div>
-            </div>
+                <PanelVenta setArrayVentas={setArrayVentas} arrayVentas={arrayVentas} setVentas={setVentas}
+                    ventas={ventas} />
+                <TblVentas arrayVentas={arrayVentas} ventas={ventas} />
+            </Container>
+        </>
 
-        </Container>
     );
 };
 
