@@ -1,4 +1,6 @@
 import Image from "next/image";
+import iconDelete from "../../public/img/deleteIcon.png";
+import iconEdit from "../../public/img/editIcon.png";
 import React, { useContext } from "react";
 import AlmacenContext from "./ContextAlmacen";
 
@@ -29,7 +31,7 @@ const CrudTableRow = ({ el }) => {
           }
         >
           <Image
-            src="https://img.icons8.com/external-tanah-basah-detailed-outline-tanah-basah/344/external-edit-user-interface-tanah-basah-detailed-outline-tanah-basah.png"
+            src={iconEdit}
             alt="edit"
             width={20}
             height={20}
@@ -40,7 +42,7 @@ const CrudTableRow = ({ el }) => {
           onClick={() => deleteData(id_Producto_Almacen)}
         >
           <Image
-            src="https://img.icons8.com/ios-glyphs/344/filled-trash.png"
+            src={iconDelete}
             alt="delete"
             width={20}
             height={20}
