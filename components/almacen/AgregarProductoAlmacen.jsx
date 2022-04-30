@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import Message from "../errorMensaje/Message";
+import Message from "../globales/Message";
 import AlmacenBusqueda from "./AlmacenBusqueda";
 import AlmacenContext from "./ContextAlmacen";
 import CrudForm from "./CrudForm";
@@ -30,7 +30,7 @@ const AgreagarProductoAlmacen = () => {
             {errorMensaje && (
               <Message
                 msg={`Error: No se pudieron obtener los registros de la base datos`}
-                bgColor="#dc3545"
+                bgColor="alert alert-danger"
               />
             )}
             {db && <TableAlmacen />}
