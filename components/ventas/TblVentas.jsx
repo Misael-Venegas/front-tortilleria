@@ -1,6 +1,19 @@
 import React, { useState } from 'react'
 
-const TblVentas = ({ arrayVentas, ventas }) => {
+const TblVentas = ({ arrayVentas, ventas, setArrayVentas, arrayGVentas, setArrayGVentas, setVentas }) => {
+    const eliminarProducto = (dato) => {
+        console.log(dato)
+        const index = arrayVentas.findIndex(producto => parseInt(producto.id) === parseInt(dato.id))
+        arrayVentas.splice(index, 1);
+        arrayGVentas.splice(index, 1);
+        const auxiliar = arrayVentas;
+        const auxiliarGVentas = arrayGVentas;
+        setArrayVentas([])
+        setArrayVentas([...auxiliar])
+        setArrayGVentas([])
+        setArrayGVentas([...auxiliarGVentas])
+        setVentas(ventas - dato.total)
+    }
     return (
         <>
             <div className='p-4' >
@@ -28,7 +41,7 @@ const TblVentas = ({ arrayVentas, ventas }) => {
                     <tbody>
                         {
                             arrayVentas.map((venta, key) => {
-                            
+
                                 return (
                                     <tr key={key} className="table-light" >
                                         <td>
@@ -41,12 +54,14 @@ const TblVentas = ({ arrayVentas, ventas }) => {
                                             {venta.precio}
                                         </td>
                                         <td>
-                                            {venta.cantidad}
+                                            {venta.cantidad} kl
                                         </td>
                                         <td>
                                             {venta.total}
                                         </td>
-                                        <td></td>
+                                        <td>
+                                            <img src="./img/menos-30.png" alt="delete" className='seleccionarComponente' onClick={() => eliminarProducto(venta)} />
+                                        </td>
 
                                     </tr>
 
@@ -65,18 +80,6 @@ const TblVentas = ({ arrayVentas, ventas }) => {
                     </div>
 
                 </div>
-
-                <div className='row' >
-                    <div className='col'>
-                        <div className='float-right pt-4' >
-                            <button className='btn btn-danger mr-3' >Cancelar</button>
-                            <button className='btn btn-success' >Cobrar</button>
-                        </div>
-                    </div>
-
-                </div>
-
-
             </div>
         </>
     )
