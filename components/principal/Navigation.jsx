@@ -38,7 +38,7 @@ const Navigation = () => {
               </Link>
             </li>
             <li className="nav-item">
-              <Link href="/services">
+              <Link href="/mermas">
                 <a className="nav-link">Mermas</a>
               </Link>
             </li>
@@ -48,12 +48,12 @@ const Navigation = () => {
               </Link>
             </li>
             <li className="nav-item">
-              <Link href="/services">
+              <Link href="/cortecaja">
                 <a className="nav-link">Corte de Caja</a>
               </Link>
             </li>
             <li className="nav-item">
-              <Link href="/services">
+              <Link href="/gastosoperacion">
                 <a className="nav-link">Gastos Operación</a>
               </Link>
             </li>
