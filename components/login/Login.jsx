@@ -42,7 +42,7 @@ const Login = () => {
   if (data) {
     if (data.login) {
       console.log(data)
-      localStorage.setItem("token", data.token)
+      localStorage.setItem("token", data.login.token)
       router.push("/almacen");
     }
   }
