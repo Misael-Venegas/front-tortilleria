@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useMutation, gql } from '@apollo/client'
-import { UncontrolledAlert } from 'reactstrap'
-
+import { Input, Button, Select, message } from 'antd'
+import { MinusOutlined, SaveOutlined } from '@ant-design/icons'
 const CREAR_USUARIOS = gql`
 mutation createusuario($input: usuarioInput!) {
     createusuario(input: $input) {
@@ -38,13 +38,8 @@ const DatosUsuarios = ({ setActualizar,
     contrasenhia, setContrasenhia, idUsuario, setIdUsuario
 }) => {
 
-
-    const [seGuardo, setSeGuardo] = useState(false)
-    const [nuevoUsuario, { loading, error }] = useMutation(CREAR_USUARIOS)
-    const [mesaje, setMensaje] = useState("");
-    const [verError, setVerError] = useState(false)
-    const [mensajeError, setMensajeError] = useState("")
-    const [eliminarUsr, { data }] = useMutation(ELIMINAR_USUARIO)
+    const [nuevoUsuario, { loading: loadingCreate, error }] = useMutation(CREAR_USUARIOS)
+    const [eliminarUsr, { data, loading: loadingDelete }] = useMutation(ELIMINAR_USUARIO)
     const [editarUsr] = useMutation(UPDATE_USER);
 
 
@@ -55,12 +50,7 @@ const DatosUsuarios = ({ setActualizar,
             return
         }
         if (nombre === "" || paterno === "" || materno === "" || telefono === "" || email === "" || contrasenhia === "" || selectTipo === "") {
-            setMensajeError("Error: Campos vacíos")
-            setVerError(true)
-
-            setTimeout(() => {
-                setVerError(false)
-            }, 2000);
+            message.error("Error: Campos vacíos")
             return
         }
 
@@ -79,19 +69,10 @@ const DatosUsuarios = ({ setActualizar,
                 }
             })
             setActualizar(Math.random())
-            setSeGuardo(true)
-            setMensaje("El usuario se guardo de manera correcta")
+            message.success("El usuario se guardo de manera correcta")
             limpiarCampos()
-            setTimeout(() => {
-                setSeGuardo(false)
-            }, 2000);
         } catch (error) {
-            setMensajeError(error.message)
-            setVerError(true)
-
-            setTimeout(() => {
-                setVerError(false)
-            }, 2000);
+            message.error(error.message)
         }
     }
 
@@ -112,19 +93,10 @@ const DatosUsuarios = ({ setActualizar,
                 }
             })
             setActualizar(Math.random())
-            setMensaje("los datos se actualizaron de manera correcta")
-            setSeGuardo(true)
+            message.success("los datos se actualizaron de manera correcta")
             limpiarCampos()
-            setTimeout(() => {
-                setSeGuardo(false)
-            }, 2000);
         } catch (error) {
-            setMensajeError(error.message)
-            setVerError(true)
-
-            setTimeout(() => {
-                setVerError(false)
-            }, 2000);
+            message.error(error.message)
         }
     }
 
@@ -142,12 +114,7 @@ const DatosUsuarios = ({ setActualizar,
     const eliminarUsuario = async () => {
 
         if (idUsuario === "") {
-            setMensajeError("Error: Selecciona un elemento de la tabla para poder completar esta acción")
-            setVerError(true)
-
-            setTimeout(() => {
-                setVerError(false)
-            }, 2000);
+            message.error("Error: Selecciona un elemento de la tabla para poder completar esta acción")
             return
         }
 
@@ -160,76 +127,56 @@ const DatosUsuarios = ({ setActualizar,
 
             setActualizar(Math.random())
             setIdUsuario("")
-            setMensaje("El usuario se eliminó de manera correcta")
-            setSeGuardo(true)
-            limpiarCampos()
-            setTimeout(() => {
-                setSeGuardo(false)
-            }, 2000);
-
+            message.success("El usuario se eliminó de manera correcta")
         } catch (error) {
-            setMensajeError(error.message)
-            setVerError(true)
-            setTimeout(() => {
-                setVerError(false)
-            }, 2000);
+            message.error(error.message)
         }
     }
-
+    const { Option } = Select
     return (
         <>
-            {
-                seGuardo && <UncontrolledAlert color="success">
-                    {mesaje}
-                </UncontrolledAlert>
-            }
-            {
-                verError && <UncontrolledAlert color="danger">
-                    {mensajeError}
-                </UncontrolledAlert>
-            }
-            <div className="p-3 border bg-light">
+            <div className="p-3 border rounded" style={{ minHeight: "89vh" }}>
                 <p>Nuevo Usuario</p>
 
                 <label className='pt-1' >Nombre</label>
-                <input type="text" value={nombre} className="form-control" onChange={(e) => setNombre(e.target.value)} />
+                <Input value={nombre} onChange={(e) => setNombre(e.target.value)} />
 
-                <label className='pt-1' >Apellido Paterno</label>
-                <input type="text" value={paterno} className="form-control" onChange={(e) => setPaterno(e.target.value)} />
+                <label className='pt-2' >Apellido Paterno</label>
+                <Input value={paterno} onChange={(e) => setPaterno(e.target.value)} />
 
-                <label >Apelido Materno</label>
-                <input type="text" value={materno} className="form-control" onChange={(e) => setMaterno(e.target.value)} />
+                <label className='pt-2' >Apelido Materno</label>
+                <Input value={materno} onChange={(e) => setMaterno(e.target.value)} />
 
-                <label>Telefono</label>
-                <input type="number" value={telefono} className="form-control" onChange={(e) => setTelefono(e.target.value)} />
+                <label className='pt-2' >Telefono</label>
+                <Input value={telefono} onChange={(e) => setTelefono(e.target.value)} />
 
-                <label >Email</label>
-                <input type="email" value={email} className="form-control" onChange={(e) => setEmail(e.target.value)} />
+                <label className='pt-2'>Email</label>
+                <Input value={email} onChange={(e) => setEmail(e.target.value)} />
 
-                <label >Contrasena</label>
-                <input type="password" value={contrasenhia} className="form-control" onChange={(e) => setContrasenhia(e.target.value)} />
+                <label className='pt-2'>Contrasena</label>
+                <Input.Password value={contrasenhia} onChange={(e) => setContrasenhia(e.target.value)} />
 
-                <div className="form-row pt-2">
+                <div className="form-row pt-4">
                     <div className="col-2">
-                        <input type="text" className="form-control" readOnly value={selectTipo} /></div>
+                        <Input readOnly value={selectTipo} /></div>
                     <div className="col">
-                        <select className="form-control" value={selectTipo} onChange={(e) => setSelectTipo(e.target.value)} >
-                            <option value="" >Selecciona...</option>
-                            <option value="1">Administrador</option>
-                            <option value="2">Cajero</option>
-                            <option value="3">Repartidor</option>
-                        </select>
+                        <Select style={{ width: "100%" }} value={selectTipo} onChange={(e) => setSelectTipo(e)} >
+                            <Option value="" >Selecciona...</Option>
+                            <Option value="1">Administrador</Option>
+                            <Option value="2">Cajero</Option>
+                            <Option value="3">Repartidor</Option>
+                        </Select>
                     </div>
                 </div>
 
-                <label>Tipo</label>
 
-                <div className="form-row">
+
+                <div className="form-row pt-4">
                     <div className="col">
-                        <button className="btn btn-primary" onClick={crearUsuario} >Guardar</button>
+                        <Button type='primary' onClick={crearUsuario} loading={loadingCreate} icon={<SaveOutlined style={{ fontSize: 16 }} />} > <span>Guardar</span> </Button>
                     </div>
                     <div className="col" >
-                        <button className="btn btn-danger" onClick={eliminarUsuario}>Eliminar</button>
+                        <Button type='primary' onClick={eliminarUsuario} danger className='float-right' loading={loadingDelete} icon={<MinusOutlined />} >Eliminar</Button>
                     </div>
                 </div>
 

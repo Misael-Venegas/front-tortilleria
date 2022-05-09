@@ -19,6 +19,7 @@ const AgregarUsuarios = () => {
 
 
   const llenarDatosUsuario = (usuario) => {
+    console.log(usuario)
     setNombre(usuario.nombre)
     setPaterno(usuario.apellidoP)
     setMaterno(usuario.apellidoM)
@@ -30,7 +31,6 @@ const AgregarUsuarios = () => {
 
   return (
     <Container>
-
       <div className="row">
         <div className="col-md-4 col-sm-12">
           <DatosUsuarios setActualizar={setActualizar}
@@ -51,7 +51,6 @@ const AgregarUsuarios = () => {
           </div>
         </div>
       </div>
-
     </Container>
   );
 };

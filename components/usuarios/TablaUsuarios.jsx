@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { useLazyQuery, gql } from "@apollo/client";
-
+import { Table } from 'antd';
 const OBTNER_USUARIOS = gql`
 query getUsuarios {
   getUsuarios {
@@ -30,45 +30,59 @@ const TablaUsuarios = ({ actualizar, llenarDatosUsuario }) => {
 
     }, [actualizar])
 
+    const columns = [
+        {
+            title: '#',
+            dataIndex: 'key',
+            key: 'key',
+        }, {
+            title: 'Nombre',
+            dataIndex: 'nombre',
+            key: 'nombre',
+        }, {
+            title: 'Apellido paterno',
+            dataIndex: 'apellidoP',
+            key: 'apellidoP',
+        }, {
+            title: 'Apellido materno',
+            dataIndex: 'apellidoM',
+            key: 'apellidoM',
+        }, {
+            title: 'Telefono',
+            dataIndex: 'telefono',
+            key: 'telefono',
+        }, {
+            title: 'email',
+            dataIndex: 'email',
+            key: 'email',
+        }
+    ]
+
+    const crearColumas = (usuario, key) => {
+        return {
+            key: key + 1,
+            nombre: usuario.nombre,
+            apellidoP: usuario.apellidoP,
+            apellidoM: usuario.apellidoM,
+            telefono: usuario.telefono,
+            email: usuario.email,
+            id: usuario.id,
+            tipo: usuario.tipo
+        }
+    }
+
     return (
-        <table className="table table-striped">
-            <thead className="thead-dark">
-                <tr>
-                    <th>#</th>
-                    <th>Nombre</th>
-                    <th>Apellido paterno</th>
-                    <th>Apellido materno</th>
-                    <th>Telefono</th>
-                    <th>email</th>
-
-                </tr>
-            </thead>
-            <tbody>
-                {
-                    data && data.getUsuarios &&
-                    data.getUsuarios.map((usuario, index) => {
-                        return (
-
-                            <tr key={index} onClick={() => llenarDatosUsuario(usuario)} className="seleccionarComponente" >
-                                <td>{index+1}</td>
-
-                                <td>{usuario.nombre}</td>
-
-                                <td>{usuario.apellidoP}</td>
-
-                                <td>{usuario.apellidoM}</td>
-
-                                <td>{usuario.telefono}</td>
-
-                                <td>{usuario.email}</td>
-                            </tr>
-                        )
-                    }
-                    )
+        <Table className='rounded'  loading={loading} columns={columns} dataSource={data ? (data.getUsuarios ? data.getUsuarios.map((usuario, key) => {
+            return (
+                crearColumas(usuario, key)
+            )
+        }) : []) : []} onRow={(record) => {
+            return {
+                onClick: () => {
+                    llenarDatosUsuario(record)
                 }
-
-            </tbody>
-        </table>
+            }
+        }} />
     )
 }
 
