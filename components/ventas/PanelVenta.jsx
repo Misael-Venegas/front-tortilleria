@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useLazyQuery, gql } from '@apollo/client'
-
+import { message, Button, InputNumber, Select } from 'antd'
 const GET_PRODUCTOS = gql`
 query  getProductos($key: Float!){
     getProductos(key: $key){
@@ -13,13 +13,13 @@ query  getProductos($key: Float!){
 }
 `
 
-const PanelVenta = ({ setArrayVentas, arrayVentas, setVentas, ventas, setArrayGVentas, arrayGVentas,
-    setmensaje, setmensajeError
-}) => {
+const PanelVenta = ({ setArrayVentas, arrayVentas, setVentas, ventas, setArrayGVentas, arrayGVentas }) => {
     const [producto, setProducto] = useState(-1)
     const [cantidad, setCantidad] = useState(1)
     const [id, setIdProducto] = useState(1);
     const [obtenerProductos, { data: dataProductos }] = useLazyQuery(GET_PRODUCTOS);
+
+    const { Option } = Select
 
     useEffect(() => {
         obtenerProductos({
@@ -33,28 +33,16 @@ const PanelVenta = ({ setArrayVentas, arrayVentas, setVentas, ventas, setArrayGV
     const agregarVentas = async () => {
         try {
             if (cantidad === "") {
-                setmensaje("Ingrese un dato numerico")
-                setmensajeError(true)
-                setTimeout(() => {
-                    setmensajeError(false)
-                }, 2000);
+                message.error("Ingrese un dato numerico")
                 return
             }
             parseInt(cantidad)
         } catch (error) {
-            setmensaje("Ingrese un dato numerico")
-            setmensajeError(true)
-            setTimeout(() => {
-                setmensajeError(false)
-            }, 2000);
+            message.error("Ingrese un dato numerico")
             return
         }
         if (producto <= 0) {
-            setmensaje("Seleccion un producto  ")
-            setmensajeError(true)
-            setTimeout(() => {
-                setmensajeError(false)
-            }, 2000);
+            message.error("Seleccion un producto  ")
             return
         }
 
@@ -83,8 +71,6 @@ const PanelVenta = ({ setArrayVentas, arrayVentas, setVentas, ventas, setArrayGV
     }
     const obtenerProductoOriginal = () => {
         const respuesta = null;
-        console.log(producto)
-
         dataProductos.getProductos.forEach((p) => {
 
             if (p.id_producto === parseInt(producto)) {
@@ -95,31 +81,26 @@ const PanelVenta = ({ setArrayVentas, arrayVentas, setVentas, ventas, setArrayGV
     }
     return (
         <>
-            <div className='border shadow' style={{ width: 700, height: 100 }} >
+            <div className='border shadow-sm' style={{ width: 700, height: 100 }} >
                 <div className='row m-1' >
                     <div className='col-md-6 col-sm-12'>
                         <div className='d-flex justify-content-between pt-4'>
                             <span className='pt-1' >Producto</span>
-                            <select className='form-select' style={{ width: "50%" }} value={producto} onChange={(e) => setProducto(e.target.value)} >
-                                <option value={-1}></option>
+                            <Select style={{ width: "80%" }} value={producto} onChange={(e) => setProducto(e)} >
+                                <Option value={-1}> </Option>
                                 {
                                     dataProductos && dataProductos.getProductos.map((producto, key) => {
                                         return (
-                                            <option key={key} value={producto.id_producto} >
+                                            <Option key={key} value={producto.id_producto} >
                                                 {
                                                     producto.nombre
-                                                } </option>
+                                                }
+                                            </Option>
                                         )
                                     }
                                     )
                                 }
-                            </select>
-                            <div className="form-check pt-1">
-                                <input className="form-check-input" type="checkbox" id="flexCheckDefault" />
-                                <label className="form-check-label" >
-                                    A granel
-                                </label>
-                            </div>
+                            </Select>
                         </div>
 
                     </div>
@@ -127,9 +108,9 @@ const PanelVenta = ({ setArrayVentas, arrayVentas, setVentas, ventas, setArrayGV
                     <div className='col-md-6 col-sm-12'>
                         <div className='d-flex justify-content-between pt-4' >
                             <span className='pt-1' > Cantidad:</span>
-                            <input type="number" className='form-control' style={{ width: "100px" }}
-                                value={cantidad} onChange={(e) => setCantidad(e.target.value)} />
-                            <button className='btn btn-warning' onClick={agregarVentas} >Agregar</button>
+                            <InputNumber stringMode style={{ width: "150px" }}
+                                value={cantidad} onChange={(e) => setCantidad(e)} />
+                                <Button style={{ backgroundColor: '#FFCA2C' }} onClick={agregarVentas} >Agregar</Button>
                         </div>
 
                     </div>

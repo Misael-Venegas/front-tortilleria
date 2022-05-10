@@ -1,11 +1,9 @@
 
-import Container from "../principal/Container";
 import PanelVenta from "./PanelVenta";
 import TblVentas from "./TblVentas";
 import { useState } from "react";
 import { useMutation, gql } from "@apollo/client";
-import Message from '../globales/Message'
-import SuccesMessage from '../globales/SuccesMessage'
+import { Button, message, Tag } from "antd";
 const SAVE_VENTA = gql`
     mutation agregarVenta($input: ventasInput! ){
         agregarVenta(input: $input )
@@ -17,9 +15,6 @@ const Ventas = () => {
     const [ventas, setVentas] = useState(0)
     const [arrayGVentas, setArrayGVentas] = useState([])
     const [guardarVenta, { data: dataVentas, loading: loadingVenta, error: errorVenta }] = useMutation(SAVE_VENTA)
-    const [mensaje, setmensaje] = useState("")
-    const [mensajeError, setmensajeError] = useState(false)
-    const [mensajeSucces, setmensajeSucces] = useState(false)
     const realizarVenta = async () => {
         console.log(arrayGVentas)
         try {
@@ -31,18 +26,10 @@ const Ventas = () => {
                     }
                 }
             })
-            setmensaje("Los datos se guardaron de manera correcta")
-            setmensajeSucces(true)
-            setTimeout(() => {
-                setmensajeSucces(false)
-            }, 2000);
+            message.success("Los datos se guardaron de manera correcta")
             limpiarCampos()
         } catch (error) {
-            setmensaje(error.message)
-            setmensajeError(true)
-            setTimeout(() => {
-                setmensajeError(false)
-            }, 2000);
+            message.error(error.message)
         }
 
     }
@@ -54,40 +41,33 @@ const Ventas = () => {
     }
     return (
         <>
-            <Container>
-                {
-                    mensajeError && <Message msg={mensaje} />
-                }
-                {
-                    mensajeSucces && <SuccesMessage meg={mensaje} />
-                }
-                <div className="row  pb-5"  >
-                    <div className="col-md-8 col-sm-12" >
-                        <span className="ml-3" >Le atiende: 1 Misael Nava Venegas </span>
-                    </div>
-                    <div className="col-md-4 col-sm-12" >
-                        <span className="float-right mr-3">{new Date().toLocaleDateString() + " " + new Date().toLocaleTimeString()}</span>
+
+            <div className="row  pb-5"  >
+                <div className="col-md-8 col-sm-12" >
+                    <Tag color="cyan" >Le atiende: 1 Misael Nava Venegas </Tag>
+                </div>
+                <div className="col-md-4 col-sm-12" >
+                    <Tag color="green" className="float-right mr-3">{new Date().toLocaleDateString() + " " + new Date().toLocaleTimeString()}</Tag>
+                </div>
+            </div>
+            <PanelVenta setArrayVentas={setArrayVentas} arrayVentas={arrayVentas} setVentas={setVentas}
+                ventas={ventas} setArrayGVentas={setArrayGVentas} arrayGVentas={arrayGVentas}
+            />
+            <TblVentas arrayVentas={arrayVentas} ventas={ventas} setArrayVentas={setArrayVentas}
+                arrayGVentas={arrayGVentas} setArrayGVentas={setArrayGVentas} setVentas={setVentas}
+            />
+
+            <div className='row' >
+                <div className='col'>
+                    <div className='float-right pt-4' >
+                        <Button className='mr-3' type="primary" onClick={limpiarCampos} danger >Cancelar</Button>
+                        <Button className='mr-3' style={{ backgroundColor: 'green', color: "white" }} onClick={realizarVenta}>Cobrar</Button>
                     </div>
                 </div>
-                <PanelVenta setArrayVentas={setArrayVentas} arrayVentas={arrayVentas} setVentas={setVentas}
-                    ventas={ventas} setArrayGVentas={setArrayGVentas} arrayGVentas={arrayGVentas}
-                    setmensaje={setmensaje} setmensajeError={setmensajeError}
-                />
-                <TblVentas arrayVentas={arrayVentas} ventas={ventas} setArrayVentas={setArrayVentas}
-                    arrayGVentas={arrayGVentas} setArrayGVentas={setArrayGVentas} setVentas={setVentas}
-                />
 
-                <div className='row' >
-                    <div className='col'>
-                        <div className='float-right pt-4' >
-                            <button className='btn btn-danger mr-3' onClick={limpiarCampos}  >Cancelar</button>
-                            <button className='btn btn-success' onClick={realizarVenta}>Cobrar</button>
-                        </div>
-                    </div>
+            </div>
 
-                </div>
 
-            </Container>
         </>
 
     );

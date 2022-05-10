@@ -1,9 +1,8 @@
 import React, { useState } from "react";
-import Container from "../principal/Container";
 import FormProductos from "./FormProductos";
 import { TblProductos } from "./TblProductos";
 
-const Almacen = () => {
+const Productos = () => {
 
   const [actualizar, setActualizar] = useState(3.1416)
 
@@ -22,7 +21,7 @@ const Almacen = () => {
   }
 
   return (
-    <Container>
+
 
       <div className="row">
         <div className="col-md-4 col-sm-12">
@@ -42,8 +41,8 @@ const Almacen = () => {
           />
         </div>
       </div>
-    </Container>
+
   );
 };
 
-export default Almacen;
+export default Productos;

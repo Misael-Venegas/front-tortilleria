@@ -72,7 +72,7 @@ const TablaUsuarios = ({ actualizar, llenarDatosUsuario }) => {
     }
 
     return (
-        <Table className='rounded'  loading={loading} columns={columns} dataSource={data ? (data.getUsuarios ? data.getUsuarios.map((usuario, key) => {
+        <Table className='rounded shadow-sm' pagination={false}  loading={loading} columns={columns} dataSource={data ? (data.getUsuarios ? data.getUsuarios.map((usuario, key) => {
             return (
                 crearColumas(usuario, key)
             )

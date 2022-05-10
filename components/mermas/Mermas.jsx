@@ -1,9 +1,8 @@
-import Container from "../principal/Container";
 import MermasForm from "./MermasForm";
 
 const Mermas = () => {
   return (
-    <Container>
+    <>
       <div className="row  pb-3">
         <div className="col-md-1 col-sm-2">
           <span className="ml-3">Usuario :</span>
@@ -20,7 +19,7 @@ const Mermas = () => {
         </div>
       </div>
       <MermasForm />
-    </Container>
+    </>
   );
 };
 

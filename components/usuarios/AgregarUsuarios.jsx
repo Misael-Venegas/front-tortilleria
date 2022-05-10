@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import Container from "../principal/Container";
 import DatosUsuarios from "./DatosUsuarios";
 import TablaUsuarios from "./TablaUsuarios";
 
@@ -30,7 +29,7 @@ const AgregarUsuarios = () => {
   }
 
   return (
-    <Container>
+  
       <div className="row">
         <div className="col-md-4 col-sm-12">
           <DatosUsuarios setActualizar={setActualizar}
@@ -51,7 +50,7 @@ const AgregarUsuarios = () => {
           </div>
         </div>
       </div>
-    </Container>
+  
   );
 };
 

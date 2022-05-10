@@ -43,7 +43,7 @@ const Login = () => {
     if (data.login) {
       console.log(data)
       localStorage.setItem("token", data.login.token)
-      router.push("/almacen");
+      router.push("/menu");
     }
   }
   return (
@@ -52,17 +52,16 @@ const Login = () => {
         <div className="col-xl-10">
           <div className=" text-black">
             <div className="row g-0">
-              <div className="col-lg-5 mx-auto shadow">
+              <div className="col-lg-5 mt-3 mx-auto shadow">
                 <div className=" p-md-4 mx-md-4 ">
                   <div className="text-center">
                     <img
-                      src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/lotus.webp"
-                      style={{ width: "185px" }}
+                      src="../img/logo.jpeg"
+                      style={{ width: "200px" }}
                       alt="logo"
                     />
-                    <h4 className="mt-1 mb-5 pb-1">Tortilleria</h4>
                   </div>
-                  <form>
+                  <form className="pt-4">
                     <p>Ingresa tus credenciales </p>
                     <div className="form-outline mb-3">
                       <input

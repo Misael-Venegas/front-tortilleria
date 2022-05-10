@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useLazyQuery, gql, useMutation } from '@apollo/client'
-import SuccesMessage from '../globales/SuccesMessage';
-
+import { message, Button, Input, Table } from 'antd';
+import { MinusSquareOutlined, FormOutlined } from '@ant-design/icons'
 const GET_PRODUCTS = gql`
 query getProductos($key: Float!) {
     getProductos(key: $key) {
@@ -21,9 +21,6 @@ const DELETE_PRODUCTO = gql`
 `;
 
 export const TblProductos = ({ actualizar, setActualizar, editarProductos }) => {
-
-    const [mostarError, setMostarError] = useState(false)
-    const [mensajeError, setMensajeError] = useState("")
     const [buscar, setBuscar] = useState("")
     const [array, setArrayProductos] = useState([])
     const [arrayAuxiliar, setArrayAuxiliar] = useState([])
@@ -33,7 +30,6 @@ export const TblProductos = ({ actualizar, setActualizar, editarProductos }) => 
             setArrayAuxiliar(data.getProductos)
         }
     })
-    const [mostrarSucces, setMostrarSucces] = useState(false);
     const [deleteProducto, { loading: loadingDelete }] = useMutation(DELETE_PRODUCTO);
     useEffect(() => {
         try {
@@ -43,11 +39,7 @@ export const TblProductos = ({ actualizar, setActualizar, editarProductos }) => 
                 }
             })
         } catch (error) {
-            setMensajeError(error.message)
-            setMostarError(true)
-            setTimeout(() => {
-                setMostarError(false)
-            }, 2000);
+            message.error(error.message)
         }
     }, [actualizar])
 
@@ -59,18 +51,10 @@ export const TblProductos = ({ actualizar, setActualizar, editarProductos }) => 
                 }
             })
 
-            setMensajeError("Producto eliminado")
-            setMostrarSucces(true)
-            setTimeout(() => {
-                setMostrarSucces(false)
-            }, 2000);
+            message.success("Producto eliminado")
             setActualizar(Math.random())
         } catch (error) {
-            setMensajeError(error.message)
-            setMostarError(true)
-            setTimeout(() => {
-                setMostarError(false)
-            }, 2000);
+            message.error(error.message)
         }
 
     }
@@ -86,67 +70,65 @@ export const TblProductos = ({ actualizar, setActualizar, editarProductos }) => 
         setArrayProductos(arrayNuevo)
     }
 
+    const columns = [
+        {
+            title: '#',
+            dataIndex: 'key',
+            key: 'key'
+        }, {
+            title: 'Nombre',
+            dataIndex: 'nombre',
+            key: 'nombre'
+        }, {
+            title: 'Precio',
+            dataIndex: 'precio',
+            key: 'precio'
+        }, {
+            title: 'Unidad de medida',
+            dataIndex: 'unidadMedida',
+            key: 'unidadMedida'
+        }, {
+            title: 'Producto almacen',
+            dataIndex: 'productoalmacen',
+            key: 'productoalmacen'
+        }, {
+            title: 'Acciones',
+            dataIndex: 'acciones',
+            key: 'acciones'
+        },
+    ]
+
+    const crearColumna = (dato, key) => {
+        return {
+            key: key + 1,
+            nombre: dato.nombre,
+            precio: dato.precioVenta,
+            unidadMedida: dato.unidad,
+            productoalmacen: dato.id_producto_almacen,
+            acciones: <> < FormOutlined className='seleccionarComponente pr-2' onClick={() => editarProductos(dato)} />
+                <MinusSquareOutlined className='seleccionarComponente' onClick={() => eliminarProducto(dato.id_producto)} />
+            </>
+        }
+    }
+
     return (
-        <div className='p-3 mt-3 shadow ' >
-            {
-                mostarError && <Message msg={mensajeError} bgColor={"alert alert-danger"} />
-            }
-            {
-                mostrarSucces && <SuccesMessage meg={mensajeError} />
-            }
+        <div className='p-3 mt-3 shadow-sm ' >
             <label> Producto </label>
             <div style={{ width: 350 }} >
                 <div className='row'>
                     <div className='col-md-8 col-sm-12' >
-                        <input type="text" className='form-control' value={buscar} onChange={(e) => setBuscar(e.target.value)} />
+                        <Input value={buscar} onChange={(e) => setBuscar(e.target.value)} />
                     </div>
                     <div className='col-md-4 col-sm-12' >
-                        <button className='btn btn-primary float-right' onClick={buscarProducto} >Buscar</button>
+                        <Button type='primary' onClick={buscarProducto} >Buscar</Button>
                     </div>
                 </div>
             </div>
-            <table className="table table-striped mt-5">
-                <thead className="thead-dark">
-                    <tr>
-                        <th>id Producto</th>
-                        <th>Nombre</th>
-                        <th>Precio</th>
-                        <th>Unidad de medida</th>
-                        <th>Producto almacen</th>
-                        <th>Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {
-                        array && array.map((dato, key) => {
-                            return (
-                                <tr key={key} >
-                                    <td>
-                                        {dato.id_producto}
-                                    </td>
-                                    <td>
-                                        {dato.nombre}
-                                    </td>
-                                    <td>
-                                        {dato.precioVenta}
-                                    </td>
-                                    <td>
-                                        {dato.unidad}
-                                    </td>
-                                    <td>
-                                        {dato.id_producto_almacen}
-                                    </td>
-                                    <td>
-                                        <img src="./img/editIcon.png" width="25px" alt="edit" className='seleccionarComponente pr-2' onClick={() => editarProductos(dato)} />
-                                        <img src="./img/menos-30.png" alt="delete" className='seleccionarComponente' onClick={() => eliminarProducto(dato.id_producto)} />
-
-                                    </td>
-                                </tr>
-                            )
-                        })
-                    }
-                </tbody>
-            </table>
+            <Table pagination={false} loading={loading} columns={columns} dataSource={array ? array.map((dato, key) => {
+                return (
+                    crearColumna(dato, key)
+                )
+            }) : []} />
         </div>
     )
 }

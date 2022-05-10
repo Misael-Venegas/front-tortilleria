@@ -128,6 +128,7 @@ const DatosUsuarios = ({ setActualizar,
             setActualizar(Math.random())
             setIdUsuario("")
             message.success("El usuario se eliminó de manera correcta")
+            limpiarCampos()
         } catch (error) {
             message.error(error.message)
         }
@@ -135,7 +136,7 @@ const DatosUsuarios = ({ setActualizar,
     const { Option } = Select
     return (
         <>
-            <div className="p-3 border rounded" style={{ minHeight: "89vh" }}>
+            <div className="p-3 border rounded shadow-sm" style={{ minHeight: "89vh" }}>
                 <p>Nuevo Usuario</p>
 
                 <label className='pt-1' >Nombre</label>

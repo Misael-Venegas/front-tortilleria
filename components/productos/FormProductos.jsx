@@ -1,9 +1,8 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { gql, useMutation } from '@apollo/client'
-import Message from '../globales/Message'
-import SuccesMessage from '../globales/SuccesMessage'
+import { message, Input, InputNumber, Select, Button } from 'antd'
 
-const CREATE_USER = gql`
+const CREATE_PRODUCTO = gql`
 mutation agregarProducto($input: inputProductos!) {
     agregarProducto(input: $input)
   }
@@ -16,12 +15,8 @@ const UPDATE_PRODUCTO = gql`
 `
 
 const FormProductos = ({ setActualizar, nombre, setNombre, precio, setPrecio, setUMedida, uMedida, setTipo, tipo, setidProducto, idProducto }) => {
-
-
-    const [mostarError, setMostarError] = useState(false)
-    const [mensajeError, setMensajeError] = useState("")
-    const [mensajeSucces, setMensajeSucces] = useState(false)
-    const [add_producto, { loading }] = useMutation(CREATE_USER)
+    const { Option } = Select
+    const [add_producto, { loading }] = useMutation(CREATE_PRODUCTO)
     const [update_producto, { loading: loadingP }] = useMutation(UPDATE_PRODUCTO)
     const guardarDato = async () => {
 
@@ -31,20 +26,12 @@ const FormProductos = ({ setActualizar, nombre, setNombre, precio, setPrecio, se
         }
 
         if (nombre === "" || uMedida === "" || tipo === "") {
-            setMensajeError("Error: Campos vacios")
-            setMostarError(true)
-            setTimeout(() => {
-                setMostarError(false)
-            }, 2000);
+            message.error("Error: Campos vacios")
             return
         }
 
         if (precio <= 0 || precio === "") {
-            setMensajeError("Error: El precio debe ser mayor a cero")
-            setMostarError(true)
-            setTimeout(() => {
-                setMostarError(false)
-            }, 2000);
+            message.error("Error: El precio debe ser mayor a cero")
             return
         }
 
@@ -59,18 +46,10 @@ const FormProductos = ({ setActualizar, nombre, setNombre, precio, setPrecio, se
                     }
                 }
             })
-            setMensajeError("El producto se registro de manera correcta")
-            setMensajeSucces(true)
-            setTimeout(() => {
-                setMensajeSucces(false)
-            }, 2000);
+            message.success("El producto se registro de manera correcta")
             limpiarCampos()
         } catch (error) {
-            setMensajeError(error.message)
-            setMostarError(true)
-            setTimeout(() => {
-                setMostarError(false)
-            }, 2000);
+            message.error(error.message)
         }
 
     }
@@ -88,19 +67,10 @@ const FormProductos = ({ setActualizar, nombre, setNombre, precio, setPrecio, se
                     }
                 }
             })
-            setMensajeError("Producto actualizado")
-            setMensajeSucces(true)
+            message.success("Producto actualizado")
             limpiarCampos()
-            setTimeout(() => {
-                setMensajeSucces(false)
-            }, 2000);
-
         } catch (error) {
-            setMensajeError(error.message)
-            setMostarError(true)
-            setTimeout(() => {
-                setMostarError(false)
-            }, 2000);
+            message.error(error.message)
         }
     }
 
@@ -114,44 +84,35 @@ const FormProductos = ({ setActualizar, nombre, setNombre, precio, setPrecio, se
     }
 
     return (
-        <div className="p-3 mt-3 border bg-light shadow rounded ">
-            {
-                mostarError && <Message msg={mensajeError} bgColor={"alert alert-danger"} />
-            }
-            {
-                mensajeSucces && <SuccesMessage meg={mensajeError} />
-            }
+        <div className="p-3 mt-3 border bg-light shadow-sm rounded " style={{ minHeight: "75vh" }} >
             <p>Datos del producto</p>
 
             <label className='pt-1' >Nombre del producto</label>
-            <input type="text" className="form-control" value={nombre} onChange={(e) => setNombre(e.target.value)} />
+            <Input value={nombre} onChange={(e) => setNombre(e.target.value)} />
 
-            <label className='pt-1' >Precio de venta</label>
-            <input type="number" className="form-control" value={precio} onChange={(e) => setPrecio(e.target.value)} />
-
+            <label className='pt-1' >Precio de venta</label><br />
+            <InputNumber style={{ width: "100%" }} stringMode value={precio} onChange={(e) => setPrecio(e)} />
+            <br />
             <label className='pt-1'>Unidad de medida</label>
-            <input type="text" className="form-control" value={uMedida} onChange={(e) => setUMedida(e.target.value)} />
+            <Input value={uMedida} onChange={(e) => setUMedida(e.target.value)} />
 
-            <label className='pt-1'>Tipo</label>
-            <div className="form-row pt-2">
-                <div className="col">
-                    <select className="form-control" value={tipo} onChange={(e) => setTipo(e.target.value)}  >
-                        <option value="" >Selecciona...</option>
-                        <option value="1">Maiz</option>
-                        <option value="2">Plasticos</option>
-                        <option value="3">Refacciones</option>
-                    </select>
-                </div>
-            </div>
+            <label className='pt-1'>Tipo</label> <br />
+
+            <Select style={{ width: "100%" }} value={tipo} onChange={(e) => setTipo(e)}  >
+                <Option value="" >Selecciona...</Option>
+                <Option value="1">Maiz</Option>
+                <Option value="2">Plasticos</Option>
+                <Option value="3">Refacciones</Option>
+            </Select>
 
 
 
             <div className="form-row pt-4">
                 <div className="col">
-                    <button className="btn btn-primary float-left " onClick={guardarDato}  >Guardar</button>
+                    <Button className="btn btn-primary float-left" onClick={guardarDato} type='primary' >Guardar</Button>
                 </div>
                 <div className="col" >
-                    <button className="btn btn-danger float-right" >Eliminar</button>
+                    <Button className="btn btn-danger float-right" onClick={limpiarCampos} type='primary' danger >Limpiar</Button>
                 </div>
             </div>
 

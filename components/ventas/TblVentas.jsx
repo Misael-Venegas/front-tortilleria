@@ -1,5 +1,6 @@
-import React, { useState } from 'react'
-
+import React from 'react'
+import { Input, Table, Image } from 'antd'
+import { MinusSquareOutlined } from '@ant-design/icons'
 const TblVentas = ({ arrayVentas, ventas, setArrayVentas, arrayGVentas, setArrayGVentas, setVentas }) => {
     const eliminarProducto = (dato) => {
         console.log(dato)
@@ -14,68 +15,58 @@ const TblVentas = ({ arrayVentas, ventas, setArrayVentas, arrayGVentas, setArray
         setArrayGVentas([...auxiliarGVentas])
         setVentas(ventas - dato.total)
     }
+
+    const columns = [
+        {
+            title: '#',
+            dataIndex: 'key',
+            key: 'key',
+        }, {
+            title: 'Producto',
+            dataIndex: 'producto',
+            key: 'producto'
+        }, {
+            title: 'Precio venta',
+            dataIndex: 'PrecioVenta',
+            key: 'PrecioVenta'
+        }, {
+            title: 'Cantidad',
+            dataIndex: 'cantidad',
+            key: 'cantidad',
+        }, {
+            title: 'Total',
+            dataIndex: 'total',
+            key: 'total',
+        }, {
+            title: '_',
+            dataIndex: '_',
+            key: '_',
+        }
+
+    ]
+    const crearColumna = (venta, key) => {
+        return {
+            key: key + 1,
+            producto: venta.producto,
+            PrecioVenta: venta.precio,
+            cantidad: venta.cantidad,
+            total: venta.total,
+            _: <MinusSquareOutlined  onClick={() => eliminarProducto(venta)}  />
+        }
+    }
     return (
         <>
             <div className='p-4' >
-                <table className='table table-secondary shadow'>
-                    <thead>
-                        <tr>
-                            <th>
-                                ID Producto
-                            </th>
-                            <th>
-                                Producto
-                            </th>
-                            <th>
-                                Precio venta
-                            </th>
-                            <th>Cantidad</th>
-                            <th>
-                                Total
-                            </th>
-                            <th>
-
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {
-                            arrayVentas.map((venta, key) => {
-
-                                return (
-                                    <tr key={key} className="table-light" >
-                                        <td>
-                                            {venta.id}
-                                        </td>
-                                        <td>
-                                            {venta.producto}
-                                        </td>
-                                        <td>
-                                            {venta.precio}
-                                        </td>
-                                        <td>
-                                            {venta.cantidad} kl
-                                        </td>
-                                        <td>
-                                            {venta.total}
-                                        </td>
-                                        <td>
-                                            <img src="./img/menos-30.png" alt="delete" className='seleccionarComponente' onClick={() => eliminarProducto(venta)} />
-                                        </td>
-
-                                    </tr>
-
-                                )
-                            })
-                        }
-                    </tbody>
-                </table>
-
+                <Table columns={columns} pagination={false} dataSource={arrayVentas ? arrayVentas.map((venta, key) => {
+                    return (
+                        crearColumna(venta, key)
+                    )
+                }) : []} />
                 <div className='row'>
                     <div className='col'>
                         <div className='float-right pt-3 d-flex justify-content-betwen '>
-                            <h4 className='pr-3'>Total a pagar  </h4>
-                            <input type="20" className='form-control' style={{ width: 100 }} disabled={true} value={ventas} />
+                            <h4 className='pr-3'>Total a pagar  $:</h4>
+                            <Input style={{ width: 100 }} disabled={true} value={ventas} />
                         </div>
                     </div>
 
