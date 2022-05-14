@@ -10,7 +10,6 @@ const CrudTableRow = ({ el }) => {
     el;
   return (
     <tr>
-      <td>{id_Producto_Almacen}</td>
       <td>{nombre}</td>
       <td>{categoria}</td>
       <td>{unidad_Medida}</td>

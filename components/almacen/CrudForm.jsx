@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import AlmacenContext from "./ContextAlmacen";
 import { UncontrolledAlert } from "reactstrap";
+import { message, Input, InputNumber, Select, Button, Form } from "antd";
 
 const initialForm = {
   nombreProducto: "",
@@ -15,107 +16,137 @@ const CrudForm = () => {
   const { dataEdit, createData, updateData, setDataEdit, seGuardo, mesaje } =
     useContext(AlmacenContext);
   const [form, setForm] = useState(initialForm);
+  const [formAuxiliar] = Form.useForm();
 
   useEffect(() => {
     if (dataEdit) {
       setForm(dataEdit);
+      formAuxiliar.setFieldsValue({
+        nombreProducto: dataEdit["nombre"],
+      });
+      formAuxiliar.setFieldsValue({
+        categoria: dataEdit["categoria"],
+      });
+      formAuxiliar.setFieldsValue({
+        medida: dataEdit["unidad_Medida"],
+      });
+      formAuxiliar.setFieldsValue({
+        stock: dataEdit["stock"],
+      });
     } else {
       setForm(initialForm);
     }
   }, [dataEdit]);
 
   const handleChange = (e) => {
-    setForm({
-      ...form,
-      [e.target.name]: e.target.value,
-    });
+    setForm({ ...form, ["nombreProducto"]: e.target.value });
+  };
+  const handleChangeMedida = (e) => {
+    setForm({ ...form, ["medida"]: e.target.value });
+  };
+  const handleSelect = (e) => {
+    setForm({ ...form, ["categoria"]: e });
+  };
+  const handleNumber = (e) => {
+    setForm({ ...form, ["stock"]: e });
   };
 
   const handleSubmit = (e) => {
-    e.preventDefault();
     if (form.id === null) {
-      createData(form);
+      if (form.stock >= 1) {
+        createData(form);
+      } else {
+        message.error("Error: El Stock debe ser mayor a 0");
+        return;
+      }
     } else {
-      updateData(form);
+      if (form.stock >= 1) {
+        updateData(form);
+      } else {
+        message.error("Error: El Stock debe ser mayor a 0");
+        return;
+      }
     }
     handleReset();
   };
-
   const handleReset = (e) => {
+    formAuxiliar.resetFields();
     setForm(initialForm);
     setDataEdit(null);
   };
 
   return (
-    <div className="p-3 border bg-light">
-      <h4>{dataEdit ? "Editar Datos del Producto" : "Datos del Producto"}</h4>
-      <form onSubmit={handleSubmit}>
-        <div className="mb-6">
-          <label htmlFor="nombreProducto">Nombre Producto</label>
-          <input
-            className="form-control col-12"
-            type="text"
-            placeholder="Nombre Producto"
-            id="nombreProducto"
-            name="nombreProducto"
+    <div className="p-3  mt-1 border bg-light shadow-sm rounded">
+      <p>{dataEdit ? "Editar Datos del Producto" : "Datos del Producto"}</p>
+      <Form
+        layout={"vertical"}
+        form={formAuxiliar}
+        name="control-hooks"
+        onFinish={handleSubmit}
+      >
+        <Form.Item name="nombreProducto" label="Nombre Producto">
+          <Input
             onChange={handleChange}
-            value={form.nombreProducto}
+            value={form.cantidadAnt}
+            style={{ width: "100%" }}
             required
           />
-        </div>
-        <div className="mb-3">
-          <label htmlFor="categoria">Categoria Producto</label>
-          <select
-            className="form-control col-12"
-            name="categoria"
-            onChange={handleChange}
+        </Form.Item>
+        <Form.Item name="categoria" label="Producto Categoria">
+          <Select
+            onChange={handleSelect}
             value={form.categoria}
+            placeholder="Seleccione..."
+            defaultValue="Insumo"
           >
-            <option value="Insumo">Insumo</option>
-            <option value="Utilitarios">Utilitarios</option>
-            <option value="Refaccion">Refaccion</option>
-          </select>
-        </div>
-        <div className="mb-3">
-          <label htmlFor="medida">Unidad Medida</label>
-          <input
-            id="medida"
-            className="form-control col-12"
-            type="text"
-            placeholder="Unidad Medida"
-            name="medida"
-            onChange={handleChange}
+            <Select.Option value="Insumo">Insumo</Select.Option>
+            <Select.Option value="Utilitarios">Utilitarios</Select.Option>
+            <Select.Option value="Refaccion">Refaccion</Select.Option>
+          </Select>
+        </Form.Item>
+        <Form.Item name="medida" label="Unidad Medida">
+          <Input
+            onChange={handleChangeMedida}
             value={form.medida}
+            style={{ width: "100%" }}
             required
           />
-        </div>
-        <div className="mb-3">
-          <label htmlFor="stock">Stock</label>
-          <input
-            id="stock"
-            className="form-control col-12"
-            type="number"
-            placeholder="Stock"
-            name="stock"
-            onChange={handleChange}
+        </Form.Item>
+        <Form.Item name="stock" label="Stock">
+          <InputNumber
+            onChange={handleNumber}
             value={form.stock}
+            style={{ width: "100%" }}
             required
           />
+        </Form.Item>
+        <div className="form-row pt-4">
+          <div className="col">
+            <Button
+              type="primary"
+              htmlType="submit"
+              className="btn btn-primary float-left"
+            >
+              {dataEdit ? "Actualizar" : "Guardar"}
+            </Button>
+          </div>
+          <div className="col">
+            <Button
+              type="primary"
+              htmlType="reset"
+              onClick={handleReset}
+              className="btn btn-danger float-right"
+              danger
+            >
+              {dataEdit ? "Cancelar" : "Limpiar"}
+            </Button>
+          </div>
         </div>
-        <input
-          type="submit"
-          value="Enviar"
-          className="btn btn-dark mt-2 mr-2"
-        />
-        <input
-          type="reset"
-          value={dataEdit ? "Cancelar" : "Limpiar"}
-          onClick={handleReset}
-          className="btn btn-secondary ms-3 mt-2"
-        />
-      </form>
+      </Form>
       {seGuardo && (
-        <UncontrolledAlert color="success" className="mt-3">{mesaje}</UncontrolledAlert>
+        <UncontrolledAlert color="success" className="mt-3">
+          {mesaje}
+        </UncontrolledAlert>
       )}
     </div>
   );

@@ -16,24 +16,26 @@ const AgreagarProductoAlmacen = () => {
           <CrudForm></CrudForm>
         </div>
         <div className="col-md-8 col-sm-12">
-          <div className="border bg-light">
-            <AlmacenBusqueda />
-          </div>
-          <div className="border bg-light">
-            {loadingProductos && (
-              <div className="row justify-content-center">
-                <div className="col-4">
-                  <div className="loader" />
+          <div className="p-3 mt-0 shadow-sm">
+            <div className="">
+              <AlmacenBusqueda />
+            </div>
+            <div className="">
+              {loadingProductos && (
+                <div className="row justify-content-center">
+                  <div className="col-4">
+                    <div className="loader" />
+                  </div>
                 </div>
-              </div>
-            )}
-            {errorMensaje && (
-              <Message
-                msg={`Error: No se pudieron obtener los registros de la base datos`}
-                bgColor="alert alert-danger"
-              />
-            )}
-            {db && <TableAlmacen />}
+              )}
+              {errorMensaje && (
+                <Message
+                  msg={`Error: No se pudieron obtener los registros de la base datos`}
+                  bgColor="alert alert-danger"
+                />
+              )}
+              {db && <TableAlmacen />}
+            </div>
           </div>
         </div>
         <div>

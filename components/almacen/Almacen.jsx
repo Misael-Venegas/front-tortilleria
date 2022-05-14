@@ -4,11 +4,9 @@ import { AlmacenProvider } from "./ContextAlmacen";
 
 const Almacen = () => {
   return (
-
-      <AlmacenProvider>
-        <AgreagarProductoAlmacen />
-      </AlmacenProvider>
-  
+    <AlmacenProvider>
+      <AgreagarProductoAlmacen />
+    </AlmacenProvider>
   );
 };
 

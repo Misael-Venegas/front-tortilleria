@@ -109,7 +109,6 @@ const AlmacenProvider = ({ children }) => {
     }
   };
   const updateData = async (dataForm) => {
-    //console.log("Actualizar: ", dataForm);
     try {
       await updateAlmacenProducto({
         variables: {
@@ -219,7 +218,7 @@ const AlmacenProvider = ({ children }) => {
     updateData,
     deleteData,
     filtrarDatos,
-    eliminarProductoBD
+    eliminarProductoBD,
   };
   return (
     <AlmacenContext.Provider value={dataContext}>
