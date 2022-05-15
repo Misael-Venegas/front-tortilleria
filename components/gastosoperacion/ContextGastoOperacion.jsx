@@ -1,5 +1,6 @@
 import { gql, useLazyQuery, useMutation } from "@apollo/client";
 import { createContext, useEffect, useState } from "react";
+import jwt_decode from "jwt-decode";
 
 const GastoOperacionContext = createContext();
 
@@ -60,7 +61,16 @@ const OBTENERUSUARIOS = gql`
   }
 `;
 
+const ELIMINARGASTO = gql`
+  mutation deleteGasto($id: Int!) {
+    deleteGasto(id_operacion: $id) {
+      id_operacion
+    }
+  }
+`;
+
 const GastoOperacionProvider = ({ children }) => {
+  const [dataDelete, setDataDelete] = useState(null);
   const [db, setDb] = useState(null);
   const [dataAuxiliar, setDataAuxiliar] = useState(null);
   const [errorMensaje, setErrorMensaje] = useState(null);
@@ -69,18 +79,21 @@ const GastoOperacionProvider = ({ children }) => {
   const [seGuardo, setSeGuardo] = useState(false);
   const [mesaje, setMensaje] = useState("");
   const [listUsuariosOption, setListUsuariosOption] = useState(null);
+  
   const [getAlmacen, { data, loading }] = useLazyQuery(OBTENERPRODUCTOSALMACEN);
   const [
     getGasto,
     { data: gastosData, loading: loadinGastos, error: errorGasto },
   ] = useLazyQuery(OBTENERGASTOS);
-
   const [getUsuarios, { data: dataUser }] = useLazyQuery(OBTENERUSUARIOS);
-
   const [createGasto, { error }] = useMutation(INSERTARGASTO, {
     refetchQueries: (mutationResult) => [{ query: OBTENERGASTOS }],
   });
   const [updateAlmacenStock] = useMutation(ACTUALIZARPRODUCTOSTOCK);
+  const [deleteGasto] = useMutation(ELIMINARGASTO, {
+    refetchQueries: (mutationResult) => [{ query: OBTENERGASTOS }],
+  });
+
 
   const createData = async (dataForm) => {
     const result = await listOption.filter((elemento) => {
@@ -93,8 +106,8 @@ const GastoOperacionProvider = ({ children }) => {
             id_producto: parseInt(dataForm.producto),
             cantidad: parseFloat(dataForm.cantidad),
             precio: parseFloat(dataForm.precio),
-            fecha: dataForm.fecha.replace(/-/g, "/"),//La fecha por defecto retorna un dia antes de la actual, al parsearla se corrige 
-            id_usuario: parseInt(dataForm.id_Usuario),
+            fecha: dataForm.fecha.replace(/-/g, "/"), //La fecha por defecto retorna un dia antes de la actual, al parsearla se corrige
+            id_usuario: parseInt(jwt_decode(localStorage.getItem("token")).id),
           },
         },
       });
@@ -119,9 +132,27 @@ const GastoOperacionProvider = ({ children }) => {
       console.log(error.message);
     }
   };
-
+  const deleteData = async (dataForm) => {
+     try {
+      if (dataForm.id >= 0) {
+        await deleteGasto({
+          variables: {
+            id: parseInt(dataForm.id),
+          },
+        });
+        setSeGuardo(true);
+        setMensaje("Gasto Eliminada Correctamente");
+        setTimeout(() => {
+          setSeGuardo(false);
+        }, 2000);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
   const filtrarDatos = async ({ producto, fecha, usuario, total }) => {
     if (total == "" || total == null) total = 0;
+    if (producto == "") producto = -1;
     const result = await dataAuxiliar.filter((elemento) => {
       return (
         (elemento.id_producto == producto || producto == -1) &&
@@ -132,7 +163,11 @@ const GastoOperacionProvider = ({ children }) => {
         (elemento.id_usuario == usuario || usuario == -1)
       );
     });
-    if (result.length > 0) setDb(result);
+    if (result.length > 0) {
+      setDb(result);
+    } else {
+      setDb(dataAuxiliar);
+    }
   };
 
   /*
@@ -220,8 +255,11 @@ const GastoOperacionProvider = ({ children }) => {
     errorMensaje,
     dataAuxiliar,
     listUsuariosOption,
+    dataDelete,
+    setDataDelete,
     createData,
     filtrarDatos,
+    deleteData,
   };
 
   return (

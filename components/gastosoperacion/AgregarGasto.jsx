@@ -6,20 +6,20 @@ import GastoOperacionContext from "./ContextGastoOperacion";
 import TablaGasto from "./TablaGasto";
 
 const AgregarGasto = () => {
-  const { db, loadingGastosOperacion, errorMensaje, listOption } = useContext(
+  const { db, loadingGastosOperacion, errorMensaje } = useContext(
     GastoOperacionContext
   );
 
   return (
     <div className="row">
       <div className="col-md-4 col-sm-12">
-        {listOption && <AgregarGastoForm></AgregarGastoForm>}
+        <AgregarGastoForm></AgregarGastoForm>
       </div>
       <div className="col-md-8 col-sm-12">
-        <div className="border bg-light">
+        <div className="p-3 mt-0 shadow-sm">
           <BusquedaGasto />
         </div>
-        <div className="border bg-light">
+        <div className="">
           {loadingGastosOperacion && (
             <div className="row justify-content-center">
               <div className="col-4">

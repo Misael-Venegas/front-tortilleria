@@ -93,7 +93,6 @@ const TablaRow = ({ el }) => {
 
   return (
     <tr>
-      <td>{id_operacion}</td>
       <td>{nombreProducto}</td>
       <td>{cantidad}</td>
       <td>{precio}</td>
