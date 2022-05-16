@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import { useLazyQuery, gql } from '@apollo/client'
 import { message, Button, InputNumber, Select } from 'antd'
+import jwt_decode from "jwt-decode";
+
 const GET_PRODUCTOS = gql`
 query  getProductos($key: Float!){
     getProductos(key: $key){
@@ -56,7 +58,7 @@ const PanelVenta = ({ setArrayVentas, arrayVentas, setVentas, ventas, setArrayGV
         }
 
         const datoVenta = {
-            id_usuario: 1,
+            id_usuario: parseInt(jwt_decode(localStorage.getItem("token")).id),
             total: (cantidad * datosOriginales.precioVenta),
             fecha_venta: new Date().toLocaleDateString(),
             hora_venta: new Date().toLocaleTimeString(),
