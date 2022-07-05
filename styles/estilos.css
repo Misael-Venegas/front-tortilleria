@@ -58,3 +58,10 @@
 
 }
 
+.anticon- * {
+    margin-top: -5px;
+}
+
+.anticon svg {
+  margin-top: -3px;
+}
