@@ -1,54 +1,76 @@
 import Layout from "../layout/Layout";
-import { Tabs } from 'antd';
+import { Tabs } from "antd";
 import { useState } from "react";
-import AgregarUsuarios from "../usuarios/AgregarUsuarios";
-import Almacen from "../almacen/Almacen";
-import Productos from "../productos/Productos";
-import Mermas from "../mermas/Mermas";
-import Ventas from "../ventas/Ventas";
-import GastosOperacion from "../gastosoperacion/GastosOperacion";
+import Cargo from "../Vistas/cargo/Cargo";
+import Empleados from "../Vistas/empleados/Empleados";
+
 const Principal = () => {
   const { TabPane } = Tabs;
-  const [getKey, setGetKey] = useState("1")
+  const [getKey, setGetKey] = useState("1");
   function callback(key) {
     console.log(key);
-    setGetKey(key)
+    setGetKey(key);
   }
   return (
-
     <Layout>
       <Tabs defaultActiveKey="1" onChange={callback}>
-        <TabPane tab="Almacen" key="1" />
+        <TabPane tab="Ventas" key="1" />
         <TabPane tab="Productos" key="2" />
-        <TabPane tab="Mermas" key="3" />
-        <TabPane tab="Ventas" key="4" />
+        <TabPane tab="Empleados" key="3" />
+        <TabPane tab="Cargo" key="4" />
         <TabPane tab="Corte de caja" key="5" />
-        <TabPane tab="Gastos de Operación" key="6" />
-        <TabPane tab="Usuarios" key="7" />
+        <TabPane tab="Sucursal" key="6" />
+        <TabPane tab="Merma" key="7" />
+        <TabPane tab="Tipo merma" key="8" />
+        <TabPane tab="Salidas" key="9" />
+        <TabPane tab="Entradas" key="10" />
+        <TabPane tab="Almacen" key="11" />
+        <TabPane tab="Insumos" key="12" />
+        <TabPane tab="Proveedores" key="13" />
+        <TabPane tab="Tipo almacen" key="14" />
       </Tabs>
-
       {
-        getKey === "1" && <Almacen />
+        getKey === "1"
       }
       {
-        getKey === "2" && <Productos />
+        getKey === "2"
       }
       {
-        getKey === "3" && <Mermas />
+        getKey === "3" && <Empleados />
       }
       {
-        getKey === "4" && <Ventas />
+        getKey === "4" && <Cargo />
       }
       {
         getKey === "5"
       }
       {
-        getKey === "6" && <GastosOperacion />
+        getKey === "6"
       }
       {
-        getKey === "7" && <AgregarUsuarios />
+        getKey === "7"
       }
-
+      {
+        getKey === "8"
+      }
+      {
+        getKey === "9"
+      }
+      {
+        getKey === "10"
+      }
+      {
+        getKey === "11"
+      }
+      {
+        getKey === "12"
+      }
+      {
+        getKey === "13"
+      }
+      {
+        getKey === "14"
+      }
 
     </Layout>
   );
