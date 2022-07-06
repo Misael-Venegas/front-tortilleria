@@ -21,7 +21,7 @@ const Login = () => {
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
-      router.push("/almacen");
+      router.push("/menu");
     }
   }, [])
 
