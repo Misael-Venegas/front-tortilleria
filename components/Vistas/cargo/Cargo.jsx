@@ -3,6 +3,8 @@ import { Table, Button, Input, message } from 'antd'
 import { gql, useLazyQuery } from '@apollo/client';
 import ModalAgregarCargo from './ModalAgregarCargo';
 import { DeleteOutlined } from '@ant-design/icons'
+import { AlertElinarCargo } from './AlertElinarCargo'
+
 const GET_ALL_CARGOS = gql`
     query getAllCargos($key: Float!) {
           getAllCargos(key: $key){
@@ -18,7 +20,7 @@ const Cargo = () => {
     const [arrayCargos, setarrayCargos] = useState([])
     const [arrayCargosAuxiliar, setarrayCargosAuxiliar] = useState([])
     const { Search } = Input;
-
+    const { alertEliminarCargo } = AlertElinarCargo();
     const [getCargos, { loading }] = useLazyQuery(GET_ALL_CARGOS, {
         onCompleted: data => {
             if (data) {
@@ -71,7 +73,7 @@ const Cargo = () => {
         return {
             key: key + 1,
             nombre_cargo: cargo.nombre_cargo,
-            opciones: <DeleteOutlined className="seleccionarComponente" />
+            opciones: <span style={{color: 'red'}} > <DeleteOutlined onClick={() => alertEliminarCargo(cargo.id_cargo, setActualizarTabla)} className="seleccionarComponente" /></span>
         }
     }
 
@@ -85,9 +87,11 @@ const Cargo = () => {
                     <Button type='primary' className='float-right' onClick={() => setverModalNuevoCargo(true)} >Agregar cargo</Button>
                 </div>
             </div>
-            <Table className='pt-5' columns={columns} dataSource={arrayCargos.length > 0 ? arrayCargos.map((cargo, key) => {
-                return crearFila(cargo, key)
-            }) : []} />
+            <div className='table-responsive' >
+                <Table className='pt-5' columns={columns} dataSource={arrayCargos.length > 0 ? arrayCargos.map((cargo, key) => {
+                    return crearFila(cargo, key)
+                }) : []} />
+            </div>
             <ModalAgregarCargo setVerModal={setverModalNuevoCargo} verModal={verModalNuevoCargo} setActualizarTabla={setActualizarTabla} />
         </>
     )
