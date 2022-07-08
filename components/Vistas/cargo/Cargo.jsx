@@ -38,7 +38,14 @@ const Cargo = () => {
         }
     })
     const buscar = (e) => {
-        console.log(e)
+        if (e === "") {
+            setarrayCargos(arrayCargosAuxiliar)
+            return
+        }
+        const auxiliar = arrayCargosAuxiliar.filter((cargo) => {
+            return cargo.nombre_cargo.toLowerCase().includes(e.toLowerCase())
+        })
+        setarrayCargos(auxiliar)
     }
 
     useEffect(() => {
@@ -73,7 +80,7 @@ const Cargo = () => {
         return {
             key: key + 1,
             nombre_cargo: cargo.nombre_cargo,
-            opciones: <span style={{color: 'red'}} > <DeleteOutlined onClick={() => alertEliminarCargo(cargo.id_cargo, setActualizarTabla)} className="seleccionarComponente" /></span>
+            opciones: <span style={{ color: 'red' }} > <DeleteOutlined onClick={() => alertEliminarCargo(cargo.id_cargo, setActualizarTabla)} className="seleccionarComponente" /></span>
         }
     }
 
@@ -81,7 +88,7 @@ const Cargo = () => {
         <>
             <div className='row' >
                 <div className='col-md-6 col-sm-12' >
-                    <Search style={{ width: "60%" }} placeholder="Ingresa el cargo" enterButton onSearch={buscar} />
+                    <Search style={{ width: "60%" }} placeholder="Ingresa el cargo" enterButton onSearch={buscar} allowClear />
                 </div>
                 <div className='col-md-6 col-sm-12' >
                     <Button type='primary' className='float-right' onClick={() => setverModalNuevoCargo(true)} >Agregar cargo</Button>
