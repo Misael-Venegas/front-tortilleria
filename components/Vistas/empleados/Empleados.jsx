@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Input, Button, Table } from 'antd'
+import { Input, Button } from 'antd'
 import TablaEpleados from './TablaEpleados';
 import ModalAgregarEmpleado from './ModalAgregarEmpleado';
 const Empleados = () => {
@@ -8,6 +8,7 @@ const Empleados = () => {
     const buscarEmpleado = (e) => {
         console.log(e)
     }
+    const [actualizarTabla, setActualizarTabla] = useState(3.1416)
     return (
         <>
             <div className='row' >
@@ -18,8 +19,8 @@ const Empleados = () => {
                     <Button className='float-right' type='primary' onClick={() => setOpenModalNuevoEmpleado(true)} >Agregar empleado</Button>
                 </div>
             </div>
-            <TablaEpleados />
-            <ModalAgregarEmpleado modalNuevoEmpleado={modalNuevoEmpleado} setOpenModalNuevoEmpleado={setOpenModalNuevoEmpleado} />
+            <TablaEpleados actualizarTabla={actualizarTabla} />
+            <ModalAgregarEmpleado modalNuevoEmpleado={modalNuevoEmpleado} setOpenModalNuevoEmpleado={setOpenModalNuevoEmpleado} setActualizarTabla={setActualizarTabla} />
         </>
     )
 }

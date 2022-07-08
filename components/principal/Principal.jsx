@@ -8,7 +8,6 @@ const Principal = () => {
   const { TabPane } = Tabs;
   const [getKey, setGetKey] = useState("1");
   function callback(key) {
-    console.log(key);
     setGetKey(key);
   }
   return (

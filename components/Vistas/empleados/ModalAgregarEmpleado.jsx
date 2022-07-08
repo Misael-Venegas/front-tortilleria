@@ -1,9 +1,72 @@
-import React from 'react'
-import { Modal, Form, Button, Input } from 'antd'
-const ModalAgregarEmpleado = ({ setOpenModalNuevoEmpleado, modalNuevoEmpleado }) => {
-    const guardarEMpleado = (event) => {
-        console.log(event)
+import React, { useState, useEffect } from 'react'
+import { Modal, Form, Button, Input, Select, message } from 'antd'
+import { gql, useLazyQuery, useMutation } from '@apollo/client';
+
+const GET_ALL_CARGOS = gql`
+    query getAllCargos($key: Float!) {
+          getAllCargos(key: $key){
+            id_cargo
+            nombre_cargo
+          }
     }
+`
+
+const CREATE_USUARIO = gql`
+      mutation createusuario($input: usuarioInput!, $key: Float!){
+        createusuario(input: $input, key: $key)
+      }
+`
+
+const ModalAgregarEmpleado = ({ setOpenModalNuevoEmpleado, modalNuevoEmpleado, setActualizarTabla }) => {
+
+    const { Option } = Select;
+    const [arrayCargos, setarrayCargos] = useState([])
+    const [obtenerCargos, { loading }] = useLazyQuery(GET_ALL_CARGOS, {
+        onCompleted: (data) => {
+            data ? (data.getAllCargos ? setarrayCargos(data.getAllCargos) : setarrayCargos([])) : setarrayCargos([])
+        }
+    })
+
+    const [crearUsuario, { loading: loadingCrearUsuario }] = useMutation(CREATE_USUARIO)
+
+    const guardarEMpleado = async (event) => {
+        if (event.verificarEmail !== event.email) {
+            message.error("los campos emai y verificar email no coinsiden")
+            return
+        }
+        try {
+            await crearUsuario({
+                variables: {
+                    input: {
+                        nombre: event.nombres,
+                        apellidoP: event.paterno,
+                        apellidoM: event.materno,
+                        telefono: event.telefono,
+                        email: event.email,
+                        password: event.contrasenhia,
+                        cargo: event.cargo,
+                        direccion: event.direccion
+                    },
+                    key: Math.random()
+                }
+            })
+            message.success("Se registró un nuevo usuario")
+            setActualizarTabla(Math.random())
+            setOpenModalNuevoEmpleado(false)
+        } catch (error) {
+            message.error(error.message)
+        }
+    }
+
+    useEffect(() => {
+        obtenerCargos({
+            variables: {
+                key: Math.random()
+            }
+        })
+    }, [])
+
+
     return (
         <Modal
             destroyOnClose={true}
@@ -136,7 +199,15 @@ const ModalAgregarEmpleado = ({ setOpenModalNuevoEmpleado, modalNuevoEmpleado })
                                 }
                             ]}
                         >
-                            <Input />
+                            <Select style={{ width: "100%" }} loading={loading} >
+                                {
+                                    arrayCargos.map((cargo, key) => {
+                                        return <Option key={key} value={cargo.id_cargo}  >
+                                            {cargo.nombre_cargo}
+                                        </Option>
+                                    })
+                                }
+                            </Select>
                         </Form.Item>
                     </div>
                 </div>
