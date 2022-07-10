@@ -3,6 +3,13 @@ import { Tabs } from "antd";
 import { useState } from "react";
 import Cargo from "../Vistas/cargo/Cargo";
 import Empleados from "../Vistas/empleados/Empleados";
+import Proveedor from "../Vistas/proveedor/Proveedor";
+import Merma from "../Vistas/merma/Merma";
+import TipoAlmacen from "../Vistas/tipoalmacen/TipoAlmacen";
+import Insumos from "../Vistas/insumos/Insumos";
+import Almacen from "../Vistas/almacen/Almacen";
+import TipoMerma from "../Vistas/tipomerma/TipoMerma";
+import EntradasAlmacen from "../Vistas/entradasalmacen/EntradasAlmacen";
 
 const Principal = () => {
   const { TabPane } = Tabs;
@@ -48,30 +55,29 @@ const Principal = () => {
         getKey === "6"
       }
       {
-        getKey === "7"
+        getKey === "7" && <Merma/>
       }
       {
-        getKey === "8"
+        getKey === "8" && <TipoMerma/>
       }
       {
         getKey === "9"
       }
       {
-        getKey === "10"
+        getKey === "10" && <EntradasAlmacen/>
       }
       {
-        getKey === "11"
+        getKey === "11" && <Almacen/>
       }
       {
-        getKey === "12"
+        getKey === "12" && <Insumos/>
       }
       {
-        getKey === "13"
+        getKey === "13" && <Proveedor/>
       }
       {
-        getKey === "14"
+        getKey === "14" && <TipoAlmacen/>
       }
-
     </Layout>
   );
 };
