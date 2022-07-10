@@ -34,6 +34,7 @@ const ModalAgregarEmpleado = ({ setOpenModalNuevoEmpleado, modalNuevoEmpleado, s
             message.error("los campos emai y verificar email no coinsiden")
             return
         }
+        console.log(event)
         try {
             await crearUsuario({
                 variables: {
@@ -44,7 +45,7 @@ const ModalAgregarEmpleado = ({ setOpenModalNuevoEmpleado, modalNuevoEmpleado, s
                         telefono: event.telefono,
                         email: event.email,
                         password: event.contrasenhia,
-                        cargo: event.cargo,
+                        id_cargo: parseInt(event.cargo),
                         direccion: event.direccion
                     },
                     key: Math.random()
@@ -139,7 +140,7 @@ const ModalAgregarEmpleado = ({ setOpenModalNuevoEmpleado, modalNuevoEmpleado, s
                                 }
                             ]}
                         >
-                            <Input />
+                            <Input maxLength={10} minLength={10} />
                         </Form.Item>
                     </div>
                 </div>
@@ -155,7 +156,7 @@ const ModalAgregarEmpleado = ({ setOpenModalNuevoEmpleado, modalNuevoEmpleado, s
                                 }
                             ]}
                         >
-                            <Input />
+                            <Input type="email" />
                         </Form.Item>
                     </div>
                     <div className='col-md-6 col-sm-12' >
@@ -169,7 +170,7 @@ const ModalAgregarEmpleado = ({ setOpenModalNuevoEmpleado, modalNuevoEmpleado, s
                                 }
                             ]}
                         >
-                            <Input />
+                            <Input type="email" />
                         </Form.Item>
                     </div>
                 </div>

@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { message, Table } from 'antd'
 import { useLazyQuery, gql } from '@apollo/client'
+import { DeleteOutlined, EditOutlined } from '@ant-design/icons'
+import { AlertEliminarEmpleado } from './AlertEliminarEmpleado'
+import ModalEditarEmpleado from './ModalEditarEmpleado'
 
 const GET_USUARIOS = gql`
       query getUsuarios{
@@ -14,12 +17,16 @@ const GET_USUARIOS = gql`
                 password
                 id_cargo
                 direccion
+                nombre_cargo
            }
       }
 `
 
-const TablaEpleados = ({ actualizarTabla }) => {
-    const [arrayEmpleado, setarrayEmpleado] = useState([])
+const TablaEpleados = ({ actualizarTabla, setActualizarTabla }) => {
+    const { alertEliminarEmpleado } = AlertEliminarEmpleado();
+    const [arrayEmpleado, setarrayEmpleado] = useState([]);
+    const [editarEmpleado, seteditarEmpleado] = useState(false)
+    const [empleado, setEmpleado] = useState(null)
     const [obtenerUsuarios, { loading }] = useLazyQuery(GET_USUARIOS, {
         onCompleted: (data) => {
             console.log(data)
@@ -27,7 +34,6 @@ const TablaEpleados = ({ actualizarTabla }) => {
         }
     })
     useEffect(() => {
-
         try {
 
             obtenerUsuarios()
@@ -36,6 +42,7 @@ const TablaEpleados = ({ actualizarTabla }) => {
         }
 
     }, [actualizarTabla])
+
 
     const columns = [
         {
@@ -75,9 +82,15 @@ const TablaEpleados = ({ actualizarTabla }) => {
             nombre: usuario.nombre + " " + usuario.apellidoP + " " + usuario.apellidoM,
             telefono: usuario.telefono,
             email: usuario.email,
-            cargo:usuario.id_cargo,
+            cargo: usuario.nombre_cargo,
             direccion: usuario.direccion,
-            
+            opciones: <span>
+                <span className='seleccionarComponente' style={{ color: "red" }} ><DeleteOutlined onClick={() => alertEliminarEmpleado(usuario.id_empleado, setActualizarTabla)} /></span> &nbsp;
+                <span className='seleccionarComponente' style={{ color: "#40A9FF" }} onClick={() => {
+                    setEmpleado(usuario)
+                    seteditarEmpleado(true)
+                }} > <EditOutlined /> </span>
+            </span>
         }
     }
 
@@ -86,6 +99,8 @@ const TablaEpleados = ({ actualizarTabla }) => {
             <Table columns={columns} loading={loading} dataSource={arrayEmpleado.length > 0 ? arrayEmpleado.map((empleado, key) => {
                 return crearFila(empleado, key)
             }) : []} />
+
+            <ModalEditarEmpleado modalEditarEmpleado={editarEmpleado} setModalEditarEmpleado={seteditarEmpleado} datosEmpleado={empleado} setActualizarTabla={setActualizarTabla} />
         </div>
     )
 }

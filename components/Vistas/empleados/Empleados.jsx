@@ -19,7 +19,7 @@ const Empleados = () => {
                     <Button className='float-right' type='primary' onClick={() => setOpenModalNuevoEmpleado(true)} >Agregar empleado</Button>
                 </div>
             </div>
-            <TablaEpleados actualizarTabla={actualizarTabla} />
+            <TablaEpleados actualizarTabla={actualizarTabla} setActualizarTabla={setActualizarTabla} />
             <ModalAgregarEmpleado modalNuevoEmpleado={modalNuevoEmpleado} setOpenModalNuevoEmpleado={setOpenModalNuevoEmpleado} setActualizarTabla={setActualizarTabla} />
         </>
     )
