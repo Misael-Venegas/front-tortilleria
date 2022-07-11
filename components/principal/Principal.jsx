@@ -10,6 +10,7 @@ import Insumos from "../Vistas/insumos/Insumos";
 import Almacen from "../Vistas/almacen/Almacen";
 import TipoMerma from "../Vistas/tipomerma/TipoMerma";
 import EntradasAlmacen from "../Vistas/entradasalmacen/EntradasAlmacen";
+import Productos from "../Vistas/productos/Productos";
 
 const Principal = () => {
   const { TabPane } = Tabs;
@@ -19,27 +20,29 @@ const Principal = () => {
   }
   return (
     <Layout>
-      <Tabs defaultActiveKey="1" onChange={callback}>
-        <TabPane tab="Ventas" key="1" />
-        <TabPane tab="Productos" key="2" />
-        <TabPane tab="Empleados" key="3" />
-        <TabPane tab="Cargo" key="4" />
-        <TabPane tab="Corte de caja" key="5" />
-        <TabPane tab="Sucursal" key="6" />
-        <TabPane tab="Merma" key="7" />
-        <TabPane tab="Tipo merma" key="8" />
-        <TabPane tab="Salidas" key="9" />
-        <TabPane tab="Entradas" key="10" />
-        <TabPane tab="Almacen" key="11" />
-        <TabPane tab="Insumos" key="12" />
-        <TabPane tab="Proveedores" key="13" />
-        <TabPane tab="Tipo almacen" key="14" />
-      </Tabs>
+      <div className="table-responsive" >
+        <Tabs defaultActiveKey="1" onChange={callback}>
+          <TabPane tab="Ventas" key="1" />
+          <TabPane tab="Productos" key="2" />
+          <TabPane tab="Empleados" key="3" />
+          <TabPane tab="Cargo" key="4" />
+          <TabPane tab="Corte de caja" key="5" />
+          <TabPane tab="Sucursal" key="6" />
+          <TabPane tab="Merma" key="7" />
+          <TabPane tab="Tipo merma" key="8" />
+          <TabPane tab="Salidas" key="9" />
+          <TabPane tab="Entradas" key="10" />
+          <TabPane tab="Almacen" key="11" />
+          <TabPane tab="Insumos" key="12" />
+          <TabPane tab="Proveedores" key="13" />
+          <TabPane tab="Tipo almacen" key="14" />
+        </Tabs>
+      </div>
       {
         getKey === "1"
       }
       {
-        getKey === "2"
+        getKey === "2" && <Productos />
       }
       {
         getKey === "3" && <Empleados />
@@ -54,28 +57,28 @@ const Principal = () => {
         getKey === "6"
       }
       {
-        getKey === "7" && <Merma/>
+        getKey === "7" && <Merma />
       }
       {
-        getKey === "8" && <TipoMerma/>
+        getKey === "8" && <TipoMerma />
       }
       {
         getKey === "9"
       }
       {
-        getKey === "10" && <EntradasAlmacen/>
+        getKey === "10" && <EntradasAlmacen />
       }
       {
-        getKey === "11" && <Almacen/>
+        getKey === "11" && <Almacen />
       }
       {
-        getKey === "12" && <Insumos/>
+        getKey === "12" && <Insumos />
       }
       {
-        getKey === "13" && <Proveedor/>
+        getKey === "13" && <Proveedor />
       }
       {
-        getKey === "14" && <TipoAlmacen/>
+        getKey === "14" && <TipoAlmacen />
       }
     </Layout>
   );
