@@ -2,13 +2,31 @@ import React, { useState } from 'react'
 import { gql, useMutation } from '@apollo/client'
 import { Modal, Input, message, Spin, Form } from 'antd'
 
+const CREATE_PROVEEDOR = gql`
+     mutation createProveedor($input: proveedorInput!){
+        createProveedor(input: $input)
+     }
+    `
+
 const ModalAgregarProveedor = ({ setVerModal, verModal }) => {
     const [nombre, setNombre] = useState("");
     const [email, setEmail] = useState("");
     const [telefono, setTelefono] = useState("");
+    const [crear_proveedor, { loading }] = useMutation(CREATE_PROVEEDOR)
+
+
 
     const guardarProveedor = async () => {
         try {
+            await crear_proveedor({
+                variables: {
+                    input: {
+                        nombre: nombre,
+                        correo: email,
+                        telefono: telefono,
+                    }
+                }
+            })
             message.success("Registro exitoso")
             limpiarCampos();
             setVerModal(false)
