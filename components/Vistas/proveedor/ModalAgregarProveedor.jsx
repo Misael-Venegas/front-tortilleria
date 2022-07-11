@@ -17,6 +17,7 @@ const ModalAgregarProveedor = ({ setVerModal, verModal }) => {
 
 
     const guardarProveedor = async () => {
+        console.log(nombre, email, telefono)
         try {
             await crear_proveedor({
                 variables: {
@@ -59,10 +60,10 @@ const ModalAgregarProveedor = ({ setVerModal, verModal }) => {
                     <Input value={nombre} onChange={(e) => setNombre(e.target.value)} />
                 </Form.Item>
                 <Form.Item label="E-mail">
-                    <Input value={email} onChange={(e) => setEmail(e.target.value)} />
+                    <Input value={email} onChange={(e) => setEmail(e.target.value)} type='email' />
                 </Form.Item>
                 <Form.Item label="Teléfono">
-                    <Input value={telefono} onChange={(e) => setTelefono(e.target.value)} />
+                    <Input value={telefono} onChange={(e) => setTelefono(e.target.value)} maxLength={10} minLength={10} />
                 </Form.Item>
             </Form>
         </Modal>
