@@ -1,8 +1,10 @@
 import { Table } from "antd"
 import { DeleteOutlined } from "@ant-design/icons"
-import {AlertEliminarProducto} from './AlertEliminarProducto'
+import { AlertEliminarProducto } from './AlertEliminarProducto'
+
 const TablProductos = ({ arrayProductos, setactuaizarTabla }) => {
     const { alertEliminarProducto } = AlertEliminarProducto()
+    
     const columns = [
         {
             title: "#",
@@ -23,7 +25,7 @@ const TablProductos = ({ arrayProductos, setactuaizarTabla }) => {
         return {
             key: key,
             producto: producto.nombre,
-            opciones: <span style={{ color: 'red' }} className='seleccionarComponente' ><DeleteOutlined onClick={()=>alertEliminarProducto(producto.id_producto, setactuaizarTabla)} /></span>
+            opciones: <span style={{ color: 'red' }} className='seleccionarComponente' ><DeleteOutlined onClick={() => alertEliminarProducto(producto.id_producto, setactuaizarTabla)} /></span>
         }
     }
     return (

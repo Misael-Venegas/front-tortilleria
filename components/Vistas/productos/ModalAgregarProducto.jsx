@@ -37,7 +37,7 @@ const ModalAgregarProducto = ({ verModalAgregarProductos, setVerModalAgregarProd
             maskClosable={false}
             keyboard={false}
             title="Nuevo producto"
-            destroyOnClose={false}
+            destroyOnClose={true}
         >
             <Form
                 layout='vertical'

@@ -14,9 +14,9 @@ export const AlertEliminarEmpleado = () => {
     const [eliminar_usuario] = useMutation(DELETE_USER)
     const { confirm } = Modal
 
-    const eliminarEmpleado = (id_empleado, setActualizarTabla) => {
+    const eliminarEmpleado = async (id_empleado, setActualizarTabla) => {
         try {
-            eliminar_usuario({
+            await eliminar_usuario({
                 variables: {
                     id_empleado
                 }

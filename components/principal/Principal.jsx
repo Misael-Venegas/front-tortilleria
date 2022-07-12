@@ -11,6 +11,7 @@ import Almacen from "../Vistas/almacen/Almacen";
 import TipoMerma from "../Vistas/tipomerma/TipoMerma";
 import EntradasAlmacen from "../Vistas/entradasalmacen/EntradasAlmacen";
 import Productos from "../Vistas/productos/Productos";
+import Sucursal from "../Vistas/sucursal/Sucursal";
 
 const Principal = () => {
   const { TabPane } = Tabs;
@@ -54,7 +55,7 @@ const Principal = () => {
         getKey === "5"
       }
       {
-        getKey === "6"
+        getKey === "6" && <Sucursal />
       }
       {
         getKey === "7" && <Merma />

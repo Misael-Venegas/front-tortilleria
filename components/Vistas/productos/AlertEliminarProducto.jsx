@@ -38,6 +38,5 @@ export const AlertEliminarProducto = () => {
             },
         })
     }
-
     return { alertEliminarProducto }
 }
