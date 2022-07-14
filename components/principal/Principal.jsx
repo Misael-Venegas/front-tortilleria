@@ -10,6 +10,8 @@ import Insumos from "../Vistas/insumos/Insumos";
 import Almacen from "../Vistas/almacen/Almacen";
 import TipoMerma from "../Vistas/tipomerma/TipoMerma";
 import EntradasAlmacen from "../Vistas/entradasalmacen/EntradasAlmacen";
+import Productos from "../Vistas/productos/Productos";
+import Sucursal from "../Vistas/sucursal/Sucursal";
 
 const Principal = () => {
   const { TabPane } = Tabs;
@@ -39,7 +41,7 @@ const Principal = () => {
         getKey === "1"
       }
       {
-        getKey === "2"
+        getKey === "2" && <Productos />
       }
       {
         getKey === "3" && <Empleados />
@@ -51,31 +53,31 @@ const Principal = () => {
         getKey === "5"
       }
       {
-        getKey === "6"
+        getKey === "6" && <Sucursal />
       }
       {
-        getKey === "7" && <Merma/>
+        getKey === "7" && <Merma />
       }
       {
-        getKey === "8" && <TipoMerma/>
+        getKey === "8" && <TipoMerma />
       }
       {
         getKey === "9"
       }
       {
-        getKey === "10" && <EntradasAlmacen/>
+        getKey === "10" && <EntradasAlmacen />
       }
       {
-        getKey === "11" && <Almacen/>
+        getKey === "11" && <Almacen />
       }
       {
-        getKey === "12" && <Insumos/>
+        getKey === "12" && <Insumos />
       }
       {
-        getKey === "13" && <Proveedor/>
+        getKey === "13" && <Proveedor />
       }
       {
-        getKey === "14" && <TipoAlmacen/>
+        getKey === "14" && <TipoAlmacen />
       }
     </Layout>
   );

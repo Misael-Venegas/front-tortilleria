@@ -3,22 +3,20 @@ import { Modal, message } from 'antd'
 import { ExclamationCircleOutlined } from '@ant-design/icons'
 import { useMutation, gql } from '@apollo/client'
 
-const DELETE_USER = gql`
-  mutation eliminarUsuario($id_empleado: Int!){
-           eliminarUsuario(id_empleado: $id_empleado)
+const DELETE_PRODUCT = gql`
+  mutation eliminarProducto($id_producto: Int!){
+           eliminarProducto(id_producto: $id_producto)
   }
 `
-
-export const AlertEliminarEmpleado = () => {
-
-    const [eliminar_usuario] = useMutation(DELETE_USER)
+export const AlertEliminarProducto = () => {
     const { confirm } = Modal
+    const [eliminar_producto] = useMutation(DELETE_PRODUCT)
 
-    const eliminarEmpleado = async (id_empleado, setActualizarTabla) => {
+    const eliminarProducto = (id_producto, setActualizarTabla) => {
         try {
-            await eliminar_usuario({
+            eliminar_producto({
                 variables: {
-                    id_empleado
+                    id_producto
                 }
             })
             setActualizarTabla(Math.random())
@@ -27,7 +25,7 @@ export const AlertEliminarEmpleado = () => {
             message.error(error.message)
         }
     }
-    const alertEliminarEmpleado = (id_empleado, setActualizarTabla) => {
+    const alertEliminarProducto = (id_producto, setActualizarTabla) => {
         confirm({
             title: "Estas seguro que deseas completar esta tarea",
             icon: <ExclamationCircleOutlined />,
@@ -36,10 +34,9 @@ export const AlertEliminarEmpleado = () => {
             okType: "danger",
 
             onOk() {
-                eliminarEmpleado(id_empleado, setActualizarTabla)
+                eliminarProducto(id_producto, setActualizarTabla)
             },
         })
     }
-
-    return { alertEliminarEmpleado }
+    return { alertEliminarProducto }
 }
