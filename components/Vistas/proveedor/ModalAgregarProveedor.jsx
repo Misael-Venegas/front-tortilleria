@@ -1,73 +1,98 @@
-import React, { useState } from 'react'
-import { gql, useMutation } from '@apollo/client'
-import { Modal, Input, message, Spin, Form } from 'antd'
+import React, { useState } from "react";
+import { gql, useMutation } from "@apollo/client";
+import { Modal, Input, message, Form, Button } from "antd";
 
 const CREATE_PROVEEDOR = gql`
-     mutation createProveedor($input: proveedorInput!){
-        createProveedor(input: $input)
-     }
-    `
+  mutation createProveedor($input: proveedorInput!) {
+    createProveedor(input: $input)
+  }
+`;
 
-const ModalAgregarProveedor = ({ setVerModal, verModal }) => {
-    const [nombre, setNombre] = useState("");
-    const [email, setEmail] = useState("");
-    const [telefono, setTelefono] = useState("");
-    const [crear_proveedor, { loading }] = useMutation(CREATE_PROVEEDOR)
+const ModalAgregarProveedor = ({ setVerModal, verModal, sqlGetProveedores }) => {
 
+    const [formularioProveedor] = Form.useForm();
+    const [crear_proveedor, { loading }] = useMutation(CREATE_PROVEEDOR, {
+        refetchQueries: [
+          {query: sqlGetProveedores},
+        ],
+      });
 
-
-    const guardarProveedor = async () => {
-        console.log(nombre, email, telefono)
+    const guardarProveedor = async (form) => {
         try {
             await crear_proveedor({
                 variables: {
                     input: {
-                        nombre: nombre,
-                        correo: email,
-                        telefono: telefono,
-                    }
-                }
-            })
-            message.success("Registro exitoso")
-            limpiarCampos();
-            setVerModal(false)
+                        nombre: form.nombre,
+                        correo: form.email,
+                        telefono: form.telefono,
+                    },
+                },
+            });
+            setVerModal(false);
+            formularioProveedor.resetFields();
+            message.success("Registro exitoso");
         } catch (error) {
-            message.error(error.message)
+            message.error(error.message);
         }
-    }
+    };
 
-    const limpiarCampos = () => {
-        setNombre("");
-        setEmail("");
-        setTelefono("");
-    }
+
     return (
         <Modal
             destroyOnClose={true}
             visible={verModal}
             title="Nuevo Proveedor"
-            onCancel={() => { limpiarCampos(); setVerModal(false) }}
-            cancelText="Cancelar"
-            okText="Guardar"
-            onOk={guardarProveedor}
+            onCancel={() => setVerModal(false)}
             keyboard={false}
             maskClosable={false}
+            footer={false}
         >
-            <Form
-                layout='vertical'
-            >
-                <Form.Item label="Nombre">
-                    <Input value={nombre} onChange={(e) => setNombre(e.target.value)} />
+            <Form form={formularioProveedor} layout="vertical" onFinish={guardarProveedor}>
+                <Form.Item
+                    label="Nombre"
+                    name="nombre"
+                    rules={[
+                        {
+                            required: true,
+                            message: "Este campo es requerido",
+                        },
+                    ]}
+                >
+                    <Input />
                 </Form.Item>
-                <Form.Item label="E-mail">
-                    <Input value={email} onChange={(e) => setEmail(e.target.value)} type='email' />
+                <Form.Item
+                    label="E-mail"
+                    name="email"
+                    rules={[
+                        {
+                            required: true,
+                            message: "Este campo es requerido",
+                        },
+                    ]}
+                >
+                    <Input type="email" />
                 </Form.Item>
-                <Form.Item label="Teléfono">
-                    <Input value={telefono} onChange={(e) => setTelefono(e.target.value)} maxLength={10} minLength={10} />
+                <Form.Item
+                    label="Teléfono"
+                    name="telefono"
+                    rules={[
+                        {
+                            required: true,
+                            message: "Este campo es requerido",
+                        },
+                    ]}
+                >
+                    <Input maxLength={10} minLength={10} />
                 </Form.Item>
+                <div className='row' >
+                    <div className='col-12' >
+                        <Button type='primary' htmlType='submit' className='float-right' >Guardar</Button>
+                        <Button className='float-right mr-2' onClick={() => setVerModal(false)} >Cancelar</Button>
+                    </div>
+                </div>
             </Form>
         </Modal>
-    )
-}
+    );
+};
 
-export default ModalAgregarProveedor
+export default ModalAgregarProveedor;

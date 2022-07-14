@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react'
+import { gql, useMutation, useLazyQuery } from '@apollo/client'
 import { Button, Input } from 'antd'
 import TablaAlmacen from './TablaAlmacen'
 import ModalAgregar from './ModalAgregar'
 
 const Formulario = () => {
-    const [verModal, setVerModal] = useState(false)
-
+    const [verModal, setVerModal] = useState(false);
+    
     const buscar = (e) => {
 
     }

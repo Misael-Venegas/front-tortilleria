@@ -21,6 +21,7 @@ const Principal = () => {
     <Layout>
       <Tabs defaultActiveKey="1" onChange={callback}>
         <TabPane tab="Ventas" key="1" />
+        <TabPane tab="Proveedores" key="13" />
         <TabPane tab="Productos" key="2" />
         <TabPane tab="Empleados" key="3" />
         <TabPane tab="Cargo" key="4" />
@@ -32,7 +33,6 @@ const Principal = () => {
         <TabPane tab="Entradas" key="10" />
         <TabPane tab="Almacen" key="11" />
         <TabPane tab="Insumos" key="12" />
-        <TabPane tab="Proveedores" key="13" />
         <TabPane tab="Tipo almacen" key="14" />
       </Tabs>
       {
