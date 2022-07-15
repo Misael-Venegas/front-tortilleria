@@ -22,24 +22,22 @@ const Principal = () => {
   }
   return (
     <Layout>
-      <div className="table-responsive" >
-        <Tabs defaultActiveKey="1" onChange={callback}>
-          <TabPane tab="Ventas" key="1" />
-          <TabPane tab="Productos" key="2" />
-          <TabPane tab="Empleados" key="3" />
-          <TabPane tab="Cargo" key="4" />
-          <TabPane tab="Corte de caja" key="5" />
-          <TabPane tab="Sucursal" key="6" />
-          <TabPane tab="Merma" key="7" />
-          <TabPane tab="Tipo merma" key="8" />
-          <TabPane tab="Salidas" key="9" />
-          <TabPane tab="Entradas" key="10" />
-          <TabPane tab="Almacen" key="11" />
-          <TabPane tab="Insumos" key="12" />
-          <TabPane tab="Proveedores" key="13" />
-          <TabPane tab="Tipo almacen" key="14" />
-        </Tabs>
-      </div>
+      <Tabs defaultActiveKey="1" onChange={callback}>
+        <TabPane tab="Ventas" key="1" />
+        <TabPane tab="Proveedores" key="13" />
+        <TabPane tab="Productos" key="2" />
+        <TabPane tab="Empleados" key="3" />
+        <TabPane tab="Cargo" key="4" />
+        <TabPane tab="Corte de caja" key="5" />
+        <TabPane tab="Sucursal" key="6" />
+        <TabPane tab="Merma" key="7" />
+        <TabPane tab="Tipo merma" key="8" />
+        <TabPane tab="Salidas" key="9" />
+        <TabPane tab="Entradas" key="10" />
+        <TabPane tab="Almacen" key="11" />
+        <TabPane tab="Insumos" key="12" />
+        <TabPane tab="Tipo almacen" key="14" />
+      </Tabs>
       {
         getKey === "1" && <Ventas />
       }

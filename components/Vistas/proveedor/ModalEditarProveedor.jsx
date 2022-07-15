@@ -1,34 +1,35 @@
-import React, { useState } from "react";
+import React, {useEffect } from "react";
 import { gql, useMutation } from "@apollo/client";
 import { Modal, Input, message, Form, Button } from "antd";
 
-const CREATE_PROVEEDOR = gql`
-  mutation createProveedor($input: proveedorInput!) {
-    createProveedor(input: $input)
+const UPDATE_PROVEEDOR = gql`
+  mutation updateProveedor($input: proveedorUpdate!) {
+    updateProveedor(input: $input)
   }
 `;
 
-const ModalAgregarProveedor = ({ setVerModal, verModal, sqlGetProveedores }) => {
+const ModalEditarProveedor = ({ data, sqlGetProveedores, verModalEditar, setVerModalEditar }) => {
 
     const [formularioProveedor] = Form.useForm();
-    const [crear_proveedor, { loading }] = useMutation(CREATE_PROVEEDOR, {
+    const [editar_proveedor, { loading }] = useMutation(UPDATE_PROVEEDOR, {
         refetchQueries: [
-          {query: sqlGetProveedores},
+            { query: sqlGetProveedores },
         ],
-      });
+    });
 
-    const guardarProveedor = async (form) => {
+    const actualizarProveedor = async (form) => {
         try {
-            await crear_proveedor({
+            await editar_proveedor({
                 variables: {
                     input: {
+                        id_proveedor: data.id_proveedor,
                         nombre: form.nombre,
                         correo: form.email,
                         telefono: form.telefono,
                     },
                 },
             });
-            setVerModal(false);
+            setVerModalEditar(false);
             formularioProveedor.resetFields();
             message.success("Registro exitoso");
         } catch (error) {
@@ -36,18 +37,27 @@ const ModalAgregarProveedor = ({ setVerModal, verModal, sqlGetProveedores }) => 
         }
     };
 
+    useEffect(() => {
+        if (data) {
+            formularioProveedor.setFieldsValue({
+                nombre: data.nombre,
+                email: data.correo,
+                telefono: data.telefono,
+            })
+        }
+    }, [data])
 
     return (
         <Modal
             destroyOnClose={true}
-            visible={verModal}
+            visible={verModalEditar}
             title="Nuevo Proveedor"
-            onCancel={() => setVerModal(false)}
+            onCancel={() => setVerModalEditar(false)}
             keyboard={false}
             maskClosable={false}
             footer={false}
         >
-            <Form form={formularioProveedor} layout="vertical" onFinish={guardarProveedor}>
+            <Form form={formularioProveedor} layout="vertical" onFinish={actualizarProveedor}>
                 <Form.Item
                     label="Nombre"
                     name="nombre"
@@ -86,8 +96,8 @@ const ModalAgregarProveedor = ({ setVerModal, verModal, sqlGetProveedores }) => 
                 </Form.Item>
                 <div className='row' >
                     <div className='col-12' >
-                        <Button type='primary' htmlType='submit' className='float-right' >Guardar</Button>
-                        <Button className='float-right mr-2' onClick={() => setVerModal(false)} >Cancelar</Button>
+                        <Button type='primary' htmlType='submit' className='float-right'>Actualizar</Button>
+                        <Button className='float-right mr-2' onClick={() => setVerModalEditar(false)} >Cancelar</Button>
                     </div>
                 </div>
             </Form>
@@ -95,4 +105,4 @@ const ModalAgregarProveedor = ({ setVerModal, verModal, sqlGetProveedores }) => 
     );
 };
 
-export default ModalAgregarProveedor;
+export default ModalEditarProveedor;
