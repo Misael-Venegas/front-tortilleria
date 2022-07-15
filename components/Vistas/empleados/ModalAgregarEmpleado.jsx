@@ -34,7 +34,10 @@ const ModalAgregarEmpleado = ({ setOpenModalNuevoEmpleado, modalNuevoEmpleado, s
             message.error("los campos emai y verificar email no coinsiden")
             return
         }
-        console.log(event)
+        if (event.contrasenhia !== event.verificarContrasenhia) {
+            message.error("Los campos contraseña y verificar contraseña no coinciden")
+            return
+        }
         try {
             await crearUsuario({
                 variables: {

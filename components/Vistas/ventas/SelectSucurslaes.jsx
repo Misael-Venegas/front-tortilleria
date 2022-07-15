@@ -35,15 +35,18 @@ const SelectSucurslaes = () => {
 
 
     return (
-        <Select style={{ width: "100%" }} className="mt-4" loading={loading} >
-            {
-                arraySucursal ? arraySucursal.map((sucursal, key) =>
-                    <Option key={key} value={sucursal.id_sucursal} >
-                        {sucursal.nombre}
-                    </Option>
-                ) : []
-            }
-        </Select>
+        <div className='pt-3' >
+            <span>Sucursal</span>
+            <Select style={{ width: "100%" }} loading={loading} >
+                {
+                    arraySucursal ? arraySucursal.map((sucursal, key) =>
+                        <Option key={key} value={sucursal.id_sucursal} >
+                            {sucursal.nombre}
+                        </Option>
+                    ) : []
+                }
+            </Select>
+        </div>
     )
 }
 
