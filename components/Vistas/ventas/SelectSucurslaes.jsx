@@ -1,0 +1,50 @@
+import { gql, useLazyQuery } from '@apollo/client';
+import { Select, message } from 'antd';
+import react, { useState, useEffect } from 'react';
+
+const GET_ALL_SUCUARSALES = gql`
+        query getAllSucursales($key: Float!){
+             getAllSucursales(key: $key){
+                id_sucursal
+                nombre
+             }
+             }
+`
+
+const SelectSucurslaes = () => {
+    const { Option } = Select;
+    const [arraySucursal, setarraySucursales] = useState([])
+    const [obtenerSucursales, { loading }] = useLazyQuery(GET_ALL_SUCUARSALES, {
+        onCompleted: (data) => {
+            console.log(data)
+            data ? (data.getAllSucursales ? setarraySucursales(data.getAllSucursales) : setarraySucursales([])) : setarraySucursales([])
+        }
+    })
+
+    useEffect(() => {
+        try {
+            obtenerSucursales({
+                variables: {
+                    key: Math.random()
+                }
+            })
+        } catch (error) {
+            message.error(error.message)
+        }
+    }, [])
+
+
+    return (
+        <Select style={{ width: "100%" }} className="mt-4" loading={loading} >
+            {
+                arraySucursal ? arraySucursal.map((sucursal, key) =>
+                    <Option key={key} value={sucursal.id_sucursal} >
+                        {sucursal.nombre}
+                    </Option>
+                ) : []
+            }
+        </Select>
+    )
+}
+
+export default SelectSucurslaes
