@@ -6,12 +6,20 @@ import SelectProducto from './SelectProducto';
 import { Input, Button } from 'antd';
 import TablaVentas from './TablaVentas';
 const Ventas = () => {
+    const [arrayVentas, setarrayVentas] = useState([])
     const { obtnerDatosUsuario } = ObtnerDatosUsuario();
+    const [sucursal, setsucursal] = useState("")
+    const [producto, setproducto] = useState("")
+    const [cantidad, setcantidad] = useState("")
+    const [precio, setprecio] = useState("")
     const [nombreUsuario, setNombreUsuario] = useState("")
     useEffect(() => {
         setNombreUsuario(obtnerDatosUsuario())
     }, [])
 
+    const crearListaDeVentas = () => {
+        console.log("Vender", sucursal, producto, cantidad, precio)
+    }
 
     return (
         <>
@@ -23,29 +31,29 @@ const Ventas = () => {
 
             <div className='row' >
                 <div className='col-md-4 col-sm-12' >
-                    <SelectSucurslaes />
+                    <SelectSucurslaes setsucursal={setsucursal} />
                 </div>
             </div>
             <br />
             <div className='row' >
                 <div className='col-md-3 col-sm-12' >
                     <span>Producto</span>
-                    <SelectProducto />
+                    <SelectProducto setproducto={setproducto} />
                 </div>
 
                 <div className='col-md-3 col-sm-12' >
                     <span>Cantidad</span>
-                    <Input type='number' />
+                    <Input type='number' onChange={(e) => setcantidad(e.target.value)} />
                 </div>
 
                 <div className='col-md-3 col-sm-12' >
                     <span>Precio</span>
-                    <Input type='number' />
+                    <Input type='number' onChange={(e) => setprecio(e.target.value)} />
                 </div>
 
                 <div className='col-md-3 col-sm-12' >
                     <br />
-                    <Button type='primary' >Agregar</Button>
+                    <Button type='primary' onClick={() => crearListaDeVentas()} >Agregar</Button>
                 </div>
             </div>
 
@@ -55,7 +63,7 @@ const Ventas = () => {
                     <h4 className='float-right pt-3' >Total de venta: $ 4500.00</h4>
                 </div>
             </div>
-            <Button className='float-right' type='primary' > Realizar venta </Button>
+            <Button className='float-right' type='primary'> Realizar venta </Button>
         </>
     )
 }

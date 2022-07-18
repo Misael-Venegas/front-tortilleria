@@ -11,7 +11,7 @@ const GET_ALL_SUCUARSALES = gql`
              }
 `
 
-const SelectSucurslaes = () => {
+const SelectSucurslaes = ({ setsucursal }) => {
     const { Option } = Select;
     const [arraySucursal, setarraySucursales] = useState([])
     const [obtenerSucursales, { loading }] = useLazyQuery(GET_ALL_SUCUARSALES, {
@@ -37,7 +37,7 @@ const SelectSucurslaes = () => {
     return (
         <div className='pt-3' >
             <span>Sucursal</span>
-            <Select style={{ width: "100%" }} loading={loading} >
+            <Select style={{ width: "100%" }} loading={loading} onChange={(e) => setsucursal(e)} >
                 {
                     arraySucursal ? arraySucursal.map((sucursal, key) =>
                         <Option key={key} value={sucursal.id_sucursal} >

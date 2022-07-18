@@ -12,7 +12,7 @@ const GET_ALL_PRODUCTOS = gql`
 `
 
 
-const SelectProducto = () => {
+const SelectProducto = ({ setproducto }) => {
 
     const [arrayProductos, setarrayProductos] = useState([])
     const [get_usuarios, { loading }] = useLazyQuery(GET_ALL_PRODUCTOS, {
@@ -31,7 +31,7 @@ const SelectProducto = () => {
 
     const { Option } = Select;
 
-    return <Select loading={loading} style={{ width: "100%" }} >
+    return <Select loading={loading} style={{ width: "100%" }} onChange={(e) => setproducto(e)} >
         {
             arrayProductos.map((producto, key) => (
                 <Option key={key} value={producto.id_producto} > {producto.nombre} </Option>
