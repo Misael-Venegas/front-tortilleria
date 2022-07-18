@@ -16,7 +16,6 @@ const SelectSucurslaes = ({ setsucursal }) => {
     const [arraySucursal, setarraySucursales] = useState([])
     const [obtenerSucursales, { loading }] = useLazyQuery(GET_ALL_SUCUARSALES, {
         onCompleted: (data) => {
-            console.log(data)
             data ? (data.getAllSucursales ? setarraySucursales(data.getAllSucursales) : setarraySucursales([])) : setarraySucursales([])
         }
     })

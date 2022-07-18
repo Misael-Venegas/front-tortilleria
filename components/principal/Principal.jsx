@@ -13,6 +13,7 @@ import EntradasAlmacen from "../Vistas/entradasalmacen/EntradasAlmacen";
 import Productos from "../Vistas/productos/Productos";
 import Sucursal from "../Vistas/sucursal/Sucursal";
 import Ventas from "../Vistas/ventas/Ventas";
+import CorteDeCaja from "../Vistas/corteDeCaja/CorteDeCaja";
 
 const Principal = () => {
   const { TabPane } = Tabs;
@@ -51,7 +52,7 @@ const Principal = () => {
         getKey === "4" && <Cargo />
       }
       {
-        getKey === "5"
+        getKey === "5" && <CorteDeCaja />
       }
       {
         getKey === "6" && <Sucursal />

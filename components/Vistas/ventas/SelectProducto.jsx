@@ -12,9 +12,9 @@ const GET_ALL_PRODUCTOS = gql`
 `
 
 
-const SelectProducto = ({ setproducto }) => {
+const SelectProducto = ({ setproducto, arrayProductos, setarrayProductos }) => {
 
-    const [arrayProductos, setarrayProductos] = useState([])
+    
     const [get_usuarios, { loading }] = useLazyQuery(GET_ALL_PRODUCTOS, {
         onCompleted: data => {
             data ? (data.getProductos ? setarrayProductos(data.getProductos) : []) : setarrayProductos([])
