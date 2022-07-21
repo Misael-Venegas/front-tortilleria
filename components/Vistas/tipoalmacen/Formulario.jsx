@@ -24,12 +24,16 @@ const Formulario = () => {
     );
     const [arrayAlmacen, setArrayAlmacen] = useState([]);
 
-    const buscar = (e) => {
-        const busqueda = arrayAlmacen.filter(function (almacen) {
-            return almacen.nombre.toLowerCase().includes(e.toLowerCase());
-        });
-        if (busqueda.length > 0) {
-            setArrayAlmacen(busqueda);
+    const buscar = (entradaTexto) => {
+        if (entradaTexto) {
+            const busqueda = arrayAlmacen.filter((almacen) =>
+            almacen.nombre.toLowerCase().indexOf(entradaTexto.toLowerCase()) > -1
+            );
+            if (busqueda.length > 0) {
+                setArrayAlmacen(busqueda);
+            } else {
+                setArrayAlmacen(data.getAlmacenTipo);
+            }
         } else {
             setArrayAlmacen(data.getAlmacenTipo);
         }

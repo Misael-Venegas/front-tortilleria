@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { gql, useMutation, useLazyQuery } from '@apollo/client'
 import { Modal, Input, message, Form, Select, Button } from 'antd'
-import { parse } from 'graphql';
 
 const CREATE_INSUMOS = gql`
   mutation createInsumo($input: insumosInput!) {

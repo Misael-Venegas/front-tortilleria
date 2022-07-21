@@ -1,38 +1,68 @@
 import React from 'react'
 import { Table } from 'antd'
+import { DeleteOutlined, EditOutlined, ExclamationCircleOutlined } from '@ant-design/icons'
 
-const TablaInsumos= () => {
+
+const TablaInsumos= ({ data, sqlGet, setDatosEditar, setVerModal}) => {
     const columns = [{
         title: "#",
         dataIndex: "key",
         name: "key",
       },
       {
-        title: "Descripción",
-        dataIndex: "descripcion",
-        name: "descripcion"
+        title: "Producto",
+        dataIndex: "producto",
+        name: "producto"
       },
       {
-        title: "Unidad Medida",
-        dataIndex: "unidad_medida",
-        name: "unidad_medida"
+        title: "Cantidad",
+        dataIndex: "cantidad",
+        name: "cantidad"
       },
       {
-        title: "Tipo de Almacén",
-        dataIndex: "tipo_almacen",
-        name: "tipo_almacen"
+        title: "Fecha",
+        dataIndex: "fecha",
+        name: "fecha"
       },
       {
-        title: "Acciones",
-        dataIndex: "acciones",
-        name: "acciones"
+        title: "Proveedor",
+        dataIndex: "proveedor",
+        name: "proveedor"
       }
       ]
     
+      const editarDatos = (data) => {
+        setDatosEditar(data);
+        setVerModal(true);
+      }
+
+      const crearFila = (entrada, key) => {
+        return {
+          key: key + 1,
+          producto: entrada.descripcion,
+          cantidad: entrada.cantidad,
+          fecha: entrada.fecha,
+          proveedor: entrada.nombre,
+          
+        }
+      }
+
+      /**
+       * acciones: <span>
+            <span className='seleccionarComponente' style={{ color: "#40A9FF" }}> <EditOutlined onClick={() => editarDatos(entrada)} /> </span> &nbsp;
+            <span className='seleccionarComponente' style={{ color: "red" }} > <DeleteOutlined onClick={() => {}} /></span> 
+            </span>
+       */
+
       return (
         <div>
-          <Table className='pt-5' columns={columns} >
-    
+          <Table className='pt-5' columns={columns} 
+           dataSource={
+            data ? data.map((entrada, key) => {
+              return crearFila(entrada, key)
+            }) : []
+          }
+          >
           </Table>
         </div>
       )

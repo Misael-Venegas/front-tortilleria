@@ -33,12 +33,16 @@ const Formulario = () => {
         obtenerProveedores()
     }, [])
 
-    const buscar = (e) => {
-        const busqueda = arrayProveedores.filter(function (pro) {
-            return e == pro.nombre;
-        });
-        if (busqueda.length > 0) {
-            setArrayProveedores(busqueda);
+    const buscar = (entradaTexto) => {
+        if (entradaTexto) {
+            const busqueda = arrayProveedores.filter((pro) =>
+            pro.nombre.toLowerCase().indexOf(entradaTexto.toLowerCase()) > -1
+            );
+            if (busqueda.length > 0) {
+                setArrayProveedores(busqueda);
+            } else {
+                setArrayProveedores(data.getProveedores);
+            }
         } else {
             setArrayProveedores(data.getProveedores);
         }

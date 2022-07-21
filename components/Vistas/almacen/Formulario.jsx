@@ -4,12 +4,52 @@ import { Button, Input } from 'antd'
 import TablaAlmacen from './TablaAlmacen'
 import ModalAgregar from './ModalAgregar'
 
+const GET_ALMACEN = gql`
+  query getAlmacen{
+    getAlmacen{
+        id_almacen
+        cantidad
+        id_insumos
+        id_tipo_almacen
+        id_sucursal
+        nombreTipoAlmacen
+        nombreSucursal
+        nombreInsumo
+    }
+  }
+`
+
 const Formulario = () => {
     const [verModal, setVerModal] = useState(false);
+    const [datosEditar, setDatosEditar] = useState(null)
+    const [arrayAlmacen, setArrayAlmacen] = useState([]);
+    const [obtenerAlmacen, { data, loading }] = useLazyQuery(GET_ALMACEN,
+        {
+            onCompleted: (data) => {
+                data ? setArrayAlmacen(data.getAlmacen) : setArrayAlmacen([])
+            }
+        }
+    );
     
-    const buscar = (e) => {
-
+    const buscar = (entradaTexto) => {
+        if (entradaTexto) {
+            const busqueda = arrayAlmacen.filter((insumo) =>
+                insumo.nombreInsumo.toLowerCase().indexOf(entradaTexto.toLowerCase()) > -1
+            );
+            if (busqueda.length > 0) {
+                setArrayAlmacen(busqueda);
+            } else {
+                setArrayAlmacen(data.getAlmacen);
+            }
+        } else {
+            setArrayAlmacen(data.getAlmacen);
+        }
     }
+
+    useEffect(() => {
+        obtenerAlmacen();
+    }, [])
+    
 
     return (
         <>
@@ -22,9 +62,9 @@ const Formulario = () => {
                 </div>
             </div>
             <div className='table-responsive'>
-                <TablaAlmacen/>
+                <TablaAlmacen data={arrayAlmacen} sqlGet={GET_ALMACEN} setDatosEditar={setDatosEditar} setVerModal={setVerModal}/>
             </div>
-            <ModalAgregar  setVerModal={setVerModal} verModal={verModal}/>
+            <ModalAgregar setVerModal={setVerModal} verModal={verModal} sqlGet={GET_ALMACEN} datosEditar={datosEditar} setDatosEditar={setDatosEditar} />
         </>
     )
 }
