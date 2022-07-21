@@ -31,7 +31,7 @@ const ModalAgregarEmpleado = ({ setOpenModalNuevoEmpleado, modalNuevoEmpleado, s
 
     const guardarEMpleado = async (event) => {
         if (event.verificarEmail !== event.email) {
-            message.error("los campos emai y verificar email no coinsiden")
+            message.error("los campos email y verificar email no coinsiden")
             return
         }
         if (event.contrasenhia !== event.verificarContrasenhia) {
