@@ -1,6 +1,6 @@
 import Layout from "../layout/Layout";
 import { Tabs } from "antd";
-import { useState } from "react";
+import React from "react";
 import Cargo from "../Vistas/cargo/Cargo";
 import Empleados from "../Vistas/empleados/Empleados";
 import Proveedor from "../Vistas/proveedor/Proveedor";
@@ -17,71 +17,76 @@ import CorteDeCaja from "../Vistas/corteDeCaja/CorteDeCaja";
 
 const Principal = () => {
   const { TabPane } = Tabs;
-  const [getKey, setGetKey] = useState("1");
-  function callback(key) {
-    setGetKey(key);
-  }
+
   return (
-    <Layout>
-      <Tabs defaultActiveKey="1" onChange={callback}>
-        <TabPane tab="Ventas" key="1" />
-        <TabPane tab="Proveedores" key="13" />
-        <TabPane tab="Productos" key="2" />
-        <TabPane tab="Empleados" key="3" />
-        <TabPane tab="Cargo" key="4" />
-        <TabPane tab="Corte de caja" key="5" />
-        <TabPane tab="Sucursal" key="6" />
-        <TabPane tab="Merma" key="7" />
-        <TabPane tab="Tipo merma" key="8" />
-        <TabPane tab="Salidas" key="9" />
-        <TabPane tab="Entradas" key="10" />
-        <TabPane tab="Almacen" key="11" />
-        <TabPane tab="Insumos" key="12" />
-        <TabPane tab="Tipo almacen" key="14" />
+
+    <Layout  >
+      <Tabs defaultActiveKey="1" size="small" onTabScroll='right' >
+        <TabPane tab="Ventas" key="1" >
+          {
+            // <Ventas />
+          }
+        </TabPane>
+
+        <TabPane tab="Productos" key="2" >
+          <Productos />
+        </TabPane>
+        <TabPane tab="Empleados" key="3" >
+          <Empleados />
+        </TabPane>
+        <TabPane tab="Cargo" key="4" >
+          <Cargo />
+        </TabPane>
+        <TabPane tab="Corte de caja" key="5" >
+          <CorteDeCaja />
+        </TabPane>
+        <TabPane tab="Sucursal" key="6" >
+          <Sucursal />
+        </TabPane>
+        <TabPane tab="Merma" key="7" >
+          {
+            //<Merma />
+          }
+        </TabPane>
+        <TabPane tab="Tipo merma" key="8" >
+          {
+            //  <TipoMerma />
+          }
+        </TabPane>
+        <TabPane tab="Salidas" key="9" >
+        </TabPane>
+        <TabPane tab="Entradas" key="10" >
+          {
+            // <EntradasAlmacen />
+          }
+        </TabPane>
+        <TabPane tab="Almacen" key="11" >
+          {
+            //  <Almacen />
+          }
+        </TabPane>
+        <TabPane tab="Insumos" key="12" >
+          {
+            //<Insumos />
+          }
+        </TabPane>
+        <TabPane tab="Proveedores" key="13" >
+          {
+            //<Proveedor />
+          }
+        </TabPane>
+        <TabPane tab="Tipo almacen" key="14" >
+          {
+            //<TipoAlmacen />
+          }
+        </TabPane>
+        <TabPane tab="Dashboard" key="14" >
+
+        </TabPane>
       </Tabs>
-      {
-        getKey === "1" && <Ventas />
-      }
-      {
-        getKey === "2" && <Productos />
-      }
-      {
-        getKey === "3" && <Empleados />
-      }
-      {
-        getKey === "4" && <Cargo />
-      }
-      {
-        getKey === "5" && <CorteDeCaja />
-      }
-      {
-        getKey === "6" && <Sucursal />
-      }
-      {
-        getKey === "7" && <Merma />
-      }
-      {
-        getKey === "8" && <TipoMerma />
-      }
-      {
-        getKey === "9"
-      }
-      {
-        getKey === "10" && <EntradasAlmacen />
-      }
-      {
-        getKey === "11" && <Almacen />
-      }
-      {
-        getKey === "12" && <Insumos />
-      }
-      {
-        getKey === "13" && <Proveedor />
-      }
-      {
-        getKey === "14" && <TipoAlmacen />
-      }
+
     </Layout>
+
   );
 };
 
