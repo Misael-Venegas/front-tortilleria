@@ -35,6 +35,10 @@ const CREATE_ENTRADA = gql`
   }
 `
 
+const datosIniciales = {
+    fecha: moment()
+};
+
 const ModalAgregar = ({ setVerModal, verModal, sqlGet, datosEditar, setDatosEditar }) => {
     const [formulario] = Form.useForm();
     const [obtenerAlmacen, { data, loading }] = useLazyQuery(GET_ALMACEN);
@@ -49,7 +53,6 @@ const ModalAgregar = ({ setVerModal, verModal, sqlGet, datosEditar, setDatosEdit
     const guardarDatos = async (form) => {
         try {
             if (datosEditar) {
-
                 message.success("Actulización Correcta")
             } else {
                 await crear_entrada({
@@ -93,17 +96,12 @@ const ModalAgregar = ({ setVerModal, verModal, sqlGet, datosEditar, setDatosEdit
         }
     }, [datosEditar]);
 
-    const handleChange = (value) => {
-        console.log("SALIDA: ", value)
-        setIdAlmacen(value);
-    }
-
     return (
         <Modal
             destroyOnClose={true}
             visible={verModal}
             title={datosEditar ? "Editar Entrada Almacen" : "Nueva Entrada Almacen"}
-            onCancel={() => { setVerModal(false); setDatosEditar(null) }}
+            onCancel={() => { setVerModal(false); setDatosEditar(null); formulario.resetFields(); }}
             keyboard={false}
             maskClosable={false}
             footer={false}
@@ -112,6 +110,7 @@ const ModalAgregar = ({ setVerModal, verModal, sqlGet, datosEditar, setDatosEdit
                 layout='vertical'
                 form={formulario}
                 onFinish={guardarDatos}
+                initialValues={datosIniciales}
             >
                 <Form.Item label="Producto" name="producto" rules={[
                     {
@@ -149,13 +148,12 @@ const ModalAgregar = ({ setVerModal, verModal, sqlGet, datosEditar, setDatosEdit
                     <DatePicker
                         format="YYYY-MM-DD"
                         style={{ width: '100%' }}
-                        defaultValue={moment()}
                     />
                 </Form.Item>
                 <div className='row' >
                     <div className='col-12' >
                         <Button type='primary' htmlType='submit' className='float-right' >{datosEditar ? "Actualizar" : "Guardar"}</Button>
-                        <Button className='float-right mr-2' onClick={() => { setVerModal(false); setDatosEditar(null) }} >Cancelar</Button>
+                        <Button className='float-right mr-2' onClick={() => { setVerModal(false); setDatosEditar(null); formulario.resetFields();  }} >Cancelar</Button>
                     </div>
                 </div>
             </Form>

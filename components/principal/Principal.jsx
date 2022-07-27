@@ -14,6 +14,7 @@ import Productos from "../Vistas/productos/Productos";
 import Sucursal from "../Vistas/sucursal/Sucursal";
 import Ventas from "../Vistas/ventas/Ventas";
 import CorteDeCaja from "../Vistas/corteDeCaja/CorteDeCaja";
+import Salidas from "../Vistas/salidas/Salidas";
 
 const Principal = () => {
   const { TabPane } = Tabs;
@@ -24,7 +25,7 @@ const Principal = () => {
       <Tabs defaultActiveKey="1" size="small" onTabScroll='right' >
         <TabPane tab="Ventas" key="1" >
           {
-            // <Ventas />
+             <Ventas />
           }
         </TabPane>
 
@@ -45,43 +46,41 @@ const Principal = () => {
         </TabPane>
         <TabPane tab="Merma" key="7" >
           {
-            //<Merma />
+            <Merma />
           }
         </TabPane>
         <TabPane tab="Tipo merma" key="8" >
           {
-            //  <TipoMerma />
+              <TipoMerma />
           }
         </TabPane>
         <TabPane tab="Salidas" key="9" >
+          <Salidas/>
         </TabPane>
         <TabPane tab="Entradas" key="10" >
           {
-            // <EntradasAlmacen />
+             <EntradasAlmacen />
           }
         </TabPane>
         <TabPane tab="Almacen" key="11" >
           {
-            //  <Almacen />
+              <Almacen />
           }
         </TabPane>
         <TabPane tab="Insumos" key="12" >
           {
-            //<Insumos />
+            <Insumos />
           }
         </TabPane>
         <TabPane tab="Proveedores" key="13" >
           {
-            //<Proveedor />
+            <Proveedor />
           }
         </TabPane>
         <TabPane tab="Tipo almacen" key="14" >
           {
-            //<TipoAlmacen />
+            <TipoAlmacen />
           }
-        </TabPane>
-        <TabPane tab="Dashboard" key="14" >
-
         </TabPane>
       </Tabs>
 
