@@ -27,8 +27,9 @@ const ModalEnvarContrasenhia = ({ openModal, setOpenModal }) => {
                     key: Math.random()
                 }
             })
-            message.success("Contraseña actualizada")
             setOpenModal(false)
+            message.success("Contraseña actualizada")
+
         } catch (error) {
             message.error(error.message)
         }
