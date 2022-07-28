@@ -49,7 +49,7 @@ const ModalAgregar = ({ setVerModal, verModal, sqlGet, datosEditar, setDatosEdit
         ],
     });
     const [idAlmacen, setIdAlmacen] = useState(null)
-    
+
     const guardarDatos = async (form) => {
         try {
             if (datosEditar) {
@@ -118,8 +118,8 @@ const ModalAgregar = ({ setVerModal, verModal, sqlGet, datosEditar, setDatosEdit
                         message: "Seleccione una opción"
                     }
                 ]}>
-                    <Select placeholder="Seleccione un producto" onChange={(value)=>setIdAlmacen(value)}>
-                        {data && data.getAlmacen.map(function (almacen, key) {
+                    <Select placeholder="Seleccione un producto" onChange={(value) => setIdAlmacen(value)}>
+                        {data && data.getAlmacen && data.getAlmacen.map(function (almacen, key) {
                             return <Select.Option key={key} value={almacen.id_almacen}>{almacen.nombreInsumo.toUpperCase() + `: Sucursal [${almacen.nombreSucursal}]`}</Select.Option>
                         })}
                     </Select>
@@ -153,7 +153,7 @@ const ModalAgregar = ({ setVerModal, verModal, sqlGet, datosEditar, setDatosEdit
                 <div className='row' >
                     <div className='col-12' >
                         <Button type='primary' htmlType='submit' className='float-right' >{datosEditar ? "Actualizar" : "Guardar"}</Button>
-                        <Button className='float-right mr-2' onClick={() => { setVerModal(false); setDatosEditar(null); formulario.resetFields();  }} >Cancelar</Button>
+                        <Button className='float-right mr-2' onClick={() => { setVerModal(false); setDatosEditar(null); formulario.resetFields(); }} >Cancelar</Button>
                     </div>
                 </div>
             </Form>

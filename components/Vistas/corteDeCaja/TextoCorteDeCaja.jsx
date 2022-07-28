@@ -12,7 +12,7 @@ const TextoCorteDeCaja = ({ arrayCorte, fecha }) => {
                     arrayCorte.map((venta, key) => {
                         totalVenta += parseFloat(venta.total)
                         return (
-                            <li key={key} >{venta.nombre_sucursal} &nbsp; {venta.nombre_producto} {venta.cantidad}kl &nbsp;  ${venta.total} &nbsp; {venta.empleado} </li>
+                            <li key={key} >{venta.nombre_sucursal} &nbsp; {venta.nombre_producto} {venta.cantidad}kg &nbsp;  ${venta.total} &nbsp; {venta.empleado} </li>
                         )
 
                     })

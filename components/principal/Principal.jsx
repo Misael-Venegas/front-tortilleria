@@ -22,7 +22,7 @@ const Principal = () => {
   return (
 
     <Layout  >
-      <Tabs defaultActiveKey="1" size="small" onTabScroll='right' >
+      <Tabs defaultActiveKey="1" size="small" >
         <TabPane tab="Ventas" key="1" >
           {
              <Ventas />

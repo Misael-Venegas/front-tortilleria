@@ -124,7 +124,7 @@ const ModalAgregar = ({ setVerModal, verModal, sqlGet, datosEditar, setDatosEdit
         <Modal
             destroyOnClose={true}
             visible={verModal}
-            title={datosEditar?"Actulizar Insumo Almacen":"Nuevo Insumo Almacen"}
+            title={datosEditar ? "Actulizar Insumo Almacen" : "Nuevo Insumo Almacen"}
             onCancel={() => { setVerModal(false); setDatosEditar(null) }}
             keyboard={false}
             maskClosable={false}
@@ -142,7 +142,7 @@ const ModalAgregar = ({ setVerModal, verModal, sqlGet, datosEditar, setDatosEdit
                     }
                 ]}>
                     <Select placeholder="Selccione un insumo" >
-                        {dataInsumo && dataInsumo.getInsumos.map(function (insumo, key) {
+                        {dataInsumo && dataInsumo.getInsumos && dataInsumo.getInsumos.map(function (insumo, key) {
                             return <Select.Option key={key} value={insumo.id_insumos}>{insumo.descripcion}</Select.Option>
                         })}
                     </Select>
@@ -153,7 +153,7 @@ const ModalAgregar = ({ setVerModal, verModal, sqlGet, datosEditar, setDatosEdit
                         message: "La cantidad debe ser un número"
                     }
                 ]}>
-                    <InputNumber min={1} style={{ width: "100%" }}/>
+                    <InputNumber min={1} style={{ width: "100%" }} />
                 </Form.Item>
                 <Form.Item label="Tipo Almacen" name="tipo_almacen" rules={[
                     {

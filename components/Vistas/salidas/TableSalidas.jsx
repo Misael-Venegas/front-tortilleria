@@ -3,8 +3,8 @@ import { useLazyQuery, gql } from '@apollo/client'
 import { Table } from 'antd'
 
 const CREATE_CORTE = gql`
-        query generarCorteDeCaja($fechaCorte: String! ){
-              generarCorteDeCaja(fechaCorte: $fechaCorte){
+        query generarCorteDeCaja($fechaCorte: String!, $id_sucursal: String!){
+              generarCorteDeCaja(fechaCorte: $fechaCorte, id_sucursal: $id_sucursal){
                 id_ventas_productos
                 nombre_sucursal
                 nombre_producto
@@ -42,7 +42,8 @@ const TableSalidas = ({ fecha }) => {
         try {
             generarCorteDeCaja({
                 variables: {
-                    fechaCorte: fecha
+                    fechaCorte: fecha,
+                    id_sucursal: ""
                 }
             })
         } catch (error) {

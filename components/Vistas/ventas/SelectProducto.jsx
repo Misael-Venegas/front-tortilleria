@@ -15,13 +15,13 @@ const GET_ALL_PRODUCTOS = gql`
 const SelectProducto = ({ setproducto, arrayProductos, setarrayProductos }) => {
 
     
-    const [get_usuarios, { loading }] = useLazyQuery(GET_ALL_PRODUCTOS, {
+    const [get_productos, { loading }] = useLazyQuery(GET_ALL_PRODUCTOS, {
         onCompleted: data => {
             data ? (data.getProductos ? setarrayProductos(data.getProductos) : []) : setarrayProductos([])
         }
     })
     useEffect(() => {
-        get_usuarios({
+        get_productos({
             variables: {
                 key: Math.random()
             }

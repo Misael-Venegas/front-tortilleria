@@ -34,7 +34,7 @@ const TablaVentas = ({ arrayVentas, setarrayVentas, arrayProductos, quitarProduc
         return {
             key: key + 1,
             producto: obtenerNombreProducto(venta.id_producto),
-            cantidad: venta.cantidad + "kl",
+            cantidad: venta.cantidad + "kg",
             precio: "$" + venta.precio,
             opciones: <span style={{ color: 'red', fontSize: "12pt" }} className='seleccionarComponente' onClick={() => quitarProducto(key)} > <DeleteOutlined /> </span>
         }
