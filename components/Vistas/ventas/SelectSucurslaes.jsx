@@ -21,6 +21,7 @@ const SelectSucurslaes = ({ setsucursal }) => {
     })
 
     useEffect(() => {
+        console.log("Entra")
         try {
             obtenerSucursales({
                 variables: {
@@ -32,11 +33,23 @@ const SelectSucurslaes = ({ setsucursal }) => {
         }
     }, [])
 
+    const actualizarSelect = () => {
+      
+        try {
+            obtenerSucursales({
+                variables: {
+                    key: Math.random()
+                }
+            })
+        } catch (error) {
+            message.error(error.message)
+        }
+    }
 
     return (
         <div className='pt-3' >
             <span>Sucursal</span>
-            <Select style={{ width: "100%" }} loading={loading} onChange={(e) => setsucursal(e)} >
+            <Select style={{ width: "100%" }} loading={loading} onChange={(e) => setsucursal(e)} onClick={ ()=> actualizarSelect() } >
                 {
                     arraySucursal ? arraySucursal.map((sucursal, key) =>
                         <Option key={key} value={sucursal.id_sucursal} >

@@ -120,7 +120,7 @@ const ModalAgregar = ({ setVerModal, verModal, sqlGet, datosEditar, setDatosEdit
                 ]}>
                     <Select placeholder="Seleccione un producto" onChange={(value) => setIdAlmacen(value)}>
                         {data && data.getAlmacen && data.getAlmacen.map(function (almacen, key) {
-                            return <Select.Option key={key} value={almacen.id_almacen}>{almacen.nombreInsumo.toUpperCase() + `: Sucursal [${almacen.nombreSucursal}]`}</Select.Option>
+                            return <Select.Option key={key} value={almacen.id_almacen}>{almacen.nombreInsumo.toUpperCase()}</Select.Option>
                         })}
                     </Select>
                 </Form.Item>

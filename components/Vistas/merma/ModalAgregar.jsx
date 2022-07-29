@@ -67,6 +67,19 @@ const ModalAgregar = ({ setVerModal, verModal, sqlGet }) => {
         }
     }
 
+    const actualizarSucursales = () => {
+        try {
+
+            obtenerSucursales({
+                variables: {
+                    key: Math.random()
+                }
+            });
+        } catch (error) {
+            message.error(error.message)
+        }
+    }
+
     return (
         <Modal
             destroyOnClose={true}
@@ -108,7 +121,7 @@ const ModalAgregar = ({ setVerModal, verModal, sqlGet }) => {
                         message: "Seleccione una opcion"
                     }
                 ]}>
-                    <Select placeholder="Selccione una sucursal">
+                    <Select placeholder="Selccione una sucursal" onClick={() => actualizarSucursales()} >
                         {dataSucursales && dataSucursales.getAllSucursales.map(function (sucursal, key) {
                             return <Select.Option key={key} value={sucursal.id_sucursal}>{sucursal.nombre}</Select.Option>
                         })}

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Select } from 'antd'
+import { message, Select } from 'antd'
 import { useLazyQuery, gql } from '@apollo/client'
 
 const GET_ALL_PRODUCTOS = gql`
@@ -14,24 +14,35 @@ const GET_ALL_PRODUCTOS = gql`
 
 const SelectProducto = ({ setproducto, arrayProductos, setarrayProductos }) => {
 
-    
-    const [get_productos, { loading }] = useLazyQuery(GET_ALL_PRODUCTOS, {
+
+    const [get_usuarios, { loading }] = useLazyQuery(GET_ALL_PRODUCTOS, {
         onCompleted: data => {
             data ? (data.getProductos ? setarrayProductos(data.getProductos) : []) : setarrayProductos([])
         }
     })
     useEffect(() => {
-        get_productos({
+        get_usuarios({
             variables: {
                 key: Math.random()
             }
         })
     }, [])
 
-
     const { Option } = Select;
 
-    return <Select loading={loading} style={{ width: "100%" }} onChange={(e) => setproducto(e)} >
+    const actualizarSelect = () => {
+        try {
+            get_usuarios({
+                variables: {
+                    key: Math.random()
+                }
+            })
+        } catch (error) {
+            message.error(error.message)
+        }
+    }
+
+    return <Select loading={loading} style={{ width: "100%" }} onChange={(e) => setproducto(e)} onClick={() => actualizarSelect()} >
         {
             arrayProductos.map((producto, key) => (
                 <Option key={key} value={producto.id_producto} > {producto.nombre} </Option>

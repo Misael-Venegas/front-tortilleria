@@ -2,7 +2,7 @@ import { DatePicker } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { Pie } from 'react-chartjs-2';
-import {useLazyQuery, gql} from "@apollo/client";
+import { useLazyQuery, gql } from "@apollo/client";
 import moment from "moment";
 
 
@@ -38,9 +38,9 @@ const OBTENER_DATOS = gql`
 
 const Reportes = () => {
 
-  const [obtener, {loading}] = useLazyQuery(OBTENER_DATOS, {
+  const [obtener, { loading }] = useLazyQuery(OBTENER_DATOS, {
     onCompleted: (data) => {
-      if(data){
+      if (data) {
         setResultados(data.generarReporte);
       }
     }
@@ -59,7 +59,7 @@ const Reportes = () => {
       }
     })
   }, [desde, hasta]);
-  
+
 
   const datos = {
     labels: resultados?.nombres || [],
@@ -93,14 +93,16 @@ const Reportes = () => {
         <div className="col-md-3">
           <div className="form-group">
             <label>Hasta</label>
-            <DatePicker className='w-100' value={hasta} onChange={(e) => setHasta(e)}/>
+            <DatePicker className='w-100' value={hasta} onChange={(e) => setHasta(e)} />
           </div>
         </div>
       </div>
 
-      <div className="row mt-5 text-center">
-        <div className="col-md-4">
-          <Pie data={datos} />
+      <div className="row mt-5 ">
+        <div style={{display: 'flex',  justifyContent: 'center' }}>
+          <div className="col-md-4">
+            <Pie data={datos} />
+          </div>
         </div>
       </div>
 

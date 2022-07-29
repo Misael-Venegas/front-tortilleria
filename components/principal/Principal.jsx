@@ -35,11 +35,11 @@ const Principal = () => {
   return (
     <Layout>
       <div>
-        <Tabs defaultActiveKey="1" tabPosition="top" style={{height: 220}}>
+        <Tabs defaultActiveKey="1" tabPosition="top" style={{ height: 220 }}>
           <TabPane tab="Ventas" key="1">
             <Ventas />
           </TabPane>
-          {rol == 1 && (
+          {(rol == 1 || rol == 0) && (
             <>
               <TabPane tab="Productos" key="2">
                 <Productos />
