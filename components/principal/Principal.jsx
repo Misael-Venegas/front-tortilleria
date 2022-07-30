@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { Tabs } from "antd";
+import { Tabs, Dropdown, Menu, Space } from "antd";
+import { DownOutlined } from '@ant-design/icons'
 import Layout from "../layout/Layout";
 import Cargo from "../Vistas/cargo/Cargo";
 import Empleados from "../Vistas/empleados/Empleados";
@@ -22,7 +23,8 @@ const { TabPane } = Tabs;
 
 const Principal = () => {
   const [rol, setRol] = useState(null);
-
+  const [verCorteCaja, setverCorteCaja] = useState(5)
+  const [verMerma, setverMerma] = useState(7)
   useEffect(() => {
     const token = localStorage.getItem("token");
 
@@ -32,6 +34,44 @@ const Principal = () => {
     }
   }, []);
 
+  const menu = (
+    <Menu
+      items={[
+        {
+          key: '5',
+          label: (
+            <p onClick={() => setverCorteCaja(5)} >Corte de caja</p>
+          ),
+        },
+        {
+          key: '15',
+          label: (
+            <p onClick={() => setverCorteCaja(15)} >Reportes</p>
+          ),
+        },
+      ]}
+    />
+  )
+
+  const menuMerma = (
+    <Menu
+      items={[
+        {
+          key: '7',
+          label: (
+            <p onClick={() => setverMerma(7)} >Merma</p>
+          ),
+        },
+        {
+          key: '8',
+          label: (
+            <p onClick={() => setverMerma(8)} >Tipo Merma</p>
+          ),
+        },
+      ]}
+    />
+  )
+  console.log(verCorteCaja)
   return (
     <Layout>
       <div>
@@ -50,8 +90,21 @@ const Principal = () => {
               <TabPane tab="Cargo" key="4">
                 <Cargo />
               </TabPane>
-              <TabPane tab="Corte de caja" key="5">
-                <CorteDeCaja />
+              <TabPane tab={<Dropdown overlay={menu} trigger={['click']} >
+                <span onClick={(e) => e.preventDefault()}>
+                  <Space>
+                    Corte de caja
+                    <DownOutlined />
+                  </Space>
+                </span>
+              </Dropdown>} key="5">
+                {
+                  verCorteCaja === 5 && <CorteDeCaja />
+                }
+                {
+                  verCorteCaja === 15 && <Reportes />
+                }
+
               </TabPane>
               <TabPane tab="Sucursal" key="6">
                 <Sucursal />
@@ -74,16 +127,22 @@ const Principal = () => {
               <TabPane tab="Tipo almacen" key="14">
                 <TipoAlmacen />
               </TabPane>
-              <TabPane tab="Reportes" key="15">
-                <Reportes />
-              </TabPane>
             </>
           )}
-          <TabPane tab="Merma" key="7">
-            <Merma />
-          </TabPane>
-          <TabPane tab="Tipo merma" key="8">
-            <TipoMerma />
+          <TabPane tab={<Dropdown overlay={menuMerma} trigger={['click']} >
+            <span onClick={(e) => e.preventDefault()}>
+              <Space>
+                Corte de caja
+                <DownOutlined />
+              </Space>
+            </span>
+          </Dropdown>} key="7">
+            {
+              verMerma === 7 && <Merma />
+            }
+            {
+              verMerma == 8 && <TipoMerma />
+            }
           </TabPane>
         </Tabs>
       </div>
