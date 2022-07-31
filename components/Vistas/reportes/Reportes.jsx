@@ -51,6 +51,8 @@ const Reportes = () => {
   const [desde, setDesde] = useState(moment());
   const [hasta, setHasta] = useState(moment());
 
+  
+
   useEffect(() => {
     obtener({
       variables: {
@@ -76,7 +78,6 @@ const Reportes = () => {
 
   return (
     <>
-
       <div className="row">
         <div className="col-md-12">
           <h5 className='text-muted'>Ventas por repartidor</h5>
@@ -86,14 +87,14 @@ const Reportes = () => {
         <div className="col-md-3">
           <div className="form-group">
             <label>Desde</label>
-            <DatePicker className='w-100' value={desde} onChange={(e) => setDesde(e)} />
+            <DatePicker className='w-100' value={desde} onChange={(e) => setDesde(e)} allowClear={false} />
           </div>
         </div>
 
         <div className="col-md-3">
           <div className="form-group">
             <label>Hasta</label>
-            <DatePicker className='w-100' value={hasta} onChange={(e) => setHasta(e)} />
+            <DatePicker className='w-100' value={hasta} onChange={(e) => setHasta(e)} allowClear={false} />
           </div>
         </div>
       </div>

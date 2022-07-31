@@ -76,75 +76,88 @@ const Principal = () => {
     <Layout>
       <div>
         <Tabs defaultActiveKey="1" tabPosition="top" style={{ height: 220 }}>
-          <TabPane tab="Ventas" key="1">
+
+          {rol !== 0 && <TabPane tab="Ventas" key="1">
             <Ventas />
           </TabPane>
-          {(rol == 1 || rol == 0) && (
+          } {(rol == 1 || rol == 0) && (
             <>
-              <TabPane tab="Productos" key="2">
-                <Productos />
-              </TabPane>
+              {rol !== 0 &&
+                <TabPane tab="Productos" key="2">
+                  <Productos />
+                </TabPane>
+
+              }
               <TabPane tab="Empleados" key="3">
                 <Empleados />
               </TabPane>
-              <TabPane tab="Cargo" key="4">
-                <Cargo />
-              </TabPane>
-              <TabPane tab={<Dropdown overlay={menu} trigger={['click']} >
+              {
+                rol !== 0 && <>
+                  <TabPane tab="Cargo" key="4">
+                    <Cargo />
+                  </TabPane>
+                  <TabPane tab={<Dropdown overlay={menu} trigger={['click']} >
+                    <span onClick={(e) => e.preventDefault()}>
+                      <Space>
+                        Corte de caja
+                        <DownOutlined />
+                      </Space>
+                    </span>
+                  </Dropdown>} key="5">
+                    {
+                      verCorteCaja === 5 && <CorteDeCaja />
+                    }
+                    {
+                      verCorteCaja === 15 && <Reportes />
+                    }
+
+                  </TabPane>
+                  <TabPane tab="Sucursal" key="6">
+                    <Sucursal />
+                  </TabPane>
+                  <TabPane tab="Salidas" key="9">
+                    <Salidas />
+                  </TabPane>
+                  <TabPane tab="Entradas" key="10">
+                    <EntradasAlmacen />
+                  </TabPane>
+                  <TabPane tab="Almacen" key="11">
+                    <Almacen />
+                  </TabPane>
+                  <TabPane tab="Insumos" key="12">
+                    <Insumos />
+                  </TabPane>
+                  <TabPane tab="Proveedores" key="13">
+                    <Proveedor />
+                  </TabPane>
+                  <TabPane tab="Tipo almacen" key="14">
+                    <TipoAlmacen />
+                  </TabPane>
+                </>
+              }
+            </>
+          )}
+          {
+            rol !== 0 && <>
+              <TabPane tab={<Dropdown overlay={menuMerma} trigger={['click']} >
                 <span onClick={(e) => e.preventDefault()}>
                   <Space>
-                    Corte de caja
+                    Merma
                     <DownOutlined />
                   </Space>
                 </span>
-              </Dropdown>} key="5">
+              </Dropdown>} key="7">
                 {
-                  verCorteCaja === 5 && <CorteDeCaja />
+                  verMerma === 7 && <Merma />
                 }
                 {
-                  verCorteCaja === 15 && <Reportes />
+                  verMerma == 8 && <TipoMerma />
                 }
-
-              </TabPane>
-              <TabPane tab="Sucursal" key="6">
-                <Sucursal />
-              </TabPane>
-              <TabPane tab="Salidas" key="9">
-                <Salidas />
-              </TabPane>
-              <TabPane tab="Entradas" key="10">
-                <EntradasAlmacen />
-              </TabPane>
-              <TabPane tab="Almacen" key="11">
-                <Almacen />
-              </TabPane>
-              <TabPane tab="Insumos" key="12">
-                <Insumos />
-              </TabPane>
-              <TabPane tab="Proveedores" key="13">
-                <Proveedor />
-              </TabPane>
-              <TabPane tab="Tipo almacen" key="14">
-                <TipoAlmacen />
               </TabPane>
             </>
-          )}
-          <TabPane tab={<Dropdown overlay={menuMerma} trigger={['click']} >
-            <span onClick={(e) => e.preventDefault()}>
-              <Space>
-                Corte de caja
-                <DownOutlined />
-              </Space>
-            </span>
-          </Dropdown>} key="7">
-            {
-              verMerma === 7 && <Merma />
-            }
-            {
-              verMerma == 8 && <TipoMerma />
-            }
-          </TabPane>
+          }
         </Tabs>
+
       </div>
     </Layout>
   );
