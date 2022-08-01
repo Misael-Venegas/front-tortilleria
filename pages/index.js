@@ -15,7 +15,6 @@ export default function Home() {
 
   useEffect(() => {
     try {
-      console.log("aqui")
       crearAdmin()
     } catch (error) {
       console.log(error.message)
