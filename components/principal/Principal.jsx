@@ -124,9 +124,6 @@ const Principal = () => {
                   <TabPane tab="Almacen" key="11">
                     <Almacen />
                   </TabPane>
-                  <TabPane tab="Insumos" key="12">
-                    <Insumos />
-                  </TabPane>
                   <TabPane tab="Proveedores" key="13">
                     <Proveedor />
                   </TabPane>

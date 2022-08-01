@@ -1,71 +1,175 @@
 import React, { useState, useEffect } from 'react'
 import { gql, useMutation, useLazyQuery } from '@apollo/client'
-import { Button, Input } from 'antd'
-import TablaEntradas from './TablaEntradas'
-import ModalAgregar from './ModalAgregar'
+import { Button, Input, Form, Select, DatePicker, message } from 'antd'
 
-const GET_ENTRADAS = gql`
-  query getEntradas{
-    getEntradas{
-        id_entrada 
-        id_entradas_almacen 
-        descripcion
-        cantidad
-        tipo_almacen
-        fecha
-        nombre
-        id_insumos
-        id_proveedor
-        id_almacen
+const GET_PROOVEDORES = gql`
+  query getProveedores{
+    getProveedores{
+      id_proveedor
+      nombre
+      correo
+      telefono
+    }
+  }
+`
+const GET_ALMACEN_TIPO = gql`
+  query getAlmacenTipo{
+    getAlmacenTipo{
+      id_tipo_almacen
+      nombre
     }
   }
 `
 
 const Formulario = () => {
-    const [verModal, setVerModal] = useState(false);
-    const [datosEditar, setDatosEditar] = useState(null);
-    const [arrayDatos, setArrayDatos] = useState([]);
-    const [obtenerEntradas, { data, loading }] = useLazyQuery(GET_ENTRADAS,
+    const { Option } = Select
+    const [arrayAlmacen, setArrayAlmacen] = useState([]);
+    const [arrayProvedores, setarrayProvedores] = useState([])
+    const [obtenerProveedores, { loading: loadingProveedores }] = useLazyQuery(GET_PROOVEDORES,
         {
             onCompleted: (data) => {
-                data ? setArrayDatos(data.getEntradas) : setArrayDatos([])
+                data ? setarrayProvedores(data.getProveedores) : setarrayProvedores([])
             }
         }
     );
 
-    const buscar = (entradaTexto) => {
-        if (entradaTexto) {
-            const busqueda = arrayDatos.filter((entradas) =>
-                entradas.descripcion.toLowerCase().indexOf(entradaTexto.toLowerCase()) > -1
-            );
-            if (busqueda.length > 0) {
-                setArrayDatos(busqueda);
-            } else {
-                setArrayDatos(data.getEntradas);
+    const [obtenerAlmacenTipo, { loading }] = useLazyQuery(GET_ALMACEN_TIPO,
+        {
+            onCompleted: (data) => {
+                data ? setArrayAlmacen(data.getAlmacenTipo) : setArrayAlmacen([])
             }
-        } else {
-            setArrayDatos(data.getEntradas);
         }
-    }
-
+    );
     useEffect(() => {
-        obtenerEntradas();
+        try {
+            obtenerProveedores()
+            obtenerAlmacenTipo()
+        } catch (error) {
+            message.error(error.message)
+        }
     }, [])
 
+
+    const registrarEntrada = (event) => {
+        console.log(event)
+        let fecha = new Date(event.fecha)
+
+    }
     return (
         <>
-            <div className='row'>
-                <div className='col-md-6 col-sm-12' >
-                    <Input.Search style={{ width: "60%" }} placeholder="Ingrese el nombre del producto" onSearch={buscar} />
+
+            <Form
+                name='form-entradas'
+                onFinish={registrarEntrada}
+                layout="vertical"
+            >
+                <div className='row' >
+                    <div className='col-sm-12 col-md-6' >
+                        <Form.Item
+                            label="Producto"
+                            name="producto"
+                            rules={[
+                                {
+                                    required: true,
+                                    message: "Este campo es requerido"
+                                }
+                            ]}
+                        >
+                            <Input />
+                        </Form.Item>
+                    </div>
+
+                    <div className='col-sm-12 col-md-3' >
+                        <Form.Item
+                            label="Cantidad"
+                            name="cantidad"
+                            rules={[
+                                {
+                                    required: true,
+                                    message: "Este campo es requerido"
+                                }
+                            ]}
+                        >
+                            <Input type="number" />
+                        </Form.Item>
+                    </div>
+
+                    <div className='col-sm-12 col-md-3' >
+                        <Form.Item
+                            label="Unidad de medida"
+                            name="unidadMedida"
+                            rules={[{
+                                required: true,
+                                message: "Este campo es requerido"
+                            }]}
+                        >
+                            <Input />
+                        </Form.Item>
+                    </div>
                 </div>
-                <div className='col-md-6 col-sm-12' >
-                    <Button type='primary' className='float-right' onClick={() => setVerModal(true)} >Agregar Nueva Entrada</Button>
+                <div className='row' >
+                    <div className='col-sm-12 col-md-4' >
+                        <Form.Item
+                            label="Proveedor"
+                            name="proveedor"
+                            rules={[
+                                {
+                                    required: true,
+                                    message: "Este campo es requerido"
+                                }
+                            ]}
+                        >
+                            <Select loading={loadingProveedores} >
+                                {
+                                    arrayProvedores ? arrayProvedores.map((proveedor, key) => {
+                                        return <Option key={key} value={proveedor.id_proveedor} > {proveedor.nombre} </Option>
+                                    }) : []
+                                }
+                            </Select>
+                        </Form.Item>
+                    </div>
+                    <div className='col-sm-12 col-md-4' >
+                        <Form.Item
+                            label="Tipo de almacen"
+                            name="tipoAlmacen"
+                            rules={[{
+                                required: true,
+                                message: "Este campo es requerido"
+                            }]}
+                        >
+                            <Select loading={loading} >
+                                {
+                                    arrayAlmacen ? arrayAlmacen.map((tipo, key) => {
+                                        return <Option value={tipo.id_tipo_almacen} key={key} >
+                                            {tipo.nombre}
+                                        </Option>
+                                    }) : []
+                                }
+                            </Select>
+                        </Form.Item>
+                    </div>
+                    <div className='col-sm-12 col-md-4' >
+                        <Form.Item
+                            label="Fecha"
+                            name="fecha"
+                            rules={[
+                                {
+                                    required: true,
+                                    message: "Este campo es requerido"
+                                }
+                            ]}
+                        >
+                            <DatePicker style={{ width: "100%" }} />
+                        </Form.Item>
+                    </div>
+
                 </div>
-            </div>
-            <div className='table-responsive'>
-                <TablaEntradas data={arrayDatos} sqlGet={GET_ENTRADAS}  setDatosEditar={setDatosEditar} setVerModal={setVerModal}/>
-            </div>
-            <ModalAgregar  setVerModal={setVerModal} verModal={verModal} sqlGet={GET_ENTRADAS} datosEditar={datosEditar} setDatosEditar={setDatosEditar}/>
+                <div className='row' >
+                    <div className='col-12' >
+                        <Button htmlType='submit' className='float-right' type='primary'>Registrar</Button>
+                    </div>
+                </div>
+            </Form>
         </>
     )
 }
