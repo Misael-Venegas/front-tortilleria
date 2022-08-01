@@ -82,10 +82,9 @@ const ModalAgregar = ({ setVerModal, verModal, setActualizarTabla }) => {
 
 
     const registrarEntrada = async (event) => {
-        console.log(event)
         let fecha = new Date(event.fecha)
         try {
-            guardarEntrada({
+            await guardarEntrada({
                 variables: {
                     input: {
                         cantidad: parseInt(event.cantidad),
@@ -96,6 +95,9 @@ const ModalAgregar = ({ setVerModal, verModal, setActualizarTabla }) => {
                     }
                 }
             })
+            setActualizarTabla(Math.random())
+            setVerModal(false)
+            message.success("Entrada registrada")
         } catch (error) {
             message.error(error.message)
         }
@@ -108,7 +110,7 @@ const ModalAgregar = ({ setVerModal, verModal, setActualizarTabla }) => {
             destroyOnClose={true}
             visible={verModal}
             title={"Nueva Entrada Almacen"}
-            onCancel={() => { setVerModal(false); setDatosEditar(null); formulario.resetFields(); }}
+            onCancel={() => { setVerModal(false) }}
             keyboard={false}
             maskClosable={false}
             footer={false}

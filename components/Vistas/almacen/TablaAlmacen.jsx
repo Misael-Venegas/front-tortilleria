@@ -17,7 +17,7 @@ const GET_ALMACEN = gql`
 const TablaAlmacen = ({ setActualizarTabla, actualizarTabla }) => {
 
   const { alertEliminarAlmacen } = AlertEliminarAlmacen()
- 
+
   const columns = [{
     title: "#",
     dataIndex: "key",
@@ -46,7 +46,7 @@ const TablaAlmacen = ({ setActualizarTabla, actualizarTabla }) => {
     }
   }
   )
-
+  console.log(actualizarTabla)
   useEffect(() => {
     obtnerAlmacen({
       variables: {

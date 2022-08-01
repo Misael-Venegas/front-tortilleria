@@ -9,9 +9,9 @@ const CREATE_PRODUCTO = gql`
 
 const ModalAgregar = ({ setVerModal, verModal, setActualizarTabla }) => {
     const [crearProducto, { loading }] = useMutation(CREATE_PRODUCTO)
-    const guardarDatos = (event) => {
+    const guardarDatos = async (event) => {
         try {
-            crearProducto({
+            await crearProducto({
                 variables: {
                     producto: event.nombre,
                     unidadMedida: event.unidadMedida
