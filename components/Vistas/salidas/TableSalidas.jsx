@@ -2,17 +2,18 @@ import React, { useEffect } from 'react'
 import { useLazyQuery, gql } from '@apollo/client'
 import { Table } from 'antd'
 
-const CREATE_CORTE = gql`
-        query generarCorteDeCaja($fechaCorte: String!, $id_sucursal: String!){
-              generarCorteDeCaja(fechaCorte: $fechaCorte, id_sucursal: $id_sucursal){
-                id_ventas_productos
-                nombre_sucursal
-                nombre_producto
-                cantidad
-                total
-                empleado
-              }
+const OBTENER_SALIDAS = gql`
+    query getSalidas($fecha: String!){
+        getSalidas(fecha: $fecha){
+            id_salida
+            Fecha
+            descripcion
+            id_salidas_almacen
+            id_almacen
+            cantidad
+            nombre
         }
+    }
 `
 
 const colums = [
@@ -24,48 +25,49 @@ const colums = [
         title: "Producto",
         dataIndex: "producto",
         name: "producto"
-    }, {
+    }, 
+    {
         title: "Cantidad",
         dataIndex: "cantidad",
         name: "cantidad"
-    }, {
-        title: "Total",
-        dataIndex: "precio",
-        name: "precio"
     }, 
+    {
+        title: "Descripción",
+        dataIndex: "descripcion",
+        name: "descripcion"
+    },
 ]
 
-const TableSalidas = ({ fecha }) => {
-    const [generarCorteDeCaja, { data,loading }] = useLazyQuery(CREATE_CORTE)
+const TableSalidas = ({ fecha , nuevaSalida}) => {
+    const [verSalidas, { data,loading }] = useLazyQuery(OBTENER_SALIDAS)
 
     useEffect(() => {
         try {
-            generarCorteDeCaja({
+            verSalidas({
                 variables: {
-                    fechaCorte: fecha,
-                    id_sucursal: ""
+                    fecha: fecha
                 }
             })
         } catch (error) {
             message.error(error.message)
         }
-    }, [ fecha])
+    }, [fecha, nuevaSalida])
     
-    const crearFila = (venta, key) => {
+    const crearFila = (salidas, key) => {
         return {
             key: key + 1,
-            producto: venta.nombre_producto,
-            cantidad: venta.cantidad + "kg",
-            precio: venta.total,
+            producto: salidas.nombre,
+            cantidad: salidas.cantidad,
+            descripcion: salidas.descripcion
         }
     }
 
     return (
-        <Table columns={colums} className='pt-4' dataSource={data ? data.generarCorteDeCaja.map((salida, key) => {
+        <Table columns={colums} className='pt-4' dataSource={data && data.getSalidas && data.getSalidas.map((salida, key) => {
             return (
                 crearFila(salida, key)
             )
-        }) : []} />
+        })} />
     )
 }
 

@@ -46,7 +46,6 @@ const TablaAlmacen = ({ setActualizarTabla, actualizarTabla }) => {
     }
   }
   )
-  console.log(actualizarTabla)
   useEffect(() => {
     obtnerAlmacen({
       variables: {
