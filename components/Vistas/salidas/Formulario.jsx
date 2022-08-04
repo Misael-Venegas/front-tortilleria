@@ -26,8 +26,8 @@ const GET_ALL_SUCUARSALES = gql`
 `
 
 const CREATE_SALIDA = gql`
-    mutation createSalida($input: salidasInput!, $inputSalidas: salidasAlmacenInput!){
-        createSalida(input: $input, inputSalidas: $inputSalidas)
+    mutation createSalida($input: salidaInput!){
+        createSalida(input: $input)
 }`
 
 const Formulario = ({ setVerModal, setNuevaSalida, verModal, nuevaSalida }) => {
@@ -51,12 +51,9 @@ const Formulario = ({ setVerModal, setNuevaSalida, verModal, nuevaSalida }) => {
                     variables: {
                         input: {
                             Fecha: form.fecha.format('YYYY-MM-DD'),
-                            descripcion: `Suc-${form.sucursal}: ${form.descripcion}`
-                        },
-                        inputSalidas: {
-                            id_almacen: form.insumo,
-                            cantidad: form.cantidad,
-                            id_salida: null
+                            id_almacen: parseInt(form.insumo),
+                            cantidad: parseInt(form.cantidad),
+                            id_sucursal: parseInt(form.sucursal)
                         }
                     }
                 })
@@ -147,14 +144,6 @@ const Formulario = ({ setVerModal, setNuevaSalida, verModal, nuevaSalida }) => {
                 ]}>
                     <DatePicker style={{ width: "100%" }} format={'YYYY-MM-DD'} />
                 </Form.Item>
-                <Form.Item label="Descripción" name="descripcion" rules={[
-                    {
-                        required: true,
-                        message: "Debe ingresar una descripción"
-                    }
-                ]}>
-                    <Input />
-                </Form.Item>
                 <Form.Item label="Sucursal" name="sucursal" rules={[
                     {
                         required: true,
@@ -163,7 +152,7 @@ const Formulario = ({ setVerModal, setNuevaSalida, verModal, nuevaSalida }) => {
                 ]}>
                     <Select placeholder="Selccione una sucursal">
                         {dataSucursales && dataSucursales.getAllSucursales.map(function (sucursal, key) {
-                            return <Select.Option key={key} value={sucursal.nombre}>{sucursal.nombre}</Select.Option>
+                            return <Select.Option key={key} value={sucursal.id_sucursal}>{sucursal.nombre}</Select.Option>
                         })}
                     </Select>
                 </Form.Item>

@@ -1,17 +1,16 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useLazyQuery, gql } from '@apollo/client'
 import { Table } from 'antd'
 
 const OBTENER_SALIDAS = gql`
-    query getSalidas($fecha: String!){
-        getSalidas(fecha: $fecha){
+    query getAllSalidas($fecha: String!){
+        getAllSalidas(fecha: $fecha){
             id_salida
-            Fecha
-            descripcion
-            id_salidas_almacen
-            id_almacen
             cantidad
-            nombre
+            Fecha
+            nombreProducto
+            unidad_de_medida
+            noSucursal
         }
     }
 `
@@ -25,49 +24,55 @@ const colums = [
         title: "Producto",
         dataIndex: "producto",
         name: "producto"
-    }, 
+    },
     {
         title: "Cantidad",
         dataIndex: "cantidad",
         name: "cantidad"
-    }, 
-    {
-        title: "Descripción",
-        dataIndex: "descripcion",
-        name: "descripcion"
     },
+    {
+        title: "Fecha",
+        dataIndex: "fecha",
+        name: "fecha"
+    }, {
+        title: "Sucursal",
+        dataIndex: "sucursal",
+        name: "sucursal"
+    }
 ]
 
-const TableSalidas = ({ fecha , nuevaSalida}) => {
-    const [verSalidas, { data,loading }] = useLazyQuery(OBTENER_SALIDAS)
+const TableSalidas = ({ fecha, nuevaSalida }) => {
+    const [arraySalidas, setarraySalidas] = useState([])
+    const [obtner_salidas, { loading }] = useLazyQuery(OBTENER_SALIDAS, {
+        onCompleted: (data) => {
+            data ? (data.getAllSalidas ? setarraySalidas(data.getAllSalidas) : setarraySalidas([])) : setarraySalidas([])
+        }
+    })
 
     useEffect(() => {
-        try {
-            verSalidas({
-                variables: {
-                    fecha: fecha
-                }
-            })
-        } catch (error) {
-            message.error(error.message)
-        }
+        obtner_salidas({
+            variables: {
+                fecha
+            }
+        })
     }, [fecha, nuevaSalida])
-    
+
+
+
     const crearFila = (salidas, key) => {
         return {
             key: key + 1,
-            producto: salidas.nombre,
+            producto: salidas.nombreProducto,
             cantidad: salidas.cantidad,
-            descripcion: salidas.descripcion
+            sucursal: salidas.noSucursal,
+            fecha: salidas.Fecha
         }
     }
 
     return (
-        <Table columns={colums} className='pt-4' dataSource={data && data.getSalidas && data.getSalidas.map((salida, key) => {
-            return (
-                crearFila(salida, key)
-            )
-        })} />
+        <Table columns={colums} className='pt-4' loading={loading} dataSource={arraySalidas ? arraySalidas.map((salida, key) => {
+            return crearFila(salida, key)
+        }) : []} />
     )
 }
 
