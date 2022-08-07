@@ -33,6 +33,7 @@ const CREATE_SALIDA = gql`
 const Formulario = ({ setVerModal, setNuevaSalida, verModal, nuevaSalida }) => {
     const [formularioSalidas] = Form.useForm();
     const [arrayAlmacen, setArrayAlmacen] = useState([]);
+    const [actualizarSelect, setactualizarSelect] = useState(3.1416)
     const [obtenerAlmacen, { data, loading }] = useLazyQuery(GET_ALMACEN,
         {
             onCompleted: (data) => {
@@ -81,7 +82,7 @@ const Formulario = ({ setVerModal, setNuevaSalida, verModal, nuevaSalida }) => {
                 key: Math.random()
             }
         })
-    }, [nuevaSalida]);
+    }, [nuevaSalida, actualizarSelect]);
 
     useEffect(() => {
         obtenerSucursales({
@@ -89,7 +90,7 @@ const Formulario = ({ setVerModal, setNuevaSalida, verModal, nuevaSalida }) => {
                 key: Math.random()
             }
         });
-    }, []);
+    }, [actualizarSelect]);
 
     return (
         <Modal
@@ -113,7 +114,7 @@ const Formulario = ({ setVerModal, setNuevaSalida, verModal, nuevaSalida }) => {
                         message: "Seleccione una opcion"
                     }
                 ]}>
-                    <Select placeholder="Selccione un insumo" onChange={cambiarStock}>
+                    <Select placeholder="Selccione un insumo" onChange={cambiarStock} onClick={() => setactualizarSelect(Math.random())} >
                         {arrayAlmacen && arrayAlmacen.map(function (almacen, key) {
                             return <Select.Option key={key} value={almacen.id_almacen}>{almacen.nombreProducto}</Select.Option>
                         })}
@@ -150,7 +151,7 @@ const Formulario = ({ setVerModal, setNuevaSalida, verModal, nuevaSalida }) => {
                         message: "Seleccione una opcion"
                     }
                 ]}>
-                    <Select placeholder="Selccione una sucursal">
+                    <Select placeholder="Selccione una sucursal" onClick={() => setactualizarSelect(Math.random())} >
                         {dataSucursales && dataSucursales.getAllSucursales.map(function (sucursal, key) {
                             return <Select.Option key={key} value={sucursal.id_sucursal}>{sucursal.nombre}</Select.Option>
                         })}

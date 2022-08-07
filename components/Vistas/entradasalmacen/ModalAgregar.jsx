@@ -45,6 +45,7 @@ const ModalAgregar = ({ setVerModal, verModal, setActualizarTabla }) => {
     const [arrayProvedores, setarrayProvedores] = useState([])
     const [arrayAlmacenProductos, setarrayAlmacenProductos] = useState([])
     const [guardarEntrada] = useMutation(CREATE_ENTRADA)
+    const [actualizarSelect, setactualizarSelect] = useState(3.1416)
     const [obtenerProveedores, { loading: loadingProveedores }] = useLazyQuery(GET_PROOVEDORES,
         {
             onCompleted: (data) => {
@@ -78,7 +79,7 @@ const ModalAgregar = ({ setVerModal, verModal, setActualizarTabla }) => {
         } catch (error) {
             message.error(error.message)
         }
-    }, [])
+    }, [actualizarSelect])
 
 
     const registrarEntrada = async (event) => {
@@ -133,7 +134,7 @@ const ModalAgregar = ({ setVerModal, verModal, setActualizarTabla }) => {
                                 }
                             ]}
                         >
-                            <Select loading={loadingCargarProductos} >
+                            <Select loading={loadingCargarProductos} onClick={() => setactualizarSelect(Math.random())} >
                                 {
                                     arrayAlmacenProductos ? arrayAlmacenProductos.map((producto, key) => {
                                         return <Option key={key} value={producto.id_almacen} > {producto.nombreProducto} </Option>
@@ -172,7 +173,7 @@ const ModalAgregar = ({ setVerModal, verModal, setActualizarTabla }) => {
                                 }
                             ]}
                         >
-                            <Select loading={loadingProveedores} >
+                            <Select loading={loadingProveedores} onClick={() => setactualizarSelect(Math.random())} >
                                 {
                                     arrayProvedores ? arrayProvedores.map((proveedor, key) => {
                                         return <Option key={key} value={proveedor.id_proveedor} > {proveedor.nombre} </Option>
@@ -190,7 +191,7 @@ const ModalAgregar = ({ setVerModal, verModal, setActualizarTabla }) => {
                                 message: "Este campo es requerido"
                             }]}
                         >
-                            <Select loading={loading} >
+                            <Select loading={loading} onClick={() => setactualizarSelect(Math.random())} >
                                 {
                                     arrayAlmacen ? arrayAlmacen.map((tipo, key) => {
                                         return <Option value={tipo.id_tipo_almacen} key={key} >
