@@ -6,19 +6,39 @@ const TextoCorteDeCaja = ({ arrayCorte, fecha }) => {
             <p>*************************************************************************************</p>
             <p>Corte de caja con fecha de {fecha} </p>
             <p>Lista generada</p>
-            <ul>
-                {
+            <div className="centrarComponentes" >
 
-                    arrayCorte.map((venta, key) => {
-                        totalVenta += parseFloat(venta.total)
-                        return (
-                            <li key={key} >{venta.nombre_sucursal} &nbsp; {venta.nombre_producto} {venta.cantidad}kg &nbsp;  ${venta.total} &nbsp; {venta.empleado} </li>
-                        )
+                <table>
+                    <thead>
+                        <tr>
+                            <th className='text-left' >Sucursal</th>
+                            <th className='text-left' >Producto&nbsp;</th>
+                            <th className='text-left'>Cantidad&nbsp;</th>
+                            <th className='text-left'>Total&nbsp;</th>
+                            <th className='text-left'>Vendedor</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {
+                            arrayCorte.map((venta, key) => {
+                                totalVenta += parseFloat(venta.total)
+                                return (
+                                    <tr key={key}>
+                                        <td>{venta.nombre_sucursal} &nbsp;&nbsp;</td>
+                                        <td>{venta.nombre_producto} &nbsp;&nbsp; </td>
+                                        <td>{venta.cantidad}kg &nbsp;&nbsp; </td>
+                                        <td>${venta.total} &nbsp;&nbsp;</td>
+                                        <td>{venta.empleado}&nbsp;&nbsp;</td>
+                                    </tr>
+                                )
 
-                    })
-                }
-            </ul>
-            <p>Total de ingresos generados ${totalVenta} </p>
+                            })
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+            <p className='pt-3' > <b>Total de ingresos generados ${totalVenta} </b> </p>
             <p>*************************************************************************************</p>
         </div>
     )

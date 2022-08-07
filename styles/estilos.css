@@ -65,3 +65,7 @@
 .anticon svg {
   margin-top: -3px;
 }
+.centrarComponentes {
+    display: flex;
+    justify-content: center;
+}

@@ -61,11 +61,15 @@ const Ventas = () => {
     })
 
     const crearListaDeVentas = () => {
+        if (precio <= 0 || cantidad <= 0) {
+            message.error("La cantidad y/o el precio deben ser mayores a cero")
+            return
+        }
         const venta = {
             id_sucursal: sucursal,
             id_producto: producto,
             precio: parseFloat(precio * cantidad),
-            cantidad: parseInt(cantidad)
+            cantidad: parseFloat(cantidad)
         }
         let suma = parseFloat(totatlVentas) + parseFloat(precio * cantidad);
         settotatlVentas(suma)
@@ -79,7 +83,8 @@ const Ventas = () => {
             if (posicion !== index) {
                 return venta
             } else {
-                let resta = parseFloat(totatlVentas) - parseFloat(venta.precio * venta.cantidad)
+                // console.log("resta", totatlVentas, venta.precio, venta.cantidad)
+                let resta = (parseFloat(totatlVentas) - parseFloat(venta.precio))
                 settotatlVentas(resta)
             }
         })
@@ -97,6 +102,7 @@ const Ventas = () => {
             return
         }
         try {
+            console.log(arrayVentas)
             await guardarVenta({
                 variables: {
                     input: {
@@ -107,7 +113,7 @@ const Ventas = () => {
                 }
             })
             message.success("Venta realizada")
-         
+
             settotatlVentas(0)
             setarrayVentas([])
         } catch (error) {
@@ -160,12 +166,12 @@ const Ventas = () => {
 
                 <div className='col-md-3 col-sm-12' >
                     <span>Cantidad</span>
-                    <Input type='number' onChange={(e) => setcantidad(e.target.value)} />
+                    <Input type='number' min={0} onChange={(e) => setcantidad(e.target.value)} />
                 </div>
 
                 <div className='col-md-3 col-sm-12' >
                     <span>Precio unitario</span>
-                    <Input type='number' onChange={(e) => setprecio(e.target.value)} />
+                    <Input type='number' min={0} onChange={(e) => setprecio(e.target.value)} />
                 </div>
 
                 <div className='col-md-3 col-sm-12' >
