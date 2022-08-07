@@ -15,7 +15,7 @@ const Formulario = () => {
 
                 </div>
             </div>
-            <p style={{ fontSize: 15, color: "#40A9FF" }} className="float-right pt-2 pr-2 seleccionarComponente"
+            <p style={{ fontSize: 15, color: "#40A9FF" }} className=" pt-2  seleccionarComponente"
                 onClick={() => setActualizarTabla(Math.random())}>
                 Actualizar <RetweetOutlined />
             </p>
