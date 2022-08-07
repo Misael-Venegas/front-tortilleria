@@ -3,6 +3,7 @@ import { Button, Input } from 'antd'
 import TablaAlmacen from './TablaAlmacen'
 import ModalAgregar from './ModalAgregar'
 import { RetweetOutlined } from '@ant-design/icons'
+import ReactHtmlTableToExcel from 'react-html-table-to-excel'
 const Formulario = () => {
     const [verModal, setVerModal] = useState(false)
     const [actualizarTabla, setActualizarTabla] = useState(3.1416)
@@ -18,6 +19,14 @@ const Formulario = () => {
             <p style={{ fontSize: 15, color: "#40A9FF" }} className=" pt-2  seleccionarComponente"
                 onClick={() => setActualizarTabla(Math.random())}>
                 Actualizar <RetweetOutlined />
+                <ReactHtmlTableToExcel
+                    id="test-table-xls-button"
+                    className="ant-btn ant-btn-primary ant-btn-background-ghost float-right mt-2"
+                    table="tablaAlmacen"
+                    filename="almacén"
+                    sheet="Reporte almacén"
+                    buttonText="Exportar excel"
+                />
             </p>
             <div className='table-responsive'>
                 <TablaAlmacen actualizarTabla={actualizarTabla} setActualizarTabla={setActualizarTabla} />

@@ -88,6 +88,32 @@ const TablaEntradas = ({ fecha, actualizarTabla }) => {
         loading={loading}
       >
       </Table>
+      <table id='tablaEntradas' hidden >
+        <thead>
+          <tr>
+            <th>Producto</th>
+            <th>Cantidad</th>
+            <th>Proveedor</th>
+            <th>Tipo almacén</th>
+            <th>Fecha entrada</th>
+          </tr>
+        </thead>
+        <tbody>
+          {
+            arrayEntradas.map((entrada, key) => {
+              return (
+                <tr key={key} >
+                  <td> {entrada.nombreProducto} </td>
+                  <td> {entrada.cantidad} </td>
+                  <td> {entrada.noProveedor} </td>
+                  <td> {entrada.noTipoAlmacen} </td>
+                  <td> {entrada.fechaRegistro} </td>
+                </tr>
+              )
+            })
+          }
+        </tbody>
+      </table>
     </div>
   )
 }

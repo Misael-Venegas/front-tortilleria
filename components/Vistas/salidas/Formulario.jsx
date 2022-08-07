@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react'
 import { gql, useMutation, useLazyQuery } from '@apollo/client'
 import { Modal, Input, message, Spin, Form, Select, Button, InputNumber, Tag, DatePicker } from 'antd'
 import moment from 'moment'
-
 const GET_ALMACEN = gql`
       query getAlmacen($key: Float!) {
         getAlmacen(key: $key){

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useLazyQuery, gql, useMutation } from '@apollo/client';
 import { Table, Modal, message } from 'antd'
-import { DeleteOutlined } from '@ant-design/icons'
+import { DeleteOutlined, KeyOutlined } from '@ant-design/icons'
 import { AlertEliminarAlmacen } from './AlertEliminarAlmacen';
 const GET_ALMACEN = gql`
       query getAlmacen($key: Float!) {
@@ -70,6 +70,27 @@ const TablaAlmacen = ({ setActualizarTabla, actualizarTabla }) => {
         return crearFilas(key, alm)
       }) : []} loading={loadingCargarProductos} >
       </Table>
+     
+      <table id='tablaAlmacen' hidden >
+        <thead>
+          <tr>
+            <th>Producto</th>
+            <th>Cantidad</th>
+          </tr>
+        </thead>
+        <tbody>
+          {
+            arrayAlmacen.map((almacen, key) => {
+              return (
+                <tr key={key} >
+                  <td> {almacen.nombreProducto} </td>
+                  <td> {almacen.cantidadTotal + " " + almacen.unidad_de_medida} </td>
+                </tr>
+              )
+            })
+          }
+        </tbody>
+      </table>
     </div>
   )
 }

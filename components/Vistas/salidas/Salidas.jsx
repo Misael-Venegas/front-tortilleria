@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { Button, DatePicker } from 'antd'
 import TableSalidas from './TableSalidas'
 import Formulario from './Formulario';
-
+import ReactHtmlTableToExcel from 'react-html-table-to-excel'
 const Salidas = () => {
     const [verModal, setVerModal] = useState(false);
     const [fecha, setFecha] = useState("")
@@ -22,6 +22,20 @@ const Salidas = () => {
                     <Button type='primary' className='float-right' onClick={() => setVerModal(true)} >Agregar Salida</Button>
                 </div>
             </div>
+            <div className='row' >
+                <div className='cpl-12' >
+                    <ReactHtmlTableToExcel
+                        id="test-table-xls-button"
+                        className="ant-btn ant-btn-primary ant-btn-background-ghost float-right mt-2"
+                        table="tablaSalidas"
+                        filename="salidas"
+                        sheet="Reporte salidas"
+                        buttonText="Exportar excel"
+                    />
+                </div>
+
+            </div>
+
             <div className='row'>
                 <TableSalidas fecha={fecha} nuevaSalida={nuevaSalida} />
             </div>
