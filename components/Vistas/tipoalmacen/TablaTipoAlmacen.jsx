@@ -1,7 +1,8 @@
-import React, { useState }from 'react'
+import React, { useState } from 'react'
 import { useMutation, gql } from '@apollo/client'
 import { Modal, Table, message } from 'antd'
-import { DeleteOutlined } from '@ant-design/icons'
+import { DeleteOutlined, EditOutlined } from '@ant-design/icons'
+import ModalEditar from './ModalEditarAlmacen'
 
 const DELETE_ALMACEN = gql`
     mutation deleteAlmacenTipo($id_tipo_almacen: Int!){
@@ -12,13 +13,14 @@ const DELETE_ALMACEN = gql`
 const TablaTipoAlmacen = ({ data, sqlGet }) => {
   const [eliminar_almacen] = useMutation(DELETE_ALMACEN, {
     refetchQueries: [
-      {query: sqlGet},
+      { query: sqlGet },
     ],
   });
   const [id_almacen, setId_almacen] = useState(null);
   const [almacen, setAlmacen] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
-
+  const [modalEditar, setmodalEditar] = useState(false)
+  const [datosAlmacen, setdatosAlmacen] = useState([])
   const columns = [{
     title: "#",
     dataIndex: "key",
@@ -56,13 +58,20 @@ const TablaTipoAlmacen = ({ data, sqlGet }) => {
     }
   }
 
+  const abrirModalEditar = (datos) => {
+    setmodalEditar(true)
+    setdatosAlmacen(datos)
+  }
   const crearFila = (almacen, key) => {
+
     return {
       key: key + 1,
       tipo_almacen: almacen.nombre,
       acciones: <span>
         <span className='seleccionarComponente' style={{ color: "red" }} > <DeleteOutlined onClick={() => modalEliminar(almacen.id_tipo_almacen, almacen.nombre)} /></span> &nbsp;
+        <span className='seleccionarComponente' style={{ color: "#40A9FF" }} onClick={() => abrirModalEditar(almacen)} ><EditOutlined /></span>
       </span>
+
     }
   }
 
@@ -93,6 +102,7 @@ const TablaTipoAlmacen = ({ data, sqlGet }) => {
           <p>{almacen}</p>
         </div>
       </Modal>
+      <ModalEditar setVerEditarModa={setmodalEditar} verEditarModal={modalEditar} datos={datosAlmacen} sqlGet={sqlGet} />
     </div>
   )
 }
