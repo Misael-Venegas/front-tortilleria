@@ -1,45 +1,42 @@
 import { DatePicker } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
-import { Pie } from 'react-chartjs-2';
+import { Pie, Bar } from 'react-chartjs-2';
 import { useLazyQuery, gql } from "@apollo/client";
 import moment from "moment";
-
-
+import Chart from 'chart.js/auto';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-const fondos = [
-  'rgba(255, 99, 132, 0.2)',
-  'rgba(54, 162, 235, 0.2)',
-  'rgba(255, 206, 86, 0.2)',
-  'rgba(75, 192, 192, 0.2)',
-  'rgba(153, 102, 255, 0.2)',
-  'rgba(255, 159, 64, 0.2)',
-];
-
-const bordes = [
-  'rgba(255, 99, 132, 1)',
-  'rgba(54, 162, 235, 1)',
-  'rgba(255, 206, 86, 1)',
-  'rgba(75, 192, 192, 1)',
-  'rgba(153, 102, 255, 1)',
-  'rgba(255, 159, 64, 1)',
-];
 
 const OBTENER_DATOS = gql`
   query generarReporte($desde: String, $hasta: String) {
     generarReporte(desde: $desde, hasta: $hasta) {
       nombres
       ventas
+      ventasRealizadas
     }
   }
 `;
 
 const Reportes = () => {
 
+  const options = {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: 'top',
+      },
+      title: {
+        display: true,
+        text: 'Reporte de las ventas realizadas',
+      },
+    },
+  };
+
   const [obtener, { loading }] = useLazyQuery(OBTENER_DATOS, {
     onCompleted: (data) => {
+      console.log(data)
       if (data) {
         setResultados(data.generarReporte);
       }
@@ -51,7 +48,7 @@ const Reportes = () => {
   const [desde, setDesde] = useState(moment());
   const [hasta, setHasta] = useState(moment());
 
-  
+
 
   useEffect(() => {
     obtener({
@@ -67,10 +64,10 @@ const Reportes = () => {
     labels: resultados?.nombres || [],
     datasets: [
       {
-        label: 'Repartidores',
+        label: 'Cantidad total de ventas  $',
         data: resultados?.ventas || [],
-        backgroundColor: fondos,
-        borderColor: bordes,
+        backgroundColor: 'rgba(75, 192, 192, 1)',
+        borderColor: 'rgba(75, 192, 192, 1)',
         borderWidth: 1,
       },
     ],
@@ -100,9 +97,9 @@ const Reportes = () => {
       </div>
 
       <div className="row mt-5 ">
-        <div style={{display: 'flex',  justifyContent: 'center' }}>
-          <div className="col-md-4">
-            <Pie data={datos} />
+        <div style={{ display: 'flex', justifyContent: 'center' }}>
+          <div className="col-md-7">
+            <Bar data={datos} options={options} />
           </div>
         </div>
       </div>
