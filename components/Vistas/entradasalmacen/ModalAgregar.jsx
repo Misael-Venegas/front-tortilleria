@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { gql, useMutation, useLazyQuery } from '@apollo/client'
 import moment from 'moment';
 import { Button, Input, Form, Select, DatePicker, message, Modal } from 'antd'
+import { AppContext } from '../../context/Provider'
 
 const CREATE_ENTRADA = gql`
     mutation createEntradas($input: crearEntrada!) {
@@ -46,6 +47,7 @@ const ModalAgregar = ({ setVerModal, verModal, setActualizarTabla }) => {
     const [arrayAlmacenProductos, setarrayAlmacenProductos] = useState([])
     const [guardarEntrada] = useMutation(CREATE_ENTRADA)
     const [actualizarSelect, setactualizarSelect] = useState(3.1416)
+    const [state, setState] = useContext(AppContext)
     const [obtenerProveedores, { loading: loadingProveedores }] = useLazyQuery(GET_PROOVEDORES,
         {
             onCompleted: (data) => {
@@ -97,6 +99,7 @@ const ModalAgregar = ({ setVerModal, verModal, setActualizarTabla }) => {
                 }
             })
             setActualizarTabla(Math.random())
+            setState({ updateTable: Math.random() })
             setVerModal(false)
             message.success("Entrada registrada")
         } catch (error) {

@@ -1,7 +1,10 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { gql, useMutation, useLazyQuery } from '@apollo/client'
 import { Modal, Input, message, Spin, Form, Select, Button, InputNumber, Tag, DatePicker } from 'antd'
 import moment from 'moment'
+import { AppContext } from '../../context/Provider'
+
+
 const GET_ALMACEN = gql`
       query getAlmacen($key: Float!) {
         getAlmacen(key: $key){
@@ -33,6 +36,7 @@ const Formulario = ({ setVerModal, setNuevaSalida, verModal, nuevaSalida }) => {
     const [formularioSalidas] = Form.useForm();
     const [arrayAlmacen, setArrayAlmacen] = useState([]);
     const [actualizarSelect, setactualizarSelect] = useState(3.1416)
+    const [state, setState] = useContext(AppContext)
     const [obtenerAlmacen, { data, loading }] = useLazyQuery(GET_ALMACEN,
         {
             onCompleted: (data) => {
@@ -59,6 +63,7 @@ const Formulario = ({ setVerModal, setNuevaSalida, verModal, nuevaSalida }) => {
                 })
                 setNumber(0)
                 setNuevaSalida(Math.random());
+                setState(Math.random())
                 setVerModal(false)
                 message.success("Salida registrada")
                 formularioSalidas.resetFields();

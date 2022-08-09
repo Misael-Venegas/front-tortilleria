@@ -16,18 +16,15 @@ const Formulario = () => {
 
                 </div>
             </div>
-            <p style={{ fontSize: 15, color: "#40A9FF" }} className=" pt-2  seleccionarComponente"
-                onClick={() => setActualizarTabla(Math.random())}>
-                Actualizar <RetweetOutlined />
-                <ReactHtmlTableToExcel
-                    id="test-table-xls-button"
-                    className="ant-btn ant-btn-primary ant-btn-background-ghost float-right mt-2"
-                    table="tablaAlmacen"
-                    filename="almacén"
-                    sheet="Reporte almacén"
-                    buttonText="Exportar excel"
-                />
-            </p>
+            <ReactHtmlTableToExcel
+                id="test-table-xls-button"
+                className="ant-btn ant-btn-primary ant-btn-background-ghost float-right mt-2"
+                table="tablaAlmacen"
+                filename="almacén"
+                sheet="Reporte almacén"
+                buttonText="Exportar excel"
+            />
+
             <div className='table-responsive'>
                 <TablaAlmacen actualizarTabla={actualizarTabla} setActualizarTabla={setActualizarTabla} />
             </div>

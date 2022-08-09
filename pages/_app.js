@@ -8,10 +8,13 @@ import "../styles/scrollThin.css";
 import "../styles/loader.css";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "antd/dist/antd.css";
+import Provider from '../components/context/Provider';
 function MyApp({ Component, pageProps }) {
   return (
     <ApolloProvider client={client} >
-      <Component {...pageProps} />
+      <Provider>
+        <Component {...pageProps} />
+      </Provider>
     </ApolloProvider>
   );
 }

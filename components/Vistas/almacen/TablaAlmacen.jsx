@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 import { useLazyQuery, gql, useMutation } from '@apollo/client';
 import { Table, Modal, message } from 'antd'
 import { DeleteOutlined, KeyOutlined } from '@ant-design/icons'
 import { AlertEliminarAlmacen } from './AlertEliminarAlmacen';
+import { AppContext } from '../../context/Provider'
 const GET_ALMACEN = gql`
       query getAlmacen($key: Float!) {
         getAlmacen(key: $key){
@@ -17,7 +18,7 @@ const GET_ALMACEN = gql`
 const TablaAlmacen = ({ setActualizarTabla, actualizarTabla }) => {
 
   const { alertEliminarAlmacen } = AlertEliminarAlmacen()
-
+  const [state, setState] = useContext(AppContext);
   const columns = [{
     title: "#",
     dataIndex: "key",
@@ -52,7 +53,7 @@ const TablaAlmacen = ({ setActualizarTabla, actualizarTabla }) => {
         key: Math.random()
       }
     })
-  }, [actualizarTabla])
+  }, [actualizarTabla, state.updateTable])
 
 
   const crearFilas = (key, almacen) => {
@@ -70,7 +71,7 @@ const TablaAlmacen = ({ setActualizarTabla, actualizarTabla }) => {
         return crearFilas(key, alm)
       }) : []} loading={loadingCargarProductos} >
       </Table>
-     
+
       <table id='tablaAlmacen' hidden >
         <thead>
           <tr>
