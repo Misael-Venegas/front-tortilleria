@@ -2,7 +2,8 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { gql, useLazyQuery } from "@apollo/client";
 import { useRouter } from "next/router";
-import ModalEnvarContrasenhia from "./ModalEnvarContrasenhia";
+//import ModalEnvarContrasenhia from "./ModalEnvarContrasenhia";
+import ModalContrasenhiaTemporal from "./ModalContrasenhiaTemporal";
 const LOGIN = gql`
   query login($correo: String!, $contrasenia: String!, $key: Float!) {
     login(correo: $correo, contrasenia: $contrasenia, key: $key) {
@@ -115,7 +116,7 @@ const Login = () => {
           </div>
         </div>
       </div>
-      <ModalEnvarContrasenhia openModal={openModal} setOpenModal={setOpenModal} />
+      <ModalContrasenhiaTemporal openModal={openModal} setOpenModal={setOpenModal} />
     </>
   );
 };

@@ -1,16 +1,16 @@
 import React, { useState } from 'react'
 import { useMutation, gql } from '@apollo/client'
 import { Modal, message, Input, Form, Button } from 'antd';
-
+import { useRouter } from 'next/router';
 const UPDATE_PASSWORD = gql`
-    mutation cambiarContrasenhia($email: String!, $contrasenhia: String!, $key: Float!){
-        cambiarContrasenhia(email: $email, contrasenhia: $contrasenhia, key: $key)
+    mutation cambiarContrasenhia( $contrasenhia: String!, $key: Float!){
+        cambiarContrasenhia( contrasenhia: $contrasenhia, key: $key)
     }
 `
 
 
 const ModalEnvarContrasenhia = ({ openModal, setOpenModal }) => {
-
+    const router = useRouter()
     const [actualizarContrasenhia, { loading }] = useMutation(UPDATE_PASSWORD)
 
     const actualizarContrase = async (event) => {
@@ -22,13 +22,15 @@ const ModalEnvarContrasenhia = ({ openModal, setOpenModal }) => {
         try {
             await actualizarContrasenhia({
                 variables: {
-                    email: event.email,
+
                     contrasenhia: event.contrasenhia,
                     key: Math.random()
                 }
             })
             setOpenModal(false)
             message.success("Contraseña actualizada")
+            localStorage.removeItem('token')
+            router.push('/')
 
         } catch (error) {
             message.error(error.message)
@@ -48,15 +50,7 @@ const ModalEnvarContrasenhia = ({ openModal, setOpenModal }) => {
                 onFinish={actualizarContrase}
                 layout='vertical'
             >
-                <Form.Item
-                    label="email"
-                    name="email"
-                    rules={[
-                        { required: true, message: "Este campo es requerido" }
-                    ]}
-                >
-                    <Input type='email' />
-                </Form.Item>
+
                 <Form.Item
                     label="Contraseña"
                     name="contrasenhia"

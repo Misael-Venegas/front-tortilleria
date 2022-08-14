@@ -71,7 +71,6 @@ const Principal = () => {
       ]}
     />
   )
-  console.log(verCorteCaja)
   return (
     <Layout>
       <div>
