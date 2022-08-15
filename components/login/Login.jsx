@@ -32,7 +32,7 @@ const Login = () => {
       await login({
         variables: {
           correo,
-          contrasenia: contrasenhia,
+          contrasenia: contrasenhia.trim(),
           key: Math.random(),
         },
       });

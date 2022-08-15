@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react'
 import { Button, Input } from 'antd'
 import TablaAlmacen from './TablaAlmacen'
 import ModalAgregar from './ModalAgregar'
-import { RetweetOutlined } from '@ant-design/icons'
 import ReactHtmlTableToExcel from 'react-html-table-to-excel'
+
 const Formulario = () => {
     const [verModal, setVerModal] = useState(false)
     const [actualizarTabla, setActualizarTabla] = useState(3.1416)
@@ -16,6 +16,7 @@ const Formulario = () => {
 
                 </div>
             </div>
+
             <ReactHtmlTableToExcel
                 id="test-table-xls-button"
                 className="ant-btn ant-btn-primary ant-btn-background-ghost float-right mt-2"

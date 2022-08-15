@@ -29,6 +29,7 @@ const TablaEpleados = ({ actualizarTabla, setActualizarTabla, setOpenModalNuevoE
     const [arryAuxiliar, setarryAuxiliar] = useState([])
     const [editarEmpleado, seteditarEmpleado] = useState(false)
     const [empleado, setEmpleado] = useState(null)
+    const [idEditarEmpleado, setidEditarEmpleado] = useState(0)
     const [obtenerUsuarios, { loading }] = useLazyQuery(GET_USUARIOS, {
         onCompleted: (data) => {
             if (data) {
@@ -100,6 +101,7 @@ const TablaEpleados = ({ actualizarTabla, setActualizarTabla, setOpenModalNuevoE
                 <span className='seleccionarComponente' style={{ color: "#40A9FF" }} onClick={() => {
                     setEmpleado(usuario)
                     seteditarEmpleado(true)
+                    setidEditarEmpleado(parseInt(usuario.id_cargo))
                 }} > <EditOutlined /> </span>
             </span>
         }
@@ -130,7 +132,7 @@ const TablaEpleados = ({ actualizarTabla, setActualizarTabla, setOpenModalNuevoE
                     return crearFila(empleado, key)
                 }) : []} />
 
-                <ModalEditarEmpleado modalEditarEmpleado={editarEmpleado} setModalEditarEmpleado={seteditarEmpleado} datosEmpleado={empleado} setActualizarTabla={setActualizarTabla} />
+                <ModalEditarEmpleado modalEditarEmpleado={editarEmpleado} setModalEditarEmpleado={seteditarEmpleado} datosEmpleado={empleado} setActualizarTabla={setActualizarTabla} idEditarEmpleado={idEditarEmpleado} />
             </div>
         </>
     )

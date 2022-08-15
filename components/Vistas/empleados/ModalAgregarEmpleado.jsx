@@ -18,7 +18,7 @@ const CREATE_USUARIO = gql`
 `
 
 const ModalAgregarEmpleado = ({ setOpenModalNuevoEmpleado, modalNuevoEmpleado, setActualizarTabla }) => {
-
+    const [idCargo, setidCargo] = useState(0)
     const { Option } = Select;
     const [arrayCargos, setarrayCargos] = useState([])
     const [obtenerCargos, { loading }] = useLazyQuery(GET_ALL_CARGOS, {
@@ -70,6 +70,7 @@ const ModalAgregarEmpleado = ({ setOpenModalNuevoEmpleado, modalNuevoEmpleado, s
         })
     }, [])
 
+    // console.log(idCargo)
 
     return (
         <Modal
@@ -147,36 +148,7 @@ const ModalAgregarEmpleado = ({ setOpenModalNuevoEmpleado, modalNuevoEmpleado, s
                         </Form.Item>
                     </div>
                 </div>
-                <div className='row' >
-                    <div className='col-md-6 col-sm-12' >
-                        <Form.Item
-                            label="email"
-                            name="email"
-                            rules={[
-                                {
-                                    required: true,
-                                    message: 'Este campo es requerido'
-                                }
-                            ]}
-                        >
-                            <Input type="email" />
-                        </Form.Item>
-                    </div>
-                    <div className='col-md-6 col-sm-12' >
-                        <Form.Item
-                            label="Verificar email"
-                            name="verificarEmail"
-                            rules={[
-                                {
-                                    required: true,
-                                    message: 'Este campo es requerido'
-                                }
-                            ]}
-                        >
-                            <Input type="email" />
-                        </Form.Item>
-                    </div>
-                </div>
+
                 <div className='row' >
                     <div className='col-md-6 col-sm-12' >
                         <Form.Item
@@ -203,7 +175,7 @@ const ModalAgregarEmpleado = ({ setOpenModalNuevoEmpleado, modalNuevoEmpleado, s
                                 }
                             ]}
                         >
-                            <Select style={{ width: "100%" }} loading={loading} >
+                            <Select style={{ width: "100%" }} loading={loading} onChange={(e) => setidCargo(parseInt(e))} >
                                 {
                                     arrayCargos.map((cargo, key) => {
                                         return <Option key={key} value={cargo.id_cargo}  >
@@ -215,36 +187,70 @@ const ModalAgregarEmpleado = ({ setOpenModalNuevoEmpleado, modalNuevoEmpleado, s
                         </Form.Item>
                     </div>
                 </div>
-                <div className='row' >
-                    <div className='col-md-6 col-sm-12' >
-                        <Form.Item
-                            label="Contraseña"
-                            name="contrasenhia"
-                            rules={[
-                                {
-                                    required: true,
-                                    message: 'Este campo es requerido'
-                                }
-                            ]}
-                        >
-                            <Input.Password />
-                        </Form.Item>
+                {
+                    (idCargo == 2 || idCargo == 1) && <div>
+                        <div className='row' >
+                            <div className='col-md-6 col-sm-12' >
+                                <Form.Item
+                                    label="email"
+                                    name="email"
+                                    rules={[
+                                        {
+                                            required: true,
+                                            message: 'Este campo es requerido'
+                                        }
+                                    ]}
+                                >
+                                    <Input type="email" />
+                                </Form.Item>
+                            </div>
+                            <div className='col-md-6 col-sm-12' >
+                                <Form.Item
+                                    label="Verificar email"
+                                    name="verificarEmail"
+                                    rules={[
+                                        {
+                                            required: true,
+                                            message: 'Este campo es requerido'
+                                        }
+                                    ]}
+                                >
+                                    <Input type="email" />
+                                </Form.Item>
+                            </div>
+                        </div>
+                        <div className='row' >
+                            <div className='col-md-6 col-sm-12' >
+                                <Form.Item
+                                    label="Contraseña"
+                                    name="contrasenhia"
+                                    rules={[
+                                        {
+                                            required: true,
+                                            message: 'Este campo es requerido'
+                                        }
+                                    ]}
+                                >
+                                    <Input.Password />
+                                </Form.Item>
+                            </div>
+                            <div className='col-md-6 col-sm-12' >
+                                <Form.Item
+                                    label="Verificar contraseña"
+                                    name="verificarContrasenhia"
+                                    rules={[
+                                        {
+                                            required: true,
+                                            message: 'Este campo es requerido'
+                                        }
+                                    ]}
+                                >
+                                    <Input.Password />
+                                </Form.Item>
+                            </div>
+                        </div>
                     </div>
-                    <div className='col-md-6 col-sm-12' >
-                        <Form.Item
-                            label="Verificar contraseña"
-                            name="verificarContrasenhia"
-                            rules={[
-                                {
-                                    required: true,
-                                    message: 'Este campo es requerido'
-                                }
-                            ]}
-                        >
-                            <Input.Password />
-                        </Form.Item>
-                    </div>
-                </div>
+                }
                 <div className='row' >
                     <div className='col-12' >
                         <Button type='primary' htmlType='submit' className='float-right' >Guardar</Button>
