@@ -15,38 +15,32 @@ const OBTENER_DATOS = gql`
       nombres
       ventas
       ventasRealizadas
+      totalVentas
     }
   }
 `;
 
 const Reportes = () => {
 
-  const options = {
-    responsive: true,
-    plugins: {
-      legend: {
-        position: 'top',
-      },
-      title: {
-        display: true,
-        text: 'Reporte de las ventas realizadas',
-      },
-    },
-  };
+
+  const [resultados, setResultados] = useState(null);
+  const [desde, setDesde] = useState(moment());
+  const [hasta, setHasta] = useState(moment());
+  const [totalVentas, settotalVentas] = useState(0.0)
+
+
 
   const [obtener, { loading }] = useLazyQuery(OBTENER_DATOS, {
     onCompleted: (data) => {
-      console.log(data)
+
       if (data) {
         setResultados(data.generarReporte);
+        settotalVentas(data.generarReporte.totalVentas)
+
       }
     }
   });
 
-  const [resultados, setResultados] = useState(null);
-
-  const [desde, setDesde] = useState(moment());
-  const [hasta, setHasta] = useState(moment());
 
 
 
@@ -64,7 +58,7 @@ const Reportes = () => {
     labels: resultados?.nombres || [],
     datasets: [
       {
-        label: 'Cantidad total de ventas  $',
+        label: 'Venta',
         data: resultados?.ventas || [],
         backgroundColor: 'rgba(75, 192, 192, 1)',
         borderColor: 'rgba(75, 192, 192, 1)',
@@ -72,6 +66,20 @@ const Reportes = () => {
       },
     ],
   };
+
+  const options = {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: 'top',
+      },
+      title: {
+        display: true,
+        text: 'Total de las ventas realizadas : $' + totalVentas,
+      },
+    },
+  };
+
 
   return (
     <>

@@ -16,6 +16,7 @@ const TextoCorteDeCaja = ({ arrayCorte, fecha }) => {
                             <th className='text-left'>Cantidad&nbsp;</th>
                             <th className='text-left'>Total&nbsp;</th>
                             <th className='text-left'>Vendedor</th>
+                            <th className='text-left' > Hora </th>
                         </tr>
                     </thead>
                     <tbody>
@@ -29,6 +30,7 @@ const TextoCorteDeCaja = ({ arrayCorte, fecha }) => {
                                         <td>{venta.cantidad}kg &nbsp;&nbsp; </td>
                                         <td>${venta.total} &nbsp;&nbsp;</td>
                                         <td>{venta.empleado}&nbsp;&nbsp;</td>
+                                        <td>{venta.hora_venta} &nbsp; &nbsp; </td>
                                     </tr>
                                 )
 

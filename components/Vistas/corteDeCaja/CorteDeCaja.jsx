@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { DatePicker, Button, message, Alert, Select } from 'antd'
+import { DatePicker, Button, message, Alert, Select, TimePicker } from 'antd'
 import TextoCorteDeCaja from './TextoCorteDeCaja'
 import { useLazyQuery, gql } from '@apollo/client'
 
@@ -12,14 +12,15 @@ const GET_ALL_SUCUARSALES = gql`
              }
 `
 const CREATE_CORTE = gql`
-        query generarCorteDeCaja($fechaCorte: String!, $id_sucursal: String! ){
-              generarCorteDeCaja(fechaCorte: $fechaCorte, id_sucursal: $id_sucursal){
+        query generarCorteDeCaja($fechaCorte: String!, $id_sucursal: String!, $horaInicio: String!, $horaFin: String! ){
+              generarCorteDeCaja(fechaCorte: $fechaCorte, id_sucursal: $id_sucursal,horaInicio : $horaInicio, horaFin: $horaFin){
                 id_ventas_productos
                 nombre_sucursal
                 nombre_producto
                 cantidad
                 total
                 empleado
+                hora_venta
               }
         }
 `
@@ -42,6 +43,8 @@ const CorteDeCaja = () => {
         }
     })
     const [fecha, setFecha] = useState("")
+    const [horaInicio, sethoraInicio] = useState("")
+    const [horaFin, sethoraFin] = useState("")
     const consultarCorteDeCaja = async () => {
         if (fecha === "") {
             message.error("Seleccione una fecha para generar el corte de caja")
@@ -51,7 +54,9 @@ const CorteDeCaja = () => {
             generarCorteDeCaja({
                 variables: {
                     fechaCorte: fecha,
-                    id_sucursal: new String(sucursal)
+                    id_sucursal: new String(sucursal),
+                    horaInicio: horaInicio,
+                    horaFin: horaFin
                 }
             })
         } catch (error) {
@@ -80,11 +85,12 @@ const CorteDeCaja = () => {
     return (
         <>
             <div className='row' >
-                <div className='col-md-4 col-sm-12 ' >
+                <div className='col-md-2 col-sm-12 ' >
+                    <span>Fecha</span>
                     <DatePicker style={{ width: "100%" }} onChange={(e, date) => setFecha(date)} />
                 </div>
-                <div className='col-md-4 col-sm-12' >
-
+                <div className='col-md-2 col-sm-12' >
+                    <span>Sucursal</span>
                     <Select style={{ width: "100%" }} loading={loading} onChange={seleccionarSucursal} placeholder="Sucursal" >
                         <Option value="" >Todas</Option>
                         {
@@ -96,9 +102,17 @@ const CorteDeCaja = () => {
                         }
                     </Select>
                 </div>
-                <div className='col-md-4 col-sm-12' >
+                <div className='col-md-2 col-sm-12' >
+                    <span>Hora inicio</span>
+                    <TimePicker style={{ width: "100%" }} onChange={(e, hora) => sethoraInicio(hora)} format={"HH:mm"} />
+                </div>
+                <div className='col-md-2 col-sm-12' >
+                    <span>Hora fin</span>
+                    <TimePicker style={{ width: "100%" }} onChange={(e, hora) => sethoraFin(hora)} format={"HH:mm"} />
+                </div>
+                <div className='col-md-2 col-sm-12' >
 
-                    <Button type='primary' onClick={consultarCorteDeCaja} >Generar corte de caja</Button>
+                    <Button type='primary' onClick={consultarCorteDeCaja} style={{ marginTop: 20 }} >Generar corte de caja</Button>
                 </div>
             </div>
 
