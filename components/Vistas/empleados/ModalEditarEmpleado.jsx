@@ -16,10 +16,10 @@ const UPDATE_USER = gql`
     }
 `
 
-const ModalEditarEmpleado = ({ modalEditarEmpleado, setModalEditarEmpleado, datosEmpleado, setActualizarTabla, idEditarEmpleado }) => {
+const ModalEditarEmpleado = ({ modalEditarEmpleado, setModalEditarEmpleado, datosEmpleado, setActualizarTabla, idCargo, setidCargo }) => {
 
     const [arrayCargos, setarrayCargos] = useState([])
-    const [idCargo, setidCargo] = useState()
+
     const [obtenerCargos, { loading }] = useLazyQuery(GET_ALL_CARGOS, {
         onCompleted: (data) => {
             data ? (data.getAllCargos ? setarrayCargos(data.getAllCargos) : setarrayCargos([])) : setarrayCargos([])
@@ -188,40 +188,40 @@ const ModalEditarEmpleado = ({ modalEditarEmpleado, setModalEditarEmpleado, dato
                     </div>
                 </div>
 
+                {
+                    idCargo !== 3 && <div className='row'  >
+                        <div className='col-md-6 col-sm-12' >
+                            <Form.Item
+                                label="email"
+                                name="email"
+                                initialValue={datosEmpleado ? datosEmpleado.email : ""}
+                                rules={idCargo !== 3 ? [
+                                    {
+                                        required: true,
+                                        message: 'Este campo es requerido'
+                                    }
+                                ] : []}
+                            >
+                                <Input type="email" />
+                            </Form.Item>
+                        </div>
+                        <div className='col-md-6 col-sm-12' >
+                            <Form.Item
+                                label="Verificar email"
+                                name="verificarEmail"
 
-                <div className='row' hidden={idCargo === 3 || idEditarEmpleado === 3} >
-                    <div className='col-md-6 col-sm-12' >
-                        <Form.Item
-                            label="email"
-                            name="email"
-                            initialValue={datosEmpleado ? datosEmpleado.email : ""}
-                            rules={idCargo !== 3 ? [
-                                {
-                                    required: true,
-                                    message: 'Este campo es requerido'
-                                }
-                            ] : []}
-                        >
-                            <Input type="email" />
-                        </Form.Item>
+                                rules={idCargo !== 3 ? [
+                                    {
+                                        required: idCargo !== 3 ? true : false,
+                                        message: 'Este campo es requerido'
+                                    }
+                                ] : []}
+                            >
+                                <Input type="email" />
+                            </Form.Item>
+                        </div>
                     </div>
-                    <div className='col-md-6 col-sm-12' >
-                        <Form.Item
-                            label="Verificar email"
-                            name="verificarEmail"
-
-                            rules={idCargo !== 3 ? [
-                                {
-                                    required: idCargo !== 3 ? true : false,
-                                    message: 'Este campo es requerido'
-                                }
-                            ] : []}
-                        >
-                            <Input type="email" />
-                        </Form.Item>
-                    </div>
-                </div>
-
+                }
 
                 <div className='row' >
                     <div className='col-12' >

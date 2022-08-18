@@ -132,7 +132,7 @@ const TablaEpleados = ({ actualizarTabla, setActualizarTabla, setOpenModalNuevoE
                     return crearFila(empleado, key)
                 }) : []} />
 
-                <ModalEditarEmpleado modalEditarEmpleado={editarEmpleado} setModalEditarEmpleado={seteditarEmpleado} datosEmpleado={empleado} setActualizarTabla={setActualizarTabla} idEditarEmpleado={idEditarEmpleado} />
+                <ModalEditarEmpleado modalEditarEmpleado={editarEmpleado} setModalEditarEmpleado={seteditarEmpleado} datosEmpleado={empleado} setActualizarTabla={setActualizarTabla} idCargo={idEditarEmpleado} setidCargo={setidEditarEmpleado} />
             </div>
         </>
     )

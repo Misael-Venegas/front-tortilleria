@@ -37,6 +37,11 @@ const TablaMermas = ({ data, sqlGet }) => {
     name: "sucursal"
   },
   {
+    title: "Fecha",
+    dataIndex: "fecha_registro",
+    name: "fecha_registro"
+  },
+  {
     title: "Acciones",
     dataIndex: "acciones",
     name: "acciones"
@@ -75,7 +80,8 @@ const TablaMermas = ({ data, sqlGet }) => {
       sucursal: merma.sucursal,
       acciones: <span>
         <span className='seleccionarComponente' style={{ color: "red" }} > <DeleteOutlined onClick={() => modalEliminar(merma.id_merma, merma.tipo_merma)} /></span>
-      </span>
+      </span>,
+      fecha_registro: merma.fecha_registro
     }
   }
 

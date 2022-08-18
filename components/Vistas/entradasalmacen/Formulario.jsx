@@ -21,22 +21,18 @@ const Formulario = () => {
                     <DatePicker onChange={(date, dateInfo) => setfecha(dateInfo)} placeholder="Selecciona la fecha" style={{ width: "65%" }} />
                 </div>
                 <div className='col-md-6 col-sm-12' >
-                    <Button className='float-right' type='primary' onClick={() => setVerModal(true)} >Registrar</Button>
-                </div>
-            </div>
-            <div className='row' >
-                <div className='cpl-12' >
+                    <Button className='float-right ml-2' type='primary' onClick={() => setVerModal(true)} >Registrar</Button>
                     <ReactHtmlTableToExcel
                         id="test-table-xls-button"
-                        className="ant-btn ant-btn-primary ant-btn-background-ghost float-right mt-2"
+                        className="ant-btn ant-btn-primary ant-btn-background-ghost float-right"
                         table="tablaEntradas"
                         filename="entradas"
                         sheet="Reporte entradas"
                         buttonText="Exportar excel"
                     />
                 </div>
-
             </div>
+
             <TablaEntradas fecha={fecha} actualizarTabla={actualizarTabla} />
             <ModalAgregar setVerModal={setVerModal} verModal={verModal} setActualizarTabla={setactualizarTabla} />
         </>

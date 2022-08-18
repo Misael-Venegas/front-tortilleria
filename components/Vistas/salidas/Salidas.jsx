@@ -19,22 +19,18 @@ const Salidas = () => {
                     <DatePicker style={{ width: "100%" }} onChange={(e, date) => setFecha(date)} format={'YYYY-MM-DD'} />
                 </div>
                 <div className='col-md-6 col-sm-12' >
-                    <Button type='primary' className='float-right' onClick={() => setVerModal(true)} >Agregar Salida</Button>
-                </div>
-            </div>
-            <div className='row' >
-                <div className='cpl-12' >
+                    <Button type='primary' className='float-right ml-2' onClick={() => setVerModal(true)} >Agregar Salida</Button>
                     <ReactHtmlTableToExcel
                         id="test-table-xls-button"
-                        className="ant-btn ant-btn-primary ant-btn-background-ghost float-right mt-2"
+                        className="ant-btn ant-btn-primary ant-btn-background-ghost float-right"
                         table="tablaSalidas"
                         filename="salidas"
                         sheet="Reporte salidas"
                         buttonText="Exportar excel"
                     />
                 </div>
-
             </div>
+
 
             <div className='row'>
                 <TableSalidas fecha={fecha} nuevaSalida={nuevaSalida} />
